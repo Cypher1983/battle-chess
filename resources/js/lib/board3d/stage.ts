@@ -3,7 +3,7 @@ import {
     DirectionalLight,
     HemisphereLight,
     Mesh,
-    PCFSoftShadowMap,
+    PCFShadowMap,
     PerspectiveCamera,
     PlaneGeometry,
     PMREMGenerator,
@@ -40,7 +40,7 @@ export function createStage(host: HTMLElement): Stage {
     renderer.toneMapping = ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = PCFSoftShadowMap;
+    renderer.shadowMap.type = PCFShadowMap;
     renderer.domElement.style.display = 'block';
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
