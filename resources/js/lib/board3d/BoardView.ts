@@ -219,6 +219,12 @@ export class BoardView {
                         position: defender.object.position.clone(),
                     },
                     destination: squareToPosition(move.to),
+                    bystanders: [...this.pieces.values()]
+                        .filter(
+                            (placed) =>
+                                placed !== attacker && placed !== defender,
+                        )
+                        .map((placed) => placed.object),
                     ...options,
                 },
             );

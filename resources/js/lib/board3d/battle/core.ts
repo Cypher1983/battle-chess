@@ -23,6 +23,8 @@ export type BattleOptions = {
     defender: Combatant;
     /** Where the attacker ends up (the square it moved to). */
     destination: Vector3;
+    /** The other pieces, so the camera can see past them. */
+    bystanders?: Object3D[];
     signal?: AbortSignal;
     /** Called every frame with the scene time, e.g. to sync sounds. */
     onProgress?: (elapsedMs: number) => void;
