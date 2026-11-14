@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { Head, router, usePage, usePoll } from '@inertiajs/vue3';
+import { Chess } from 'chess.js';
+import type { Square } from 'chess.js';
+import { computed, ref, watch } from 'vue';
+import GameMoveController from '@/actions/App/Http/Controllers/GameMoveController';
 import ChessBoard from '@/components/chess/ChessBoard.vue';
+import PromotionPicker from '@/components/chess/PromotionPicker.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { armies } from '@/lib/armies';
-import type { PieceColor } from '@/lib/armies';
+import type { PieceColor, PieceType } from '@/lib/armies';
 import { play } from '@/routes';
 
 type Player = {
@@ -78,6 +82,116 @@ const statusText = computed(() => {
 function player(color: PieceColor): Player {
     return color === 'w' ? props.game.white : props.game.black;
 }
+
+// --- Moving -------------------------------------------------------------
+
+const page = usePage();
+const moveError = computed(() => page.props.errors?.move as string | undefined);
+
+const position = computed(() => new Chess(props.game.fen));
+const canMove = computed(
+    () =>
+        props.game.status === 'active' &&
+        props.myColor !== null &&
+        props.game.turn === props.myColor,
+);
+
+const selected = ref<Square | null>(null);
+const pendingPromotion = ref<{ from: Square; to: Square } | null>(null);
+const submitting = ref(false);
+
+const movesFromSelected = computed(() =>
+    selected.value
+        ? position.value.moves({ square: selected.value, verbose: true })
+        : [],
+);
+const targets = computed(() => [
+    ...new Set(movesFromSelected.value.map((move) => move.to)),
+]);
+
+function onSquareClick(square: Square): void {
+    if (!canMove.value || submitting.value) {
+        return;
+    }
+
+    if (selected.value && targets.value.includes(square)) {
+        const isPromotion = movesFromSelected.value.some(
+            (move) => move.to === square && move.promotion,
+        );
+
+        if (isPromotion) {
+            pendingPromotion.value = { from: selected.value, to: square };
+        } else {
+            submitMove(selected.value, square);
+        }
+
+        return;
+    }
+
+    const piece = position.value.get(square);
+
+    selected.value =
+        piece && piece.color === props.myColor && square !== selected.value
+            ? square
+            : null;
+}
+
+function choosePromotion(piece: PieceType): void {
+    if (pendingPromotion.value) {
+        submitMove(
+            pendingPromotion.value.from,
+            pendingPromotion.value.to,
+            piece,
+        );
+    }
+
+    pendingPromotion.value = null;
+}
+
+function submitMove(from: Square, to: Square, promotion?: PieceType): void {
+    submitting.value = true;
+
+    router.post(
+        GameMoveController.store(props.game.id).url,
+        { from, to, promotion: promotion ?? null },
+        {
+            preserveScroll: true,
+            onFinish: () => {
+                submitting.value = false;
+                selected.value = null;
+            },
+        },
+    );
+}
+
+// --- Waiting for the opponent --------------------------------------------
+
+const waitingForOpponent = computed(
+    () =>
+        props.game.status === 'active' &&
+        props.myColor !== null &&
+        props.game.turn !== props.myColor,
+);
+
+const { start: startPolling, stop: stopPolling } = usePoll(
+    3000,
+    { only: ['game'] },
+    { autoStart: false },
+);
+
+watch(
+    waitingForOpponent,
+    (waiting) => (waiting ? startPolling() : stopPolling()),
+    { immediate: true },
+);
+
+watch(
+    () => props.game.fen,
+    () => {
+        selected.value = null;
+        pendingPromotion.value = null;
+    },
+);
 </script>
 
 <template>
@@ -99,11 +213,23 @@ function player(color: PieceColor): Player {
                 </span>
             </div>
 
-            <ChessBoard
-                :fen="game.fen"
-                :orientation="orientation"
-                :last-move="game.last_move"
-            />
+            <div class="relative">
+                <ChessBoard
+                    :fen="game.fen"
+                    :orientation="orientation"
+                    :last-move="game.last_move"
+                    :selected="selected"
+                    :targets="targets"
+                    :class="canMove && 'cursor-pointer'"
+                    @square-click="onSquareClick"
+                />
+                <PromotionPicker
+                    v-if="pendingPromotion && myColor"
+                    :color="myColor"
+                    @choose="choosePromotion"
+                    @cancel="pendingPromotion = null"
+                />
+            </div>
 
             <div class="flex items-center justify-between text-sm">
                 <span class="font-medium">
@@ -125,6 +251,11 @@ function player(color: PieceColor): Player {
                         {{ statusText }}
                     </CardTitle>
                 </CardHeader>
+                <CardContent v-if="moveError">
+                    <p class="text-sm text-red-600" data-test="move-error">
+                        {{ moveError }}
+                    </p>
+                </CardContent>
             </Card>
 
             <Card class="min-h-0 flex-1">
