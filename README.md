@@ -70,7 +70,7 @@ log in with your email or username.
 
 ## 3D board
 
-The game page shows a 3D board by default (drag to turn it, scroll or pinch to
+The game page shows a 3D board by default (scroll or pinch to
 zoom, **Reset view** to return). Captures play out as 3D battles on the board
 itself: charges, magic bolts and slams, depending on the attacker. The
 **3D board** checkbox switches to the flat 2D board with its PixiJS battle
@@ -125,4 +125,4 @@ controls.
 5. ✅ Scoreboard with Elo ratings (start 1200, K=32), records and dashboard stats
 6. ✅ Battle animations: PixiJS capture scenes and original army artwork
 7. ✅ Polish: synthesized sound effects, 72-hour move deadline with timeout claims, rematches
-8. ✅ 3D: three.js board with orbit camera and animated moves, 3D capture battles
+8. ✅ 3D: three.js board with zoom and animated moves, 3D capture battles

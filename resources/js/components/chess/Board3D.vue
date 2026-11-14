@@ -241,7 +241,7 @@ watch(
             v-if="ready"
             type="button"
             class="absolute top-2 right-2 z-10 rounded bg-black/40 px-2 py-0.5 text-xs text-white hover:bg-black/60"
-            title="Drag to turn the board, scroll or pinch to zoom"
+            title="Scroll or pinch to zoom"
             data-test="reset-camera"
             @click="view?.resetCamera()"
         >

@@ -81,13 +81,12 @@ export class BoardView {
             this.stage.camera,
             this.stage.renderer.domElement,
         );
+        // The board keeps each player's fixed view: zoom only, no turning.
+        this.controls.enableRotate = false;
         this.controls.enablePan = false;
         this.controls.enableDamping = true;
         this.controls.minDistance = 9;
         this.controls.maxDistance = 21;
-        // From nearly overhead down to a low, dramatic angle.
-        this.controls.minPolarAngle = 0.05;
-        this.controls.maxPolarAngle = 1.2;
 
         this.placeCamera();
         this.removeListeners = this.listen(this.stage.renderer.domElement);
@@ -428,7 +427,7 @@ export class BoardView {
 
     /**
      * Clicks select squares; a press that moves more than a few pixels is
-     * a drag (to turn the camera), not a click.
+     * a drag (e.g. a pinch to zoom), not a click.
      */
     protected listen(canvas: HTMLCanvasElement): () => void {
         const down = (event: PointerEvent): void => {
