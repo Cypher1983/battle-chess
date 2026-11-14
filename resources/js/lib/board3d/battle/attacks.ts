@@ -9,7 +9,7 @@ import {
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { approach, IMPACT_AT, onImpact } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
-import { lightning, RELEASE_AT } from '@/lib/board3d/battle/spells';
+import { lightning, RELEASE_AT, vine } from '@/lib/board3d/battle/spells';
 import { glowBoost } from '@/lib/board3d/pieces/parts';
 import { clamp01, easeIn, easeOut, lerp } from '@/lib/board3d/tweens';
 
@@ -42,6 +42,7 @@ const spells: Partial<
     >
 > = {
     w: lightning,
+    b: vine,
 };
 
 /** Clockwork throws blue lightning, the Wildwood green magic. */

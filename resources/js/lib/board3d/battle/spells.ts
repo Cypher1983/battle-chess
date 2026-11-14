@@ -1,16 +1,22 @@
 import {
     AdditiveBlending,
+    CatmullRomCurve3,
     Color,
+    ConeGeometry,
     CylinderGeometry,
     Group,
     Mesh,
     MeshBasicMaterial,
+    MeshStandardMaterial,
     Quaternion,
+    SphereGeometry,
+    TubeGeometry,
     Vector3,
 } from 'three';
 import { IMPACT_AT } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
-import { clamp01, easeOut } from '@/lib/board3d/tweens';
+import { glowBoost } from '@/lib/board3d/pieces/parts';
+import { clamp01, easeIn, easeOut } from '@/lib/board3d/tweens';
 
 /** When the gathered energy is released at the defender (ms). */
 export const RELEASE_AT = 950;
@@ -153,6 +159,122 @@ export function lightning(
             thick.dispose();
             core.dispose();
             glowMaterial.dispose();
+        },
+    };
+}
+
+/**
+ * Wildwood casters call up a thorny vine: it bursts from the ground beside
+ * the caster, whips over in an arc into the defender and withers away.
+ */
+export function vine(battle: BattleScene, _from: Vector3, to: Vector3): Beat {
+    const { attacker, heading, props } = battle;
+    const side = new Vector3().crossVectors(heading, UP).normalize();
+    const root = attacker.position
+        .clone()
+        .addScaledVector(heading, 0.35)
+        .addScaledVector(side, 0.25)
+        .setY(-0.05);
+    const span = root.distanceTo(to);
+
+    const curve = new CatmullRomCurve3([
+        root,
+        root
+            .clone()
+            .add(new Vector3(0, 0.5, 0))
+            .addScaledVector(heading, 0.15),
+        root
+            .clone()
+            .lerp(to, 0.45)
+            .addScaledVector(side, -0.2)
+            .setY(0.7 + span * 0.15),
+        root.clone().lerp(to, 0.8).addScaledVector(side, 0.1).setY(0.75),
+        to,
+    ]);
+
+    const SEGMENTS = 80;
+    const RADIAL = 6;
+    const tube = new TubeGeometry(curve, SEGMENTS, 0.045, RADIAL, false);
+    const indicesPerSegment = RADIAL * 6;
+    const bark = new MeshStandardMaterial({
+        color: 0x4f7a2a,
+        roughness: 0.85,
+        flatShading: true,
+    });
+    const stem = new Mesh(tube, bark);
+    stem.castShadow = true;
+    props.add(stem);
+
+    const thornGeometry = new ConeGeometry(0.022, 0.1, 5);
+    const thornMaterial = new MeshStandardMaterial({
+        color: 0xd6336c,
+        roughness: 0.5,
+    });
+    const thorns = Array.from({ length: 14 }, (_, i) => {
+        const t = 0.12 + (i / 14) * 0.82;
+        const point = curve.getPointAt(t);
+        const tangent = curve.getTangentAt(t);
+        const out = new Vector3()
+            .crossVectors(tangent, i % 2 ? UP : side)
+            .normalize()
+            .multiplyScalar(i % 3 === 0 ? -1 : 1);
+        const thorn = new Mesh(thornGeometry, thornMaterial);
+        thorn.position.copy(point).addScaledVector(out, 0.04);
+        thorn.quaternion.setFromUnitVectors(UP, out);
+        thorn.scale.setScalar(0.001);
+        props.add(thorn);
+
+        return { thorn, t };
+    });
+
+    const tipMaterial = new MeshStandardMaterial({
+        color: 0xc6ff6a,
+        emissive: 0xc6ff6a,
+        emissiveIntensity: glowBoost(),
+    });
+    const tip = new Mesh(new SphereGeometry(0.06, 10, 8), tipMaterial);
+    props.add(tip);
+
+    const show = (length: number): void => {
+        stem.visible = length > 0.001;
+        tube.setDrawRange(0, Math.ceil(length * SEGMENTS) * indicesPerSegment);
+        tip.visible = stem.visible;
+        tip.position.copy(curve.getPointAt(Math.min(Math.max(length, 0), 1)));
+        thorns.forEach(({ thorn, t }) => {
+            thorn.scale.setScalar(length > t ? 1 : 0.001);
+        });
+    };
+
+    show(0);
+
+    return {
+        update(elapsed) {
+            if (elapsed < RELEASE_AT) {
+                show(0);
+            } else if (elapsed < IMPACT_AT) {
+                // Lashing out: slow from the ground, fast at the end.
+                show(
+                    easeIn(
+                        clamp01(
+                            (elapsed - RELEASE_AT) / (IMPACT_AT - RELEASE_AT),
+                        ),
+                    ),
+                );
+                battle.light.color.set(0xb6ff6a);
+                battle.light.position.copy(tip.position);
+                battle.light.intensity = 2.5;
+            } else {
+                // Withering back into the ground.
+                show(1 - easeOut(clamp01((elapsed - IMPACT_AT - 250) / 500)));
+            }
+        },
+        finish() {
+            tube.dispose();
+            bark.dispose();
+            thornGeometry.dispose();
+            thornMaterial.dispose();
+            tip.geometry.dispose();
+            tipMaterial.dispose();
         },
     };
 }
