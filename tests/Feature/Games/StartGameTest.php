@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Games;
 
+use App\Enums\Army;
 use App\Enums\GameStatus;
 use App\Enums\InvitationStatus;
 use App\Models\Game;
@@ -27,6 +28,32 @@ class StartGameTest extends TestCase
         );
         $this->assertSame(GameStatus::Active, $game->status);
         $this->assertSame(Game::START_FEN, $game->fen);
+    }
+
+    public function test_each_player_brings_their_chosen_army()
+    {
+        $invitation = Invitation::factory()->create();
+        $invitation->inviter->update(['army' => Army::Wildwood]);
+        $invitation->invitee->update(['army' => Army::Wildwood]);
+
+        $this->actingAs($invitation->invitee)->post(route('invitations.accept', $invitation));
+
+        $game = Game::sole();
+        $this->assertSame(Army::Wildwood, $game->white_army);
+        $this->assertSame(Army::Wildwood, $game->black_army);
+    }
+
+    public function test_choosing_another_army_does_not_change_a_game_under_way()
+    {
+        $invitation = Invitation::factory()->create();
+        $this->actingAs($invitation->invitee)->post(route('invitations.accept', $invitation));
+
+        $invitation->inviter->update(['army' => Army::Wildwood]);
+        $invitation->invitee->update(['army' => Army::Wildwood]);
+
+        $game = Game::sole();
+        $this->assertSame(Army::Clockwork, $game->white_army);
+        $this->assertSame(Army::Clockwork, $game->black_army);
     }
 
     public function test_colours_are_assigned_at_random()

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Army;
 use App\Enums\GameEndReason;
 use App\Enums\GameResult;
 use App\Enums\GameStatus;
@@ -22,6 +23,8 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $white_id
  * @property int $black_id
+ * @property Army $white_army
+ * @property Army $black_army
  * @property int|null $invitation_id
  * @property string $fen
  * @property GameStatus $status
@@ -42,7 +45,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Move> $moves
  */
 #[Fillable([
-    'white_id', 'black_id', 'invitation_id', 'fen', 'status', 'result',
+    'white_id', 'black_id', 'white_army', 'black_army', 'invitation_id', 'fen', 'status', 'result',
     'end_reason', 'draw_offered_by_id', 'last_move_at', 'finished_at',
     'white_rating_before', 'black_rating_before', 'white_rating_change', 'black_rating_change',
 ])]
@@ -62,6 +65,16 @@ class Game extends Model
     public const MOVE_DEADLINE_HOURS = 72;
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'white_army' => 'clockwork',
+        'black_army' => 'wildwood',
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -69,6 +82,8 @@ class Game extends Model
     protected function casts(): array
     {
         return [
+            'white_army' => Army::class,
+            'black_army' => Army::class,
             'status' => GameStatus::class,
             'result' => GameResult::class,
             'end_reason' => GameEndReason::class,
