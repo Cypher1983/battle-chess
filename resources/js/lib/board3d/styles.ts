@@ -3,8 +3,8 @@ import type { ArmyId, PieceType } from '@/lib/armies';
 import { buildClockwork } from '@/lib/board3d/pieces/clockwork';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
-/** What a blow knocks loose: Clockwork sheds cogs, the Wildwood leaves. */
-export type DebrisKind = 'cogs' | 'leaves';
+/** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
+export type DebrisKind = 'cogs' | 'leaves' | 'embers';
 
 /** A jagged, flickering bolt (lightning): a white-hot core in a glow. */
 export type BoltSpell = { kind: 'bolt'; core: number; glow: number };
@@ -17,8 +17,21 @@ export type TendrilSpell = {
     tip: number;
 };
 
+/** Thrown or conjured missiles that arc onto the defender. */
+export type MissileSpell = {
+    kind: 'missile';
+    shape: 'fireball' | 'shard' | 'glob' | 'axe' | 'bottle' | 'arrow';
+    colour: number;
+    /** Colour of the halo and the trail left behind. */
+    trail: number;
+    /** How many fly at once (a volley of arrows, a fan of shards). */
+    count?: number;
+    /** Whether the missile glows (fire, ice) or not (an axe). */
+    glow?: boolean;
+};
+
 /** The spell bishops and queens cast instead of throwing an orb. */
-export type Spell = BoltSpell | TendrilSpell;
+export type Spell = BoltSpell | TendrilSpell | MissileSpell;
 
 /** How an army looks and fights in 3D. */
 export type ArmyStyle = {

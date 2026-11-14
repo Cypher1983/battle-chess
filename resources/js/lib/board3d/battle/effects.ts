@@ -4,9 +4,11 @@ import {
     CanvasTexture,
     ConeGeometry,
     CylinderGeometry,
+    IcosahedronGeometry,
     Mesh,
     MeshBasicMaterial,
     MeshStandardMaterial,
+    OctahedronGeometry,
     RingGeometry,
     SphereGeometry,
     Sprite,
@@ -24,6 +26,13 @@ import { clamp01, easeOut } from '@/lib/board3d/tweens';
 
 /** Cogs and sparks, or leaves and thorns. */
 function debrisShapes(kind: DebrisKind): BufferGeometry[] {
+    if (kind === 'embers') {
+        return [
+            new OctahedronGeometry(0.035, 0),
+            new IcosahedronGeometry(0.04, 0),
+        ];
+    }
+
     if (kind === 'cogs') {
         return [
             new CylinderGeometry(0.05, 0.05, 0.02, 7),

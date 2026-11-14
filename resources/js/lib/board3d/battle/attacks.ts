@@ -9,6 +9,7 @@ import {
 import type { PieceType } from '@/lib/armies';
 import { approach, IMPACT_AT, onImpact } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
+import { missile } from '@/lib/board3d/battle/missile';
 import { lightning, RELEASE_AT, vine } from '@/lib/board3d/battle/spells';
 import { afterimages } from '@/lib/board3d/battle/trails';
 import { glowBoost } from '@/lib/board3d/pieces/parts';
@@ -49,6 +50,8 @@ function cast(
             return lightning(battle, from, to, spell);
         case 'tendril':
             return vine(battle, from, to, spell);
+        case 'missile':
+            return missile(battle, from, to, spell);
     }
 }
 
