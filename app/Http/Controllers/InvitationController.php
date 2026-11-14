@@ -7,6 +7,7 @@ use App\Enums\InvitationStatus;
 use App\Http\Requests\StoreInvitationRequest;
 use App\Models\Invitation;
 use App\Models\User;
+use App\Notifications\ChallengeAnswered;
 use App\Notifications\InvitationReceived;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -98,6 +99,8 @@ class InvitationController extends Controller
             return back();
         }
 
+        $invitation->refresh()->inviter->notify(new ChallengeAnswered($invitation, $game));
+
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Challenge accepted. To battle!')]);
 
         return to_route('games.show', $game);
@@ -133,6 +136,10 @@ class InvitationController extends Controller
         }
 
         $invitation->close($status);
+
+        if ($status === InvitationStatus::Declined) {
+            $invitation->inviter->notify(new ChallengeAnswered($invitation));
+        }
 
         Inertia::flash('toast', ['type' => 'success', 'message' => $message]);
 
