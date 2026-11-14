@@ -36,7 +36,7 @@ const user = computed(() => page.props.auth.user);
         <Heading
             variant="small"
             title="Profile"
-            description="Update your name and email address"
+            description="Update your name, username and email address"
         />
 
         <Form
@@ -56,6 +56,24 @@ const user = computed(() => page.props.auth.user);
                     placeholder="Full name"
                 />
                 <InputError class="mt-2" :message="errors.name" />
+            </div>
+
+            <div class="grid gap-2">
+                <Label for="username">Username</Label>
+                <Input
+                    id="username"
+                    class="mt-1 block w-full"
+                    name="username"
+                    :default-value="user.username"
+                    required
+                    minlength="3"
+                    maxlength="30"
+                    placeholder="e.g. knight_rider"
+                />
+                <p class="text-xs text-muted-foreground">
+                    Other players challenge you by this name.
+                </p>
+                <InputError class="mt-2" :message="errors.username" />
             </div>
 
             <div class="grid gap-2">

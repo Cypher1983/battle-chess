@@ -52,6 +52,18 @@ trait ProfileValidationRules
     }
 
     /**
+     * Get the custom validation messages for usernames.
+     *
+     * @return array<string, string>
+     */
+    protected function usernameMessages(): array
+    {
+        return [
+            'username.regex' => 'The username may only contain letters, numbers and underscores.',
+        ];
+    }
+
+    /**
      * Get the validation rules used to validate user emails.
      *
      * @return array<int, Unique|ValidationRule|array<mixed>|string>

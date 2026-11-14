@@ -26,9 +26,7 @@ class CreateNewUser implements CreatesNewUsers
             ...$this->profileRules(),
             'username' => $this->usernameRules(),
             'password' => $this->passwordRules(),
-        ], [
-            'username.regex' => 'The username may only contain letters, numbers and underscores.',
-        ])->validate();
+        ], $this->usernameMessages())->validate();
 
         return User::create([
             'name' => $input['name'],
