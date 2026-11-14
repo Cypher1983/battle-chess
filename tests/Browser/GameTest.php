@@ -6,6 +6,7 @@ use App\Enums\GameResult;
 use App\Models\Game;
 use App\Models\Invitation;
 use App\Models\User;
+use Pest\Browser\Api\AwaitableWebpage;
 
 /**
  * Play moves on the server, alternating white and black.
