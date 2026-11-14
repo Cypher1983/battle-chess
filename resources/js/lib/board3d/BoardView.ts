@@ -10,6 +10,7 @@ import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
 import { createHighlights } from '@/lib/board3d/highlights';
 import type { HighlightState } from '@/lib/board3d/highlights';
 import { createPiece, disposePieceModels } from '@/lib/board3d/pieces';
+import type { QualityChoice } from '@/lib/board3d/quality';
 import { createStage, disposeObject } from '@/lib/board3d/stage';
 import type { Stage } from '@/lib/board3d/stage';
 import { easeIn, easeInOut, easeOut, Tweens } from '@/lib/board3d/tweens';
@@ -18,6 +19,8 @@ export { IMPACT_AT as BATTLE_IMPACT_AT } from '@/lib/board3d/battle';
 
 export type BoardViewOptions = {
     orientation: PieceColor;
+    /** Graphics level; "auto" lets the device decide. */
+    quality?: QualityChoice;
     onSquareClick: (square: Square) => void;
 };
 
@@ -70,7 +73,7 @@ export class BoardView {
     constructor(host: HTMLElement, options: BoardViewOptions) {
         this.options = options;
         this.orientation = options.orientation;
-        this.stage = createStage(host);
+        this.stage = createStage(host, options.quality);
 
         this.board = createBoard(this.orientation);
         this.stage.scene.add(this.board);

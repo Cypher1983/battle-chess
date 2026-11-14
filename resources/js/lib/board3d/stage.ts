@@ -16,6 +16,8 @@ import {
 } from 'three';
 import type { Object3D } from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { resolveQuality } from '@/lib/board3d/quality';
+import type { QualityChoice, QualitySettings } from '@/lib/board3d/quality';
 
 /**
  * Called every frame with the time (ms) since the previous frame. Return
@@ -27,6 +29,8 @@ export type Stage = {
     renderer: WebGLRenderer;
     scene: Scene;
     camera: PerspectiveCamera;
+    /** The graphics level in use. */
+    quality: QualitySettings;
     /**
      * A light for effects such as glowing orbs and flashes, off until used.
      * It always exists: adding or removing lights recompiles every shader.
@@ -44,9 +48,15 @@ export type Stage = {
  * warm lighting with soft shadows, and a render loop. The canvas keeps
  * the size of its host element.
  */
-export function createStage(host: HTMLElement): Stage {
+export function createStage(
+    host: HTMLElement,
+    choice: QualityChoice = 'auto',
+): Stage {
     const renderer = new WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const quality = resolveQuality(choice, renderer);
+    renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, quality.maxPixelRatio),
+    );
     renderer.outputColorSpace = SRGBColorSpace;
     renderer.toneMapping = ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
@@ -73,7 +83,8 @@ export function createStage(host: HTMLElement): Stage {
     const sun = new DirectionalLight(0xfff0d6, 2.4);
     sun.position.set(-4, 12, 6);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.mapSize.set(quality.shadowMapSize, quality.shadowMapSize);
+    sun.shadow.radius = quality.shadowRadius;
     sun.shadow.camera.left = -7;
     sun.shadow.camera.right = 7;
     sun.shadow.camera.top = 7;
@@ -142,6 +153,7 @@ export function createStage(host: HTMLElement): Stage {
         renderer,
         scene,
         camera,
+        quality,
         effectLight,
         onFrame(callback) {
             callbacks.add(callback);

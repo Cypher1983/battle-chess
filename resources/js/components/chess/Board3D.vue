@@ -12,6 +12,7 @@ import {
 import { pieceLabel } from '@/lib/armies';
 import type { PieceColor } from '@/lib/armies';
 import type { BoardView } from '@/lib/board3d/BoardView';
+import type { QualityChoice } from '@/lib/board3d/quality';
 
 type Props = {
     fen: string;
@@ -19,6 +20,8 @@ type Props = {
     lastMove?: { from: string; to: string } | null;
     selected?: string | null;
     targets?: string[];
+    /** Graphics level, read once: re-mount the board to change it. */
+    quality?: QualityChoice;
     /** A capture to fight out when the position changes to `fen`. */
     battle?: { ply: number; from: string; to: string } | null;
 };
@@ -28,6 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
     selected: null,
     targets: () => [],
     battle: null,
+    quality: 'auto',
 });
 
 const emit = defineEmits<{
@@ -61,6 +65,7 @@ onMounted(async () => {
 
         view = new BoardView(host.value, {
             orientation: props.orientation,
+            quality: props.quality,
             onSquareClick: (square) => emit('squareClick', square),
         });
         view.setPosition(props.fen);
