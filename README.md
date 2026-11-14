@@ -90,4 +90,4 @@ npm run types:check     # TypeScript type check
 4. ✅ Real-time play with Reverb: live moves, opponent online status, challenge toasts
 5. ✅ Scoreboard with Elo ratings (start 1200, K=32), records and dashboard stats
 6. ✅ Battle animations: PixiJS capture scenes and original army artwork
-7. Polish: sounds, clocks, rematches
+7. ✅ Polish: synthesized sound effects, 72-hour move deadline with timeout claims, rematches
