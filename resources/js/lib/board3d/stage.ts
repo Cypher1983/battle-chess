@@ -7,6 +7,7 @@ import {
     PerspectiveCamera,
     PlaneGeometry,
     PMREMGenerator,
+    PointLight,
     Scene,
     ShadowMaterial,
     SRGBColorSpace,
@@ -26,6 +27,11 @@ export type Stage = {
     renderer: WebGLRenderer;
     scene: Scene;
     camera: PerspectiveCamera;
+    /**
+     * A light for effects such as glowing orbs and flashes, off until used.
+     * It always exists: adding or removing lights recompiles every shader.
+     */
+    effectLight: PointLight;
     /** Run a callback every frame. Returns a function that removes it. */
     onFrame: (callback: FrameCallback) => () => void;
     /** Draw the next frame, e.g. after changing the scene. */
@@ -77,6 +83,9 @@ export function createStage(host: HTMLElement): Stage {
     sun.shadow.bias = -0.0005;
     sun.shadow.normalBias = 0.02;
     scene.add(sun);
+
+    const effectLight = new PointLight(0xffffff, 0, 6);
+    scene.add(effectLight);
 
     const rim = new DirectionalLight(0xbfd8ff, 0.6);
     rim.position.set(5, 6, -8);
@@ -133,6 +142,7 @@ export function createStage(host: HTMLElement): Stage {
         renderer,
         scene,
         camera,
+        effectLight,
         onFrame(callback) {
             callbacks.add(callback);
 

@@ -4,7 +4,6 @@ import {
     Mesh,
     MeshBasicMaterial,
     MeshStandardMaterial,
-    PointLight,
     Vector3,
 } from 'three';
 import type { PieceColor, PieceType } from '@/lib/armies';
@@ -117,7 +116,8 @@ function projectile(battle: BattleScene): Beat {
     const halo = new Mesh(new IcosahedronGeometry(0.2, 1), haloMaterial);
     orb.add(halo);
     orb.visible = false;
-    orb.add(new PointLight(colour, 4, 3));
+    const light = battle.light;
+    light.color.set(colour);
     props.add(orb);
 
     const hand = attacker.position.clone().add(new Vector3(0, 1.15, 0));
@@ -153,6 +153,8 @@ function projectile(battle: BattleScene): Beat {
                         (1 + Math.sin(elapsed / 40) * 0.08),
                 );
                 orb.rotation.y = elapsed / 120;
+                light.position.copy(orb.position);
+                light.intensity = 4 * t;
                 object.rotation.x = lerp(0, -0.18, easeOut(t));
             } else if (elapsed < IMPACT_AT) {
                 const t = clamp01(
@@ -161,9 +163,12 @@ function projectile(battle: BattleScene): Beat {
                 orb.position.lerpVectors(hand, target, easeIn(t));
                 orb.position.y += Math.sin(Math.PI * t) * 0.6;
                 orb.rotation.y = elapsed / 60;
+                light.position.copy(orb.position);
+                light.intensity = 4;
                 object.rotation.x = lerp(-0.18, 0.25, easeOut(t));
             } else {
                 orb.visible = false;
+                light.intensity = 0;
                 object.rotation.x = lerp(
                     0.25,
                     0,

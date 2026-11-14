@@ -1,4 +1,4 @@
-import type { Group, Object3D, Scene, Vector3 } from 'three';
+import type { Group, Object3D, PointLight, Scene, Vector3 } from 'three';
 import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import type { PieceColor, PieceType } from '@/lib/armies';
 import type { Stage } from '@/lib/board3d/stage';
@@ -50,6 +50,8 @@ export type BattleScene = {
     scene: Scene;
     /** A group for temporary objects (effects, debris); removed at the end. */
     props: Group;
+    /** The stage's effect light; switched off when the battle ends. */
+    light: PointLight;
     attacker: Combatant;
     defender: Combatant;
     /** Unit vector from attacker to defender, flat on the board. */

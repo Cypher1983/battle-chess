@@ -6,7 +6,6 @@ import {
     Mesh,
     MeshBasicMaterial,
     MeshStandardMaterial,
-    PointLight,
     RingGeometry,
     SphereGeometry,
     Vector3,
@@ -70,9 +69,7 @@ export function impactBurst(battle: BattleScene): Beat {
 
     const particles: Particle[] = [];
 
-    const flash = new PointLight(palette[0], 0, 6);
-    flash.position.copy(centre);
-    props.add(flash);
+    const flash = battle.light;
 
     const ringMaterial = new MeshBasicMaterial({
         color: palette[0],
@@ -137,6 +134,8 @@ export function impactBurst(battle: BattleScene): Beat {
             const since = elapsed - IMPACT_AT;
 
             if (since >= 0) {
+                flash.color.set(palette[0]);
+                flash.position.copy(centre);
                 flash.intensity = 14 * (1 - easeOut(clamp01(since / 350)));
                 const t = clamp01(since / 600);
                 ring.scale.setScalar(1 + easeOut(t) * 3);

@@ -49,6 +49,7 @@ export function playBattle(
     const battle: BattleScene = {
         scene: stage.scene,
         props,
+        light: stage.effectLight,
         attacker,
         defender,
         heading,
@@ -92,6 +93,7 @@ export function playBattle(
             defender.object.removeFromParent();
 
             stage.scene.remove(props);
+            stage.effectLight.intensity = 0;
             controls.enabled = wasEnabled;
             stage.invalidate();
             resolve();
