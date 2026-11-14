@@ -8,6 +8,7 @@ import ChessBoard from '@/components/chess/ChessBoard.vue';
 import GameControls from '@/components/chess/GameControls.vue';
 import PromotionPicker from '@/components/chess/PromotionPicker.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useIsLive, usePresence } from '@/composables/useRealtime';
 import { armies } from '@/lib/armies';
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { play } from '@/routes';
@@ -166,10 +167,21 @@ function submitMove(from: Square, to: Square, promotion?: PieceType): void {
     );
 }
 
-// --- Waiting for the opponent --------------------------------------------
+// --- Live updates ---------------------------------------------------------
 
-const waitingForOpponent = computed(
+// The broadcast only says "this game changed"; the page then reloads the
+// game from the server, which stays the single source of truth.
+usePresence(`games.${props.game.id}`, '.game.updated', () => {
+    router.reload({ only: ['game'] });
+});
+
+const isLive = useIsLive();
+
+// Fall back to polling while waiting for the opponent if the WebSocket
+// is not connected (for example when Reverb is not running).
+const needsPolling = computed(
     () =>
+        !isLive.value &&
         props.game.status === 'active' &&
         props.myColor !== null &&
         props.game.turn !== props.myColor,
@@ -181,11 +193,9 @@ const { start: startPolling, stop: stopPolling } = usePoll(
     { autoStart: false },
 );
 
-watch(
-    waitingForOpponent,
-    (waiting) => (waiting ? startPolling() : stopPolling()),
-    { immediate: true },
-);
+watch(needsPolling, (poll) => (poll ? startPolling() : stopPolling()), {
+    immediate: true,
+});
 
 watch(
     () => props.game.fen,
