@@ -1,11 +1,13 @@
 import {
     BoxGeometry,
+    CapsuleGeometry,
     CylinderGeometry,
     Group,
     LatheGeometry,
     Mesh,
     MeshStandardMaterial,
     Quaternion,
+    SphereGeometry,
     Vector2,
     Vector3,
 } from 'three';
@@ -17,8 +19,30 @@ import type {
 
 /**
  * Small building blocks for the procedural piece models. Pieces are built
- * facing +z, standing on y = 0, and about 1 unit tall at most.
+ * facing +z, standing on y = 0, and about 1.2 units tall at most.
  */
+
+/**
+ * Names of the movable parts of a character. Battles and idle animation
+ * find them with `getObjectByName`, which also works on cloned models.
+ */
+export const RIG = {
+    body: 'body',
+    head: 'head',
+    armLeft: 'arm-left',
+    armRight: 'arm-right',
+    legLeft: 'leg-left',
+    legRight: 'leg-right',
+    legFrontLeft: 'leg-front-left',
+    legFrontRight: 'leg-front-right',
+    legBackLeft: 'leg-back-left',
+    legBackRight: 'leg-back-right',
+    tail: 'tail',
+    /** Something that turns on its own (a halo cog). */
+    spinner: 'spinner',
+    /** Something that swings on its own (a pendulum). */
+    swinger: 'swinger',
+} as const;
 
 export function material(
     params: MeshStandardMaterialParameters,
@@ -144,4 +168,49 @@ export function gear(
     }
 
     return cog;
+}
+
+/** An empty pivot at (x, y, z) to hang parts on, e.g. a shoulder. */
+export function joint(name: string, x = 0, y = 0, z = 0): Group {
+    const pivot = new Group();
+    pivot.name = name;
+    pivot.position.set(x, y, z);
+
+    return pivot;
+}
+
+/** A pill shape standing upright, centred on (x, y, z). */
+export function capsule(
+    radius: number,
+    length: number,
+    mat: Material,
+    x = 0,
+    y = 0,
+    z = 0,
+): Mesh {
+    return part(new CapsuleGeometry(radius, length, 4, 10), mat, x, y, z);
+}
+
+/**
+ * An arm or leg: a pivot at the shoulder or hip with a limb hanging
+ * straight down and a hand or foot at its end. Things held in the hand are
+ * added to the returned `end` group, which moves with the limb.
+ */
+export function limb(
+    name: string,
+    at: [number, number, number],
+    length: number,
+    radius: number,
+    mat: Material,
+    endMat: Material = mat,
+): { pivot: Group; end: Group } {
+    const pivot = joint(name, ...at);
+    pivot.add(capsule(radius, length, mat, 0, -length / 2));
+
+    const end = new Group();
+    end.position.y = -length;
+    end.add(part(new SphereGeometry(radius * 1.35, 10, 8), endMat));
+    pivot.add(end);
+
+    return { pivot, end };
 }
