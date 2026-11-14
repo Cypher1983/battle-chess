@@ -30,6 +30,7 @@ const attackStyles: Record<PieceType, AttackStyle> = {
 const attacks: Partial<Record<AttackStyle, (battle: BattleScene) => Beat>> = {
     charge,
     projectile,
+    slam,
 };
 
 /** Clockwork throws blue lightning, the Wildwood green magic. */
@@ -175,6 +176,67 @@ function projectile(battle: BattleScene): Beat {
             halo.geometry.dispose();
             material.dispose();
             haloMaterial.dispose();
+        },
+    };
+}
+
+/**
+ * Crouch, leap high over the defender and crash down on it: a squash on
+ * landing and a heavy camera shake.
+ */
+function slam(battle: BattleScene): Beat {
+    const { attacker, defender, heading } = battle;
+    const object = attacker.object;
+    const start = attacker.position;
+    const landing = defender.position.clone().addScaledVector(heading, -0.4);
+    const apex = start.clone().lerp(landing, 0.6).setY(1.6);
+    const crouchUntil = 700;
+    const fallFrom = 1000;
+    const impact = onImpact(() => battle.shake(0.22));
+
+    const squash = (amount: number): void => {
+        object.scale.set(1 + amount * 0.5, 1 - amount, 1 + amount * 0.5);
+    };
+
+    return {
+        update(elapsed) {
+            impact(elapsed);
+
+            if (elapsed < ATTACK_FROM) {
+                return;
+            }
+
+            if (elapsed < crouchUntil) {
+                squash(
+                    0.18 *
+                        easeOut(
+                            clamp01(
+                                (elapsed - ATTACK_FROM) /
+                                    (crouchUntil - ATTACK_FROM),
+                            ),
+                        ),
+                );
+            } else if (elapsed < fallFrom) {
+                const t = easeOut(
+                    clamp01((elapsed - crouchUntil) / (fallFrom - crouchUntil)),
+                );
+                squash(lerp(0.18, -0.08, t));
+                object.position.lerpVectors(start, apex, t);
+                object.rotation.x = lerp(0, -0.3, t);
+            } else if (elapsed < IMPACT_AT) {
+                const t = easeIn(
+                    clamp01((elapsed - fallFrom) / (IMPACT_AT - fallFrom)),
+                );
+                squash(-0.08);
+                object.position.lerpVectors(apex, landing, t);
+                object.rotation.x = lerp(-0.3, 0.15, t);
+            } else {
+                // Land hard, squash, and spring back to shape.
+                const t = clamp01((elapsed - IMPACT_AT) / 350);
+                object.position.copy(landing);
+                squash(0.25 * Math.sin(Math.PI * t) * (1 - t));
+                object.rotation.x = lerp(0.15, 0, easeOut(t));
+            }
         },
     };
 }
