@@ -2,6 +2,7 @@ import { Group, Mesh, Vector3 } from 'three';
 import type { Material, Object3D, PerspectiveCamera } from 'three';
 import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { attack } from '@/lib/board3d/battle/attacks';
+import { impactBurst } from '@/lib/board3d/battle/effects';
 import {
     DURATION,
     faceOff,
@@ -265,6 +266,7 @@ function defaultBeats(battle: BattleScene): Beat[] {
     return [
         faceOff(battle),
         attack(battle),
+        impactBurst(battle),
         takeSquare(battle),
         vanish(battle),
     ];

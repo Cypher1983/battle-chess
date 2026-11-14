@@ -1,0 +1,178 @@
+import {
+    AdditiveBlending,
+    BoxGeometry,
+    ConeGeometry,
+    CylinderGeometry,
+    Mesh,
+    MeshBasicMaterial,
+    MeshStandardMaterial,
+    PointLight,
+    RingGeometry,
+    SphereGeometry,
+    Vector3,
+} from 'three';
+import type { BufferGeometry } from 'three';
+import type { PieceColor } from '@/lib/armies';
+import { IMPACT_AT } from '@/lib/board3d/battle/core';
+import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
+import { clamp01, easeOut } from '@/lib/board3d/tweens';
+
+/** Effect colours per army (as in the 2D battles). */
+const palettes: Record<PieceColor, number[]> = {
+    w: [0xffd75e, 0xfff1b8, 0x7fd4ff, 0xc9952b],
+    b: [0x3f8f3a, 0x8fcf6a, 0x6b4a2b, 0xd6336c],
+};
+
+/** Clockwork sheds cogs and sparks, the Wildwood leaves and thorns. */
+function debrisShapes(color: PieceColor): BufferGeometry[] {
+    if (color === 'w') {
+        return [
+            new CylinderGeometry(0.05, 0.05, 0.02, 7),
+            new BoxGeometry(0.02, 0.02, 0.12),
+        ];
+    }
+
+    const leaf = new SphereGeometry(0.06, 6, 4);
+    leaf.scale(1, 0.2, 0.55);
+
+    return [leaf, new ConeGeometry(0.02, 0.1, 5)];
+}
+
+type Particle = {
+    mesh: Mesh;
+    velocity: Vector3;
+    spin: Vector3;
+    life: number;
+    age: number;
+};
+
+const GRAVITY = 7;
+const COUNT = 40;
+
+/**
+ * The blow lands: a burst of the attacker's army debris, a flash of light
+ * and a shockwave ring across the board.
+ */
+export function impactBurst(battle: BattleScene): Beat {
+    const { attacker, defender, props } = battle;
+    const centre = defender.position.clone().setY(0.45);
+    const palette = palettes[attacker.color];
+    const shapes = debrisShapes(attacker.color);
+    const materials = palette.map(
+        (colour) =>
+            new MeshStandardMaterial({
+                color: colour,
+                emissive: colour,
+                emissiveIntensity: attacker.color === 'w' ? 0.6 : 0.15,
+                roughness: 0.5,
+            }),
+    );
+
+    const particles: Particle[] = [];
+
+    const flash = new PointLight(palette[0], 0, 6);
+    flash.position.copy(centre);
+    props.add(flash);
+
+    const ringMaterial = new MeshBasicMaterial({
+        color: palette[0],
+        transparent: true,
+        opacity: 0,
+        blending: AdditiveBlending,
+        depthWrite: false,
+    });
+    const ring = new Mesh(new RingGeometry(0.36, 0.4, 48), ringMaterial);
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.copy(defender.position).setY(0.02);
+    props.add(ring);
+
+    let burst = false;
+    let previous = 0;
+
+    function spawn(): void {
+        for (let i = 0; i < COUNT; i++) {
+            const mesh = new Mesh(
+                shapes[i % shapes.length],
+                materials[i % materials.length],
+            );
+            mesh.position.copy(centre);
+            mesh.rotation.set(
+                Math.random() * 6,
+                Math.random() * 6,
+                Math.random() * 6,
+            );
+            mesh.castShadow = true;
+            props.add(mesh);
+
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 1.2 + Math.random() * 2.4;
+            particles.push({
+                mesh,
+                velocity: new Vector3(
+                    Math.cos(angle) * speed,
+                    1.5 + Math.random() * 3,
+                    Math.sin(angle) * speed,
+                ),
+                spin: new Vector3(
+                    Math.random() * 12 - 6,
+                    Math.random() * 12 - 6,
+                    Math.random() * 12 - 6,
+                ),
+                life: 0.9 + Math.random() * 0.6,
+                age: 0,
+            });
+        }
+    }
+
+    return {
+        update(elapsed) {
+            const dt = Math.max(elapsed - previous, 0) / 1000;
+            previous = elapsed;
+
+            if (!burst && elapsed >= IMPACT_AT) {
+                burst = true;
+                spawn();
+            }
+
+            const since = elapsed - IMPACT_AT;
+
+            if (since >= 0) {
+                flash.intensity = 14 * (1 - easeOut(clamp01(since / 350)));
+                const t = clamp01(since / 600);
+                ring.scale.setScalar(1 + easeOut(t) * 3);
+                ringMaterial.opacity = 0.45 * (1 - t);
+            }
+
+            for (const particle of particles) {
+                particle.age += dt;
+                const { mesh, velocity, spin } = particle;
+
+                velocity.y -= GRAVITY * dt;
+                mesh.position.addScaledVector(velocity, dt);
+
+                // Bounce off the board, losing most of the energy.
+                if (mesh.position.y < 0.02) {
+                    mesh.position.y = 0.02;
+                    velocity.y = Math.abs(velocity.y) * 0.35;
+                    velocity.x *= 0.6;
+                    velocity.z *= 0.6;
+                    spin.multiplyScalar(0.6);
+                }
+
+                mesh.rotation.x += spin.x * dt;
+                mesh.rotation.y += spin.y * dt;
+                mesh.rotation.z += spin.z * dt;
+
+                const left = 1 - particle.age / particle.life;
+                mesh.scale.setScalar(Math.max(Math.min(left * 3, 1), 0.001));
+                mesh.visible = left > 0;
+            }
+        },
+        finish() {
+            shapes.forEach((shape) => shape.dispose());
+            materials.forEach((material) => material.dispose());
+            ring.geometry.dispose();
+            ringMaterial.dispose();
+        },
+    };
+}
