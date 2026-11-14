@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GameResult;
+use App\Enums\GameStatus;
+use App\Enums\PieceColor;
 use App\Models\Game;
 use App\Models\Move;
 use App\Models\User;
@@ -12,6 +15,47 @@ use Inertia\Response;
 
 class GameController extends Controller
 {
+    /**
+     * List the player's active and recently finished games.
+     */
+    public function index(Request $request): Response
+    {
+        $user = $request->user();
+
+        $active = Game::involving($user)
+            ->active()
+            ->with(['white', 'black'])
+            ->withCount('moves')
+            ->latest('id')
+            ->get()
+            ->map(fn (Game $game) => [
+                ...$this->presentSummary($game, $user),
+                'your_turn' => $game->isTurnOf($user),
+                'move_count' => $game->moves_count,
+            ])
+            ->sortByDesc('your_turn')
+            ->values();
+
+        $finished = Game::involving($user)
+            ->where('status', GameStatus::Finished)
+            ->with(['white', 'black'])
+            ->latest('finished_at')
+            ->latest('id')
+            ->limit(20)
+            ->get()
+            ->map(fn (Game $game) => [
+                ...$this->presentSummary($game, $user),
+                'outcome' => $this->outcomeFor($game, $user),
+                'end_reason' => $game->end_reason?->label(),
+                'finished_at' => $game->finished_at?->diffForHumans(),
+            ]);
+
+        return Inertia::render('Play', [
+            'active' => $active,
+            'finished' => $finished,
+        ]);
+    }
+
     /**
      * Show a game board.
      */
@@ -43,6 +87,34 @@ class GameController extends Controller
             ],
             'myColor' => $game->colorOf($request->user())?->value,
         ]);
+    }
+
+    /**
+     * The fields shared by every game summary in the list.
+     *
+     * @return array{id: int, my_color: string, opponent: array{name: string, username: string}}
+     */
+    private function presentSummary(Game $game, User $user): array
+    {
+        $color = $game->colorOf($user) ?? PieceColor::White;
+
+        return [
+            'id' => $game->id,
+            'my_color' => $color->value,
+            'opponent' => $this->presentPlayer($color === PieceColor::White ? $game->black : $game->white),
+        ];
+    }
+
+    /**
+     * Whether the finished game was a win, loss or draw for the user.
+     */
+    private function outcomeFor(Game $game, User $user): string
+    {
+        if ($game->result === GameResult::Draw || $game->result === null) {
+            return 'draw';
+        }
+
+        return $game->result === GameResult::winFor($game->colorOf($user) ?? PieceColor::White) ? 'win' : 'loss';
     }
 
     /**

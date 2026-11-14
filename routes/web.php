@@ -10,7 +10,7 @@ Route::inertia('/', 'Welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
-    Route::inertia('play', 'Play')->name('play');
+    Route::get('play', [GameController::class, 'index'])->name('play');
     Route::get('invites', [InvitationController::class, 'index'])->name('invites');
     Route::post('invitations', [InvitationController::class, 'store'])
         ->middleware('throttle:10,1')
