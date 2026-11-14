@@ -82,6 +82,19 @@ npm run check           # frontend formatting and lint
 npm run types:check     # TypeScript type check
 ```
 
+### Browser tests
+
+End-to-end tests in `tests/Browser` drive real Chromium through Pest's browser
+plugin. They need the PHP `sockets` extension and a one-off browser download:
+
+```bash
+npx playwright install chromium
+npm run build             # the tests use the built assets
+composer run test:browser
+```
+
+They are kept out of the default `php artisan test` run because they are slower.
+
 ## Roadmap
 
 1. ✅ Foundation: authentication with usernames, navigation shell
