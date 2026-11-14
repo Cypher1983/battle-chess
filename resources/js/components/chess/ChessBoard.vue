@@ -81,7 +81,7 @@ function isHighlighted(square: string): boolean {
 
 <template>
     <div
-        class="grid aspect-square w-full grid-cols-8 overflow-hidden rounded-lg border-4 border-[#5b4632] shadow-lg select-none"
+        class="grid aspect-square w-full grid-cols-8 grid-rows-8 overflow-hidden rounded-lg border-4 border-[#5b4632] shadow-lg select-none"
         data-test="chess-board"
     >
         <button
