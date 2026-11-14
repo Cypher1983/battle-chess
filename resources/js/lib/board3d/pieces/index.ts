@@ -6,6 +6,20 @@ import { disposeObject } from '@/lib/board3d/stage';
 
 const templates = new Map<string, Group>();
 
+/** Characters are modelled small; this makes them fill their squares. */
+const MODEL_SCALE = 1.3;
+
+/**
+ * Scale a model by scaling its parts, so the piece itself keeps a scale of
+ * 1 (move, squash and defeat animations set the piece's scale).
+ */
+function enlarge(model: Group, factor: number): void {
+    for (const part of model.children) {
+        part.position.multiplyScalar(factor);
+        part.scale.multiplyScalar(factor);
+    }
+}
+
 /**
  * A 3D piece, facing the opponent's side of the board. Each model is built
  * once and then cloned, so all copies share geometry and materials.
@@ -16,6 +30,7 @@ export function createPiece(color: PieceColor, type: PieceType): Group {
 
     if (!template) {
         template = color === 'w' ? buildClockwork(type) : buildWildwood(type);
+        enlarge(template, MODEL_SCALE);
         templates.set(key, template);
     }
 
