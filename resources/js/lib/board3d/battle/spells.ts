@@ -16,6 +16,7 @@ import {
 import { IMPACT_AT } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
 import { glowBoost } from '@/lib/board3d/pieces/parts';
+import type { BoltSpell, TendrilSpell } from '@/lib/board3d/styles';
 import { clamp01, easeIn, easeOut } from '@/lib/board3d/tweens';
 
 /** When the gathered energy is released at the defender (ms). */
@@ -45,6 +46,7 @@ export function lightning(
     battle: BattleScene,
     from: Vector3,
     to: Vector3,
+    colours: BoltSpell,
 ): Beat {
     const SEGMENTS = 14;
     const BRANCH = 5;
@@ -53,10 +55,10 @@ export function lightning(
 
     // Brighter than white, so bloom picks the bolt up.
     const core = new MeshBasicMaterial({
-        color: new Color(0xe8fbff).multiplyScalar(4),
+        color: new Color(colours.core).multiplyScalar(4),
     });
     const glowMaterial = new MeshBasicMaterial({
-        color: 0x5fc8ff,
+        color: colours.glow,
         transparent: true,
         opacity: 0.45,
         blending: AdditiveBlending,
@@ -150,7 +152,7 @@ export function lightning(
             fork.forEach((mesh) => (mesh.visible = reach > 0.6));
             glowMaterial.opacity = 0.25 + Math.random() * 0.3;
 
-            battle.light.color.set(0x8fdcff);
+            battle.light.color.set(colours.glow);
             battle.light.position.copy(to);
             battle.light.intensity = 3 + Math.random() * 4;
         },
@@ -167,7 +169,12 @@ export function lightning(
  * Wildwood casters call up a thorny vine: it bursts from the ground beside
  * the caster, whips over in an arc into the defender and withers away.
  */
-export function vine(battle: BattleScene, _from: Vector3, to: Vector3): Beat {
+export function vine(
+    battle: BattleScene,
+    _from: Vector3,
+    to: Vector3,
+    colours: TendrilSpell,
+): Beat {
     const { attacker, heading, props } = battle;
     const side = new Vector3().crossVectors(heading, UP).normalize();
     const root = attacker.position
@@ -197,7 +204,7 @@ export function vine(battle: BattleScene, _from: Vector3, to: Vector3): Beat {
     const tube = new TubeGeometry(curve, SEGMENTS, 0.045, RADIAL, false);
     const indicesPerSegment = RADIAL * 6;
     const bark = new MeshStandardMaterial({
-        color: 0x4f7a2a,
+        color: colours.stem,
         roughness: 0.85,
         flatShading: true,
     });
@@ -207,7 +214,7 @@ export function vine(battle: BattleScene, _from: Vector3, to: Vector3): Beat {
 
     const thornGeometry = new ConeGeometry(0.022, 0.1, 5);
     const thornMaterial = new MeshStandardMaterial({
-        color: 0xd6336c,
+        color: colours.thorn,
         roughness: 0.5,
     });
     const thorns = Array.from({ length: 14 }, (_, i) => {
@@ -228,8 +235,8 @@ export function vine(battle: BattleScene, _from: Vector3, to: Vector3): Beat {
     });
 
     const tipMaterial = new MeshStandardMaterial({
-        color: 0xc6ff6a,
-        emissive: 0xc6ff6a,
+        color: colours.tip,
+        emissive: colours.tip,
         emissiveIntensity: glowBoost(),
     });
     const tip = new Mesh(new SphereGeometry(0.06, 10, 8), tipMaterial);
@@ -260,7 +267,7 @@ export function vine(battle: BattleScene, _from: Vector3, to: Vector3): Beat {
                         ),
                     ),
                 );
-                battle.light.color.set(0xb6ff6a);
+                battle.light.color.set(colours.tip);
                 battle.light.position.copy(tip.position);
                 battle.light.intensity = 2.5;
             } else {

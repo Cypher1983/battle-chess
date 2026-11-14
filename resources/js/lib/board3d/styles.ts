@@ -6,8 +6,19 @@ import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 /** What a blow knocks loose: Clockwork sheds cogs, the Wildwood leaves. */
 export type DebrisKind = 'cogs' | 'leaves';
 
+/** A jagged, flickering bolt (lightning): a white-hot core in a glow. */
+export type BoltSpell = { kind: 'bolt'; core: number; glow: number };
+
+/** Something that grows out of the ground and lashes the defender. */
+export type TendrilSpell = {
+    kind: 'tendril';
+    stem: number;
+    thorn: number;
+    tip: number;
+};
+
 /** The spell bishops and queens cast instead of throwing an orb. */
-export type SpellKind = 'lightning' | 'vine';
+export type Spell = BoltSpell | TendrilSpell;
 
 /** How an army looks and fights in 3D. */
 export type ArmyStyle = {
@@ -18,7 +29,7 @@ export type ArmyStyle = {
     debris: DebrisKind;
     /** How brightly the debris glows (sparks do, leaves barely). */
     debrisGlow: number;
-    spell?: SpellKind;
+    spell?: Spell;
 };
 
 export const armyStyles: Record<ArmyId, ArmyStyle> = {
@@ -27,13 +38,18 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
         magic: 0x7fd4ff,
         debris: 'cogs',
         debrisGlow: 0.6,
-        spell: 'lightning',
+        spell: { kind: 'bolt', core: 0xe8fbff, glow: 0x5fc8ff },
     },
     wildwood: {
         build: buildWildwood,
         magic: 0x9dff6a,
         debris: 'leaves',
         debrisGlow: 0.15,
-        spell: 'vine',
+        spell: {
+            kind: 'tendril',
+            stem: 0x4f7a2a,
+            thorn: 0xd6336c,
+            tip: 0xc6ff6a,
+        },
     },
 };

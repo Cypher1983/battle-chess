@@ -13,7 +13,7 @@ import { lightning, RELEASE_AT, vine } from '@/lib/board3d/battle/spells';
 import { afterimages } from '@/lib/board3d/battle/trails';
 import { glowBoost } from '@/lib/board3d/pieces/parts';
 import { armyStyles } from '@/lib/board3d/styles';
-import type { SpellKind } from '@/lib/board3d/styles';
+import type { Spell } from '@/lib/board3d/styles';
 import { clamp01, easeIn, easeOut, lerp } from '@/lib/board3d/tweens';
 
 /** When the attack starts, once the camera has swooped in (ms). */
@@ -37,14 +37,20 @@ const attacks: Partial<Record<AttackStyle, (battle: BattleScene) => Beat>> = {
     slam,
 };
 
-/** Spells cast by bishops and queens instead of throwing the orb. */
-const spells: Record<
-    SpellKind,
-    (battle: BattleScene, from: Vector3, to: Vector3) => Beat
-> = {
-    lightning,
-    vine,
-};
+/** Cast an army's spell from `from` at `to`. */
+function cast(
+    battle: BattleScene,
+    spell: Spell,
+    from: Vector3,
+    to: Vector3,
+): Beat {
+    switch (spell.kind) {
+        case 'bolt':
+            return lightning(battle, from, to, spell);
+        case 'tendril':
+            return vine(battle, from, to, spell);
+    }
+}
 
 /** The attacker's part of the battle, up to and just after the blow. */
 export function attack(battle: BattleScene): Beat {
@@ -154,11 +160,9 @@ function projectile(battle: BattleScene): Beat {
     const impact = onImpact(() => battle.shake(0.1));
 
     // Armies with a spell release it instead of throwing the orb.
-    const spell = (style.spell ? spells[style.spell] : undefined)?.(
-        battle,
-        hand.clone().setY(hand.y + 0.18),
-        target,
-    );
+    const spell =
+        style.spell &&
+        cast(battle, style.spell, hand.clone().setY(hand.y + 0.18), target);
 
     return {
         update(elapsed) {
