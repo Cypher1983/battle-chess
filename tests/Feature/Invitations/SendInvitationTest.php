@@ -5,7 +5,9 @@ namespace Tests\Feature\Invitations;
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\User;
+use App\Notifications\InvitationReceived;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class SendInvitationTest extends TestCase
@@ -120,6 +122,46 @@ class SendInvitationTest extends TestCase
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseCount('invitations', 2);
+    }
+
+    public function test_registered_players_are_notified_by_email()
+    {
+        Notification::fake();
+
+        $alice = User::factory()->create(['name' => 'Alice']);
+        $bob = User::factory()->create(['username' => 'bob']);
+
+        $this->actingAs($alice)->post(route('invitations.store'), ['recipient' => 'bob']);
+
+        Notification::assertSentTo($bob, InvitationReceived::class, function (InvitationReceived $notification) use ($bob) {
+            $mail = $notification->toMail($bob);
+
+            return $mail->subject === 'Alice challenges you to Battle Chess'
+                && $mail->actionUrl === route('invites');
+        });
+    }
+
+    public function test_unregistered_emails_are_invited_to_sign_up()
+    {
+        Notification::fake();
+
+        $this->actingAs(User::factory()->create())
+            ->post(route('invitations.store'), ['recipient' => 'friend@example.com']);
+
+        Notification::assertSentOnDemand(InvitationReceived::class, function (InvitationReceived $notification, array $channels, object $notifiable) {
+            return $notifiable->routes['mail'] === 'friend@example.com'
+                && $notification->toMail($notifiable)->actionUrl === route('register');
+        });
+    }
+
+    public function test_rejected_invitations_send_no_email()
+    {
+        Notification::fake();
+
+        $this->actingAs(User::factory()->create())
+            ->post(route('invitations.store'), ['recipient' => 'nobody_here']);
+
+        Notification::assertNothingSent();
     }
 
     public function test_recipient_is_required()
