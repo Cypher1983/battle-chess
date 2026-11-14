@@ -1,9 +1,10 @@
 import { Chess } from 'chess.js';
 import type { Square } from 'chess.js';
-import { Group } from 'three';
+import { Group, Plane, Raycaster, Vector2, Vector3 } from 'three';
+import type { Object3D } from 'three';
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { createBoard } from '@/lib/board3d/board';
-import { squareToPosition } from '@/lib/board3d/coords';
+import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
 import { createPiece, disposePieceModels } from '@/lib/board3d/pieces';
 import { createStage, disposeObject } from '@/lib/board3d/stage';
 import type { Stage } from '@/lib/board3d/stage';
@@ -30,6 +31,10 @@ export class BoardView {
     protected board: Group;
     protected readonly piecesLayer = new Group();
     protected pieces = new Map<Square, PlacedPiece>();
+    protected readonly raycaster = new Raycaster();
+    protected readonly surface = new Plane(new Vector3(0, 1, 0), 0);
+    protected pressedAt: { x: number; y: number } | null = null;
+    protected readonly removeListeners: () => void;
 
     constructor(host: HTMLElement, options: BoardViewOptions) {
         this.options = options;
@@ -41,6 +46,7 @@ export class BoardView {
         this.stage.scene.add(this.piecesLayer);
 
         this.placeCamera();
+        this.removeListeners = this.listen(this.stage.renderer.domElement);
     }
 
     /** Show the position described by a FEN string. */
@@ -79,7 +85,43 @@ export class BoardView {
         this.placeCamera();
     }
 
+    /**
+     * The square under a point on screen (client coordinates). A piece
+     * counts as standing on its square, even where it overlaps the square
+     * behind it.
+     */
+    squareAt(clientX: number, clientY: number): Square | null {
+        const canvas = this.stage.renderer.domElement;
+        const rect = canvas.getBoundingClientRect();
+        const pointer = new Vector2(
+            ((clientX - rect.left) / rect.width) * 2 - 1,
+            -((clientY - rect.top) / rect.height) * 2 + 1,
+        );
+        this.raycaster.setFromCamera(pointer, this.stage.camera);
+
+        const [hit] = this.raycaster.intersectObjects(
+            this.piecesLayer.children,
+            true,
+        );
+
+        if (hit) {
+            const square = this.squareOf(hit.object);
+
+            if (square) {
+                return square;
+            }
+        }
+
+        const point = this.raycaster.ray.intersectPlane(
+            this.surface,
+            new Vector3(),
+        );
+
+        return point ? positionToSquare(point.x, point.z) : null;
+    }
+
     dispose(): void {
+        this.removeListeners();
         this.stage.dispose();
         disposePieceModels();
     }
@@ -106,6 +148,72 @@ export class BoardView {
             this.piecesLayer.remove(placed.object);
             this.pieces.delete(square);
         }
+    }
+
+    /** The square of the piece that `object` is part of. */
+    protected squareOf(object: Object3D): Square | null {
+        let node: Object3D | null = object;
+
+        while (node && node.parent !== this.piecesLayer) {
+            node = node.parent;
+        }
+
+        for (const [square, placed] of this.pieces) {
+            if (placed.object === node) {
+                return square;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Clicks select squares; a press that moves more than a few pixels is
+     * a drag (to turn the camera), not a click.
+     */
+    protected listen(canvas: HTMLCanvasElement): () => void {
+        const down = (event: PointerEvent): void => {
+            this.pressedAt = { x: event.clientX, y: event.clientY };
+        };
+
+        const up = (event: PointerEvent): void => {
+            const start = this.pressedAt;
+            this.pressedAt = null;
+
+            if (
+                !start ||
+                Math.hypot(event.clientX - start.x, event.clientY - start.y) > 6
+            ) {
+                return;
+            }
+
+            const square = this.squareAt(event.clientX, event.clientY);
+
+            if (square) {
+                this.options.onSquareClick(square);
+            }
+        };
+
+        const move = (event: PointerEvent): void => {
+            if (event.buttons === 0) {
+                canvas.style.cursor = this.squareAt(
+                    event.clientX,
+                    event.clientY,
+                )
+                    ? 'pointer'
+                    : '';
+            }
+        };
+
+        canvas.addEventListener('pointerdown', down);
+        canvas.addEventListener('pointerup', up);
+        canvas.addEventListener('pointermove', move);
+
+        return () => {
+            canvas.removeEventListener('pointerdown', down);
+            canvas.removeEventListener('pointerup', up);
+            canvas.removeEventListener('pointermove', move);
+        };
     }
 
     /** Look at the board from behind the player's own army. */
