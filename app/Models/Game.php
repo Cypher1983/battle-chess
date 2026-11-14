@@ -43,6 +43,7 @@ use Illuminate\Support\Carbon;
 #[Fillable([
     'white_id', 'black_id', 'invitation_id', 'fen', 'status', 'result',
     'end_reason', 'draw_offered_by_id', 'last_move_at', 'finished_at',
+    'white_rating_before', 'black_rating_before', 'white_rating_change', 'black_rating_change',
 ])]
 class Game extends Model
 {
