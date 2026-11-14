@@ -9,6 +9,7 @@ import {
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { approach, IMPACT_AT, onImpact } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
+import { glowBoost } from '@/lib/board3d/pieces/parts';
 import { clamp01, easeIn, easeOut, lerp } from '@/lib/board3d/tweens';
 
 /** When the attack starts, once the camera has swooped in (ms). */
@@ -103,7 +104,7 @@ function projectile(battle: BattleScene): Beat {
     const material = new MeshStandardMaterial({
         color: colour,
         emissive: colour,
-        emissiveIntensity: 0.8,
+        emissiveIntensity: 0.8 * glowBoost(),
     });
     const haloMaterial = new MeshBasicMaterial({
         color: colour,

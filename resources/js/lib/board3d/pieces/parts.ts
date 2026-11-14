@@ -26,14 +26,38 @@ export function material(
     return new MeshStandardMaterial(params);
 }
 
+/** Every glowing material and its base strength, for `setGlowBoost`. */
+const glows = new Map<MeshStandardMaterial, number>();
+let boost = 1;
+
 /** A material that glows, for eyes, furnaces and magic. */
 export function glow(colour: number, intensity = 0.9): MeshStandardMaterial {
-    return new MeshStandardMaterial({
+    const material = new MeshStandardMaterial({
         color: colour,
         emissive: colour,
-        emissiveIntensity: intensity,
+        emissiveIntensity: intensity * boost,
         roughness: 0.4,
     });
+    glows.set(material, intensity);
+
+    return material;
+}
+
+/**
+ * Make every glow brighter. With bloom on, glows must outshine anything
+ * lit by the lights so that only they bloom; without bloom the same
+ * strength would wash their colour out to white.
+ */
+export function setGlowBoost(value: number): void {
+    boost = value;
+    glows.forEach((base, material) => {
+        material.emissiveIntensity = base * value;
+    });
+}
+
+/** The current glow boost, for effects that make their own materials. */
+export function glowBoost(): number {
+    return boost;
 }
 
 /** A mesh that casts and receives shadows, placed at (x, y, z). */

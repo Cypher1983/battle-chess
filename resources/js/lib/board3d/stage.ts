@@ -18,6 +18,7 @@ import type { Object3D } from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { createPostProcessing } from '@/lib/board3d/post';
 import type { PostProcessing } from '@/lib/board3d/post';
+import { setGlowBoost } from '@/lib/board3d/pieces/parts';
 import { resolveQuality } from '@/lib/board3d/quality';
 import type { QualityChoice, QualitySettings } from '@/lib/board3d/quality';
 
@@ -56,6 +57,7 @@ export function createStage(
 ): Stage {
     const renderer = new WebGLRenderer({ antialias: true, alpha: true });
     const quality = resolveQuality(choice, renderer);
+    setGlowBoost(quality.bloom ? 7 : 1);
     renderer.setPixelRatio(
         Math.min(window.devicePixelRatio, quality.maxPixelRatio),
     );

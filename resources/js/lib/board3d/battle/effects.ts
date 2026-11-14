@@ -14,6 +14,7 @@ import type { BufferGeometry } from 'three';
 import type { PieceColor } from '@/lib/armies';
 import { IMPACT_AT } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
+import { glowBoost } from '@/lib/board3d/pieces/parts';
 import { clamp01, easeOut } from '@/lib/board3d/tweens';
 
 /** Effect colours per army (as in the 2D battles). */
@@ -62,7 +63,8 @@ export function impactBurst(battle: BattleScene): Beat {
             new MeshStandardMaterial({
                 color: colour,
                 emissive: colour,
-                emissiveIntensity: attacker.color === 'w' ? 0.6 : 0.15,
+                emissiveIntensity:
+                    (attacker.color === 'w' ? 0.6 : 0.15) * glowBoost(),
                 roughness: 0.5,
             }),
     );

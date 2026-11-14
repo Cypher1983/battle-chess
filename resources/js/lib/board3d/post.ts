@@ -3,6 +3,7 @@ import type { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import type { QualitySettings } from '@/lib/board3d/quality';
 
 export type PostProcessing = {
@@ -30,6 +31,12 @@ export function createPostProcessing(
 
     const composer = new EffectComposer(renderer, target);
     composer.addPass(new RenderPass(scene, camera));
+
+    if (quality.bloom) {
+        // Only light brighter than this (the boosted glows) blooms.
+        composer.addPass(new UnrealBloomPass(size.clone(), 0.75, 0.4, 3.2));
+    }
+
     composer.addPass(new OutputPass());
 
     return {
