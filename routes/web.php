@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameMoveController;
 use App\Http\Controllers\InvitationController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('scoreboard', 'Scoreboard')->name('scoreboard');
 
     Route::get('games/{game}', [GameController::class, 'show'])->name('games.show');
+    Route::post('games/{game}/moves', [GameMoveController::class, 'store'])
+        ->middleware('throttle:60,1')
+        ->name('games.moves.store');
 });
 
 require __DIR__.'/settings.php';
