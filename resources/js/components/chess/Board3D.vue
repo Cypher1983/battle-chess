@@ -1,6 +1,15 @@
 <script setup lang="ts">
+import { Chess } from 'chess.js';
 import type { Square } from 'chess.js';
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import {
+    computed,
+    nextTick,
+    onBeforeUnmount,
+    onMounted,
+    ref,
+    watch,
+} from 'vue';
+import { pieceLabel } from '@/lib/armies';
 import type { PieceColor } from '@/lib/armies';
 import type { BoardView } from '@/lib/board3d/BoardView';
 
@@ -28,6 +37,9 @@ const host = ref<HTMLDivElement | null>(null);
 const ready = ref(false);
 let view: BoardView | null = null;
 let unmounted = false;
+
+/** The square with keyboard focus, framed on the 3D board. */
+const focused = ref<Square | null>(null);
 
 onMounted(async () => {
     try {
@@ -69,10 +81,69 @@ function highlights() {
             : null,
         selected: props.selected,
         targets: props.targets,
+        focused: focused.value,
     };
 }
 
 watch(highlights, (marks) => view?.setHighlights(marks));
+
+// --- Keyboard and screen reader access ---------------------------------
+//
+// The canvas can't be tabbed to, so a hidden grid of buttons mirrors the
+// board in the player's orientation. It is one tab stop; arrow keys move
+// between squares, Enter or Space clicks, and the 3D board frames the
+// focused square.
+
+const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+const RANKS = ['8', '7', '6', '5', '4', '3', '2', '1'];
+
+const cursor = ref<Square>(props.orientation === 'w' ? 'e2' : 'e7');
+const grid = ref<HTMLDivElement | null>(null);
+
+const cells = computed(() => {
+    const chess = new Chess(props.fen);
+    const files = props.orientation === 'w' ? FILES : [...FILES].reverse();
+    const ranks = props.orientation === 'w' ? RANKS : [...RANKS].reverse();
+
+    return ranks.flatMap((rank) =>
+        files.map((file) => {
+            const square = `${file}${rank}` as Square;
+            const piece = chess.get(square);
+
+            return {
+                square,
+                label: piece
+                    ? `${square}: ${pieceLabel(piece.color, piece.type)}`
+                    : square,
+            };
+        }),
+    );
+});
+
+function onKeydown(event: KeyboardEvent, index: number): void {
+    const moves: Record<string, [number, number]> = {
+        ArrowUp: [-1, 0],
+        ArrowDown: [1, 0],
+        ArrowLeft: [0, -1],
+        ArrowRight: [0, 1],
+    };
+    const move = moves[event.key];
+
+    if (!move) {
+        return;
+    }
+
+    event.preventDefault();
+    const row = Math.min(Math.max(Math.floor(index / 8) + move[0], 0), 7);
+    const col = Math.min(Math.max((index % 8) + move[1], 0), 7);
+    const square = cells.value[row * 8 + col].square;
+    cursor.value = square;
+    nextTick(() =>
+        grid.value
+            ?.querySelector<HTMLButtonElement>(`[data-square-3d="${square}"]`)
+            ?.focus(),
+    );
+}
 
 watch(
     () => props.orientation,
@@ -96,6 +167,31 @@ watch(
         >
             Reset view
         </button>
+        <div
+            ref="grid"
+            class="sr-only"
+            role="group"
+            aria-label="Chessboard squares"
+        >
+            <button
+                v-for="(cell, index) in cells"
+                :key="cell.square"
+                type="button"
+                :tabindex="cell.square === cursor ? 0 : -1"
+                :aria-label="cell.label"
+                :aria-pressed="cell.square === selected"
+                :data-square-3d="cell.square"
+                @focus="
+                    focused = cell.square;
+                    cursor = cell.square;
+                "
+                @blur="focused = null"
+                @keydown="onKeydown($event, index)"
+                @click="emit('squareClick', cell.square)"
+            >
+                {{ cell.label }}
+            </button>
+        </div>
         <div
             v-if="!ready"
             class="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground"
