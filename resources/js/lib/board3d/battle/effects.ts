@@ -66,8 +66,10 @@ export function impactBurst(battle: BattleScene): Beat {
             new MeshStandardMaterial({
                 color: colour,
                 emissive: colour,
+                // Sparks glow; with bloom on, gently, or forty of them wash out the shot.
                 emissiveIntensity:
-                    (attacker.color === 'w' ? 0.6 : 0.15) * glowBoost(),
+                    (attacker.color === 'w' ? 0.6 : 0.15) *
+                    Math.min(glowBoost(), 2.5),
                 roughness: 0.5,
             }),
     );
@@ -141,7 +143,9 @@ export function impactBurst(battle: BattleScene): Beat {
             if (since >= 0) {
                 flash.color.set(palette[0]);
                 flash.position.copy(centre);
-                flash.intensity = 14 * (1 - easeOut(clamp01(since / 350)));
+                flash.intensity =
+                    (glowBoost() > 1 ? 4 : 14) *
+                    (1 - easeOut(clamp01(since / 350)));
                 const t = clamp01(since / 600);
                 ring.scale.setScalar(1 + easeOut(t) * 3);
                 ringMaterial.opacity = 0.45 * (1 - t);
