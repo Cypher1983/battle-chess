@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Games\StartGame;
 use App\Enums\InvitationStatus;
 use App\Http\Requests\StoreInvitationRequest;
 use App\Models\Invitation;
@@ -9,6 +10,7 @@ use App\Models\User;
 use App\Notifications\InvitationReceived;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
@@ -74,9 +76,31 @@ class InvitationController extends Controller
     /**
      * Accept a challenge.
      */
-    public function accept(Invitation $invitation): RedirectResponse
+    public function accept(Invitation $invitation, StartGame $startGame): RedirectResponse
     {
-        return $this->close($invitation, 'respond', InvitationStatus::Accepted, __('Challenge accepted.'));
+        Gate::authorize('respond', $invitation);
+
+        $game = DB::transaction(function () use ($invitation, $startGame) {
+            $invitation = Invitation::query()->lockForUpdate()->findOrFail($invitation->id);
+
+            if (! $invitation->isOpen()) {
+                return null;
+            }
+
+            $invitation->close(InvitationStatus::Accepted);
+
+            return $startGame($invitation);
+        });
+
+        if ($game === null) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => __('This challenge is no longer open.')]);
+
+            return back();
+        }
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Challenge accepted. To battle!')]);
+
+        return back();
     }
 
     /**
