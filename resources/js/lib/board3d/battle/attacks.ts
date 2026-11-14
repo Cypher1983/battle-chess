@@ -9,6 +9,7 @@ import {
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { approach, IMPACT_AT, onImpact } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
+import { lightning, RELEASE_AT } from '@/lib/board3d/battle/spells';
 import { glowBoost } from '@/lib/board3d/pieces/parts';
 import { clamp01, easeIn, easeOut, lerp } from '@/lib/board3d/tweens';
 
@@ -31,6 +32,16 @@ const attacks: Partial<Record<AttackStyle, (battle: BattleScene) => Beat>> = {
     charge,
     projectile,
     slam,
+};
+
+/** Spells cast by bishops and queens instead of throwing the orb. */
+const spells: Partial<
+    Record<
+        PieceColor,
+        (battle: BattleScene, from: Vector3, to: Vector3) => Beat
+    >
+> = {
+    w: lightning,
 };
 
 /** Clockwork throws blue lightning, the Wildwood green magic. */
@@ -99,7 +110,7 @@ function projectile(battle: BattleScene): Beat {
     const { attacker, defender, props } = battle;
     const object = attacker.object;
     const colour = orbColours[attacker.color];
-    const throwFrom = 950;
+    const throwFrom = RELEASE_AT;
 
     const material = new MeshStandardMaterial({
         color: colour,
@@ -125,9 +136,17 @@ function projectile(battle: BattleScene): Beat {
     const target = defender.position.clone().add(new Vector3(0, 0.45, 0));
     const impact = onImpact(() => battle.shake(0.1));
 
+    // Armies with a spell release it instead of throwing the orb.
+    const spell = spells[attacker.color]?.(
+        battle,
+        hand.clone().setY(hand.y + 0.18),
+        target,
+    );
+
     return {
         update(elapsed) {
             impact(elapsed);
+            spell?.update(elapsed);
 
             if (elapsed < ATTACK_FROM) {
                 return;
@@ -157,6 +176,13 @@ function projectile(battle: BattleScene): Beat {
                 light.position.copy(orb.position);
                 light.intensity = 4 * t;
                 object.rotation.x = lerp(0, -0.18, easeOut(t));
+            } else if (elapsed < IMPACT_AT && spell) {
+                // The orb pours itself into the spell and fades away.
+                const t = clamp01(
+                    (elapsed - throwFrom) / (IMPACT_AT - throwFrom),
+                );
+                orb.scale.setScalar(Math.max(1 - easeOut(t), 0.01));
+                object.rotation.x = lerp(-0.18, 0.25, easeOut(t));
             } else if (elapsed < IMPACT_AT) {
                 const t = clamp01(
                     (elapsed - throwFrom) / (IMPACT_AT - throwFrom),
@@ -178,6 +204,7 @@ function projectile(battle: BattleScene): Beat {
             }
         },
         finish() {
+            spell?.finish?.();
             orb.geometry.dispose();
             halo.geometry.dispose();
             material.dispose();
