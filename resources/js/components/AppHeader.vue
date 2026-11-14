@@ -34,7 +34,7 @@ import {
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
-import { mainNavItems } from '@/lib/navigation';
+import { useMainNavItems } from '@/lib/navigation';
 import { toUrl } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
@@ -53,6 +53,8 @@ const { isCurrentUrl, whenCurrentUrl } = useCurrentUrl();
 
 const activeItemStyles =
     'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
+
+const mainNavItems = useMainNavItems();
 
 const rightNavItems: NavItem[] = [];
 </script>
@@ -160,6 +162,12 @@ const rightNavItems: NavItem[] = [];
                                         class="mr-2 h-4 w-4"
                                     />
                                     {{ item.title }}
+                                    <span
+                                        v-if="item.badge"
+                                        class="ml-1.5 rounded-full bg-primary px-1.5 text-xs text-primary-foreground"
+                                    >
+                                        {{ item.badge }}
+                                    </span>
                                 </Link>
                                 <div
                                     v-if="isCurrentUrl(item.href)"

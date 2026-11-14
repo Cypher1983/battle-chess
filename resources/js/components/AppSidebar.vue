@@ -12,8 +12,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { mainNavItems } from '@/lib/navigation';
+import { useMainNavItems } from '@/lib/navigation';
 import { dashboard } from '@/routes';
+
+const mainNavItems = useMainNavItems();
 </script>
 
 <template>
