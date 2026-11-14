@@ -20,6 +20,8 @@ export function createPiece(color: PieceColor, type: PieceType): Group {
     }
 
     const piece = template.clone();
+    // Turn first, then tilt: battles lean pieces forward and back.
+    piece.rotation.order = 'YXZ';
     // Models face +z; white stands on the +z side and faces −z.
     piece.rotation.y = color === 'w' ? Math.PI : 0;
     piece.userData = { color, type };
