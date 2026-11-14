@@ -12,7 +12,8 @@ and climb the scoreboard.
 - **Database:** MySQL
 - **Testing:** Pest / PHPUnit, PHPStan, Pint
 - **Real-time:** Laravel Reverb + Echo (optional; pages fall back to polling)
-- **Animation:** PixiJS capture battle scenes (lazy-loaded)
+- **3D board and battles:** three.js (lazy-loaded), with a 2D fallback
+- **2D battles:** PixiJS capture scenes (lazy-loaded)
 
 ## Requirements
 
@@ -67,11 +68,28 @@ they are written to `storage/logs/laravel.log` instead of being delivered.
 Open the URL it prints (or your Herd/XAMPP site URL), register an account and
 log in with your email or username.
 
+## 3D board
+
+The game page shows a 3D board by default (drag to turn it, scroll or pinch to
+zoom, **Reset view** to return). Captures play out as 3D battles on the board
+itself: charges, magic bolts and slams, depending on the attacker. The
+**3D board** checkbox switches to the flat 2D board with its PixiJS battle
+scenes. The choice is remembered per browser, and browsers without WebGL always
+get the 2D board. Keyboard players can tab to the board and use the arrow keys
+and Enter in either view.
+
+The 3D code lives in `resources/js/lib/board3d`: `BoardView.ts` runs the board,
+`pieces/` builds the models, and `battle/` holds the battle timeline, attacks,
+effects and defeat animation.
+
 ## Artwork
 
 Piece art lives in `resources/js/assets/pieces` (`w/` Clockwork Legion,
 `b/` Wildwood Court). The included SVGs are original placeholders: replace any
 file to restyle a piece without code changes. See the README in that folder.
+The 3D pieces are built from simple shapes in code
+(`resources/js/lib/board3d/pieces`), so restyling those means editing the
+model builders.
 
 ## Quality checks
 
@@ -94,6 +112,9 @@ composer run test:browser
 ```
 
 They are kept out of the default `php artisan test` run because they are slower.
+Tests that click squares switch the game page to the 2D board first
+(`visitIn2d()`); `Board3DTest.php` covers the 3D board through its keyboard
+controls.
 
 ## Roadmap
 
@@ -104,3 +125,4 @@ They are kept out of the default `php artisan test` run because they are slower.
 5. ✅ Scoreboard with Elo ratings (start 1200, K=32), records and dashboard stats
 6. ✅ Battle animations: PixiJS capture scenes and original army artwork
 7. ✅ Polish: synthesized sound effects, 72-hour move deadline with timeout claims, rematches
+8. ✅ 3D: three.js board with orbit camera and animated moves, 3D capture battles
