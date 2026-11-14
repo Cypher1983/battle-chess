@@ -1,0 +1,180 @@
+import {
+    BoxGeometry,
+    CanvasTexture,
+    Group,
+    Mesh,
+    MeshStandardMaterial,
+    PlaneGeometry,
+    SRGBColorSpace,
+} from 'three';
+import type { PieceColor } from '@/lib/armies';
+import { FILES } from '@/lib/board3d/coords';
+
+const LIGHT = '#eadfc8';
+const DARK = '#9c7b54';
+const FRAME = '#5b4632';
+const TRIM = '#c9a46a';
+
+/** Pixels per board unit in the board texture. */
+const UNIT = 128;
+
+/** The board plus its 1-unit frame, in units. */
+const SIZE = 10;
+
+/**
+ * The chessboard: a wooden block whose top is painted with the squares and,
+ * on the frame, the file and rank letters (turned to face `orientation`).
+ */
+export function createBoard(orientation: PieceColor): Group {
+    const board = new Group();
+    board.name = 'board';
+
+    const texture = new CanvasTexture(paintBoard(orientation));
+    texture.colorSpace = SRGBColorSpace;
+    texture.anisotropy = 8;
+
+    const top = new Mesh(
+        new PlaneGeometry(SIZE, SIZE),
+        new MeshStandardMaterial({ map: texture, roughness: 0.55 }),
+    );
+    top.rotation.x = -Math.PI / 2;
+    top.position.y = 0.001;
+    top.receiveShadow = true;
+    board.add(top);
+
+    const wood = new MeshStandardMaterial({ color: FRAME, roughness: 0.7 });
+
+    const block = new Mesh(new BoxGeometry(SIZE, 0.4, SIZE), wood);
+    block.position.y = -0.2;
+    block.castShadow = true;
+    block.receiveShadow = true;
+    board.add(block);
+
+    const plinth = new Mesh(
+        new BoxGeometry(SIZE + 0.4, 0.2, SIZE + 0.4),
+        new MeshStandardMaterial({ color: '#3d2e20', roughness: 0.8 }),
+    );
+    plinth.position.y = -0.5;
+    plinth.castShadow = true;
+    plinth.receiveShadow = true;
+    board.add(plinth);
+
+    return board;
+}
+
+function paintBoard(orientation: PieceColor): HTMLCanvasElement {
+    const canvas = document.createElement('canvas');
+    canvas.width = SIZE * UNIT;
+    canvas.height = SIZE * UNIT;
+    const ctx = canvas.getContext('2d')!;
+
+    // Frame with a little wood grain.
+    ctx.fillStyle = FRAME;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    grain(ctx, 0, 0, canvas.width, canvas.height, 'rgba(0,0,0,0.12)', 260);
+
+    // Squares. Canvas row 0 is rank 8 (the far side for white).
+    for (let file = 0; file < 8; file++) {
+        for (let rank = 0; rank < 8; rank++) {
+            const x = (1 + file) * UNIT;
+            const y = (8 - rank) * UNIT;
+            const light = (file + rank) % 2 === 1;
+            ctx.fillStyle = light ? LIGHT : DARK;
+            ctx.fillRect(x, y, UNIT, UNIT);
+            grain(
+                ctx,
+                x,
+                y,
+                UNIT,
+                UNIT,
+                light ? 'rgba(120,90,50,0.06)' : 'rgba(60,40,20,0.10)',
+                10,
+            );
+        }
+    }
+
+    // Gold trim between the squares and the frame.
+    ctx.strokeStyle = TRIM;
+    ctx.lineWidth = 6;
+    ctx.strokeRect(UNIT - 3, UNIT - 3, 8 * UNIT + 6, 8 * UNIT + 6);
+    ctx.lineWidth = 2;
+    ctx.strokeRect(UNIT * 0.35, UNIT * 0.35, UNIT * 9.3, UNIT * 9.3);
+
+    // Coordinates on the frame, turned to read from the player's side.
+    ctx.fillStyle = LIGHT;
+    ctx.font = `600 ${UNIT * 0.36}px Georgia, serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const turn = orientation === 'b' ? Math.PI : 0;
+
+    FILES.forEach((letter, file) => {
+        const x = (1.5 + file) * UNIT;
+        label(ctx, letter, x, UNIT * 0.62, turn);
+        label(ctx, letter, x, UNIT * 9.38, turn);
+    });
+
+    for (let rank = 0; rank < 8; rank++) {
+        const y = (8.5 - rank) * UNIT;
+        label(ctx, String(rank + 1), UNIT * 0.62, y, turn);
+        label(ctx, String(rank + 1), UNIT * 9.38, y, turn);
+    }
+
+    return canvas;
+}
+
+function label(
+    ctx: CanvasRenderingContext2D,
+    text: string,
+    x: number,
+    y: number,
+    angle: number,
+): void {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle);
+    ctx.fillText(text, 0, 0);
+    ctx.restore();
+}
+
+/** Thin wavy streaks that read as wood grain. Deterministic per area. */
+function grain(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    colour: string,
+    lines: number,
+): void {
+    let seed = (x * 31 + y * 17) % 997;
+    const random = (): number => {
+        seed = (seed * 9301 + 49297) % 233280;
+
+        return seed / 233280;
+    };
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x, y, width, height);
+    ctx.clip();
+    ctx.strokeStyle = colour;
+    ctx.lineWidth = 1.5;
+
+    for (let i = 0; i < lines; i++) {
+        const startY = y + random() * height;
+        const wave = 2 + random() * 4;
+        ctx.beginPath();
+        ctx.moveTo(x, startY);
+
+        for (let step = 0; step <= width; step += 16) {
+            ctx.lineTo(
+                x + step,
+                startY + Math.sin((step + i * 13) / 40) * wave,
+            );
+        }
+
+        ctx.stroke();
+    }
+
+    ctx.restore();
+}
