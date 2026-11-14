@@ -32,6 +32,55 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
+    public function test_users_can_authenticate_with_their_username()
+    {
+        $user = User::factory()->create(['username' => 'knight_rider']);
+
+        $response = $this->post(route('login.store'), [
+            'login' => 'knight_rider',
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticatedAs($user);
+        $response->assertRedirect(route('dashboard', absolute: false));
+    }
+
+    public function test_username_login_ignores_case()
+    {
+        $user = User::factory()->create(['username' => 'knight_rider']);
+
+        $this->post(route('login.store'), [
+            'login' => 'Knight_Rider',
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_users_can_not_authenticate_with_username_and_invalid_password()
+    {
+        User::factory()->create(['username' => 'knight_rider']);
+
+        $response = $this->post(route('login.store'), [
+            'login' => 'knight_rider',
+            'password' => 'wrong-password',
+        ]);
+
+        $response->assertSessionHasErrors('login');
+        $this->assertGuest();
+    }
+
+    public function test_users_can_not_authenticate_with_unknown_username()
+    {
+        $response = $this->post(route('login.store'), [
+            'login' => 'nobody_here',
+            'password' => 'password',
+        ]);
+
+        $response->assertSessionHasErrors('login');
+        $this->assertGuest();
+    }
+
     public function test_users_with_two_factor_enabled_are_redirected_to_two_factor_challenge()
     {
         $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
