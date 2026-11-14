@@ -118,6 +118,17 @@ function isHighlighted(square: string): boolean {
                 {{ cell.showFile }}
             </span>
 
+            <!-- Any army can play either side: the base disc shows which. -->
+            <span
+                v-if="cell.piece"
+                class="pointer-events-none absolute bottom-[6%] h-[16%] w-[70%] rounded-[50%] border-2"
+                :class="
+                    cell.piece.color === 'w'
+                        ? 'border-stone-700/50 bg-[#f6efdf]'
+                        : 'border-stone-200/40 bg-[#16161c]'
+                "
+                :data-side="cell.piece.color"
+            />
             <img
                 v-if="cell.piece"
                 :src="pieceImage(armies[cell.piece.color], cell.piece.type)"
