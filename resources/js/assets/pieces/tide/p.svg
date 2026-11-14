@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Barnacle Deckhand</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#405250" stroke="#0f1c1c" stroke-width="3"/>
+  <path d="M45 86 L46 72 M55 86 L54 72" stroke="#223c4c" stroke-width="6" stroke-linecap="round"/>
+  <rect x="38" y="52" width="24" height="24" rx="8" fill="#d8d0bc" stroke="#0f1c1c" stroke-width="3"/>
+  <path d="M39 60 H61 M39 68 H61" stroke="#223c4c" stroke-width="3"/>
+  <circle cx="57" cy="64" r="2.5" fill="#cfc6ae" stroke="#0f1c1c" stroke-width="1.2"/>
+  <circle cx="50" cy="40" r="12" fill="#86a89c" stroke="#0f1c1c" stroke-width="3"/>
+  <path d="M38 38 Q38 26 50 26 Q62 26 62 38 Z" fill="#e0675a" stroke="#0f1c1c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M62 34 L70 30 L68 38 Z" fill="#e0675a" stroke="#0f1c1c" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="45" cy="42" r="2.6" fill="#7affe0"/>
+  <circle cx="55" cy="42" r="2.6" fill="#7affe0"/>
+  <path d="M45 48 h10" stroke="#0f1c1c" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="41" cy="46" r="2" fill="#cfc6ae" stroke="#0f1c1c" stroke-width="1"/>
+  <path d="M38 58 L30 62" stroke="#d8d0bc" stroke-width="5" stroke-linecap="round"/>
+  <path d="M30 50 Q22 52 22 60 Q22 68 30 66 Q24 62 26 58 Q28 54 34 56 Z" fill="#c8452e" stroke="#0f1c1c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M62 58 L70 54" stroke="#d8d0bc" stroke-width="5" stroke-linecap="round"/>
+  <path d="M66 54 H78" stroke="#b8893a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M71 54 Q68 34 76 18 Q76 36 76 54 Z" fill="#cfc6ae" stroke="#0f1c1c" stroke-width="2" stroke-linejoin="round"/>
+</svg>
