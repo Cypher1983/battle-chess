@@ -19,6 +19,10 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property int $id
  * @property string $name
  * @property string $username
+ * @property int $rating
+ * @property int $wins
+ * @property int $losses
+ * @property int $draws
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
