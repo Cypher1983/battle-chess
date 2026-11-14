@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Army;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -23,6 +24,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property int $wins
  * @property int $losses
  * @property int $draws
+ * @property Army $army
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
@@ -39,6 +41,15 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'army' => 'clockwork',
+    ];
 
     /**
      * Invitations this player has sent.
@@ -71,6 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'army' => Army::class,
         ];
     }
 }
