@@ -3,9 +3,10 @@ import { Head, Link, router, usePage, usePoll } from '@inertiajs/vue3';
 import { RotateCcw } from '@lucide/vue';
 import { Chess } from 'chess.js';
 import type { Square } from 'chess.js';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import GameMoveController from '@/actions/App/Http/Controllers/GameMoveController';
 import RematchController from '@/actions/App/Http/Controllers/RematchController';
+import Board3D from '@/components/chess/Board3D.vue';
 import ChessBoard from '@/components/chess/ChessBoard.vue';
 import GameControls from '@/components/chess/GameControls.vue';
 import PromotionPicker from '@/components/chess/PromotionPicker.vue';
@@ -14,6 +15,7 @@ import RatingTag from '@/components/chess/RatingTag.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBattleScenes } from '@/composables/useBattleScenes';
+import { useBoardView } from '@/composables/useBoardView';
 import { useSoundEffects } from '@/composables/useSoundEffects';
 import { useIsLive, usePresence } from '@/composables/useRealtime';
 import type { Fighter } from '@/lib/battle/playBattle';
@@ -109,6 +111,27 @@ const statusText = computed(() => {
 function player(color: PieceColor): Player {
     return color === 'w' ? props.game.white : props.game.black;
 }
+
+// --- Board view (2D or 3D) -------------------------------------------------
+
+const { preferred: boardView, view, supports3d } = useBoardView();
+const failed3d = ref(false);
+
+// The server renders the 2D board; the browser switches to 3D once mounted.
+const mounted = ref(false);
+onMounted(() => (mounted.value = true));
+
+const show3d = computed(
+    () => mounted.value && view.value === '3d' && !failed3d.value,
+);
+
+const board3d = computed({
+    get: () => boardView.value === '3d',
+    set: (on: boolean) => {
+        boardView.value = on ? '3d' : '2d';
+        failed3d.value = false;
+    },
+});
 
 // --- Moving -------------------------------------------------------------
 
@@ -357,7 +380,18 @@ watch(
             </div>
 
             <div class="relative">
+                <Board3D
+                    v-if="show3d"
+                    :fen="game.fen"
+                    :orientation="orientation"
+                    :last-move="game.last_move"
+                    :selected="selected"
+                    :targets="targets"
+                    @square-click="onSquareClick"
+                    @failed="failed3d = true"
+                />
                 <ChessBoard
+                    v-else
                     :fen="game.fen"
                     :orientation="orientation"
                     :last-move="game.last_move"
@@ -422,6 +456,24 @@ watch(
                             data-test="battle-scenes-toggle"
                         />
                         Play battle scenes on captures
+                    </label>
+                    <label
+                        class="mt-2 flex items-center gap-2 text-sm text-muted-foreground"
+                        :class="supports3d ? 'cursor-pointer' : 'opacity-60'"
+                        :title="
+                            supports3d
+                                ? undefined
+                                : 'Your browser cannot show the 3D board (no WebGL)'
+                        "
+                    >
+                        <input
+                            v-model="board3d"
+                            type="checkbox"
+                            class="size-4 accent-primary"
+                            :disabled="!supports3d"
+                            data-test="board-3d-toggle"
+                        />
+                        3D board
                     </label>
                     <label
                         class="mt-2 flex cursor-pointer items-center gap-2 text-sm text-muted-foreground"
