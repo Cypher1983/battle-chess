@@ -1,6 +1,7 @@
 import type { Group } from 'three';
 import type { ArmyId, PieceType } from '@/lib/armies';
 import { buildClockwork } from '@/lib/board3d/pieces/clockwork';
+import { buildEmber } from '@/lib/board3d/pieces/ember';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
@@ -63,6 +64,18 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
             stem: 0x4f7a2a,
             thorn: 0xd6336c,
             tip: 0xc6ff6a,
+        },
+    },
+    ember: {
+        build: buildEmber,
+        magic: 0xff7a1a,
+        debris: 'embers',
+        debrisGlow: 0.7,
+        spell: {
+            kind: 'missile',
+            shape: 'fireball',
+            colour: 0xff7a1a,
+            trail: 0xffc23a,
         },
     },
 };

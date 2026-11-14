@@ -2,7 +2,7 @@ export type PieceColor = 'w' | 'b';
 export type PieceType = 'k' | 'q' | 'r' | 'b' | 'n' | 'p';
 
 /** The armies players can command (matches the server's Army enum). */
-export type ArmyId = 'clockwork' | 'wildwood';
+export type ArmyId = 'clockwork' | 'wildwood' | 'ember';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -45,6 +45,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Sproutling',
         },
         palette: [0x3f8f3a, 0x8fcf6a, 0x6b4a2b, 0xd6336c],
+    },
+    ember: {
+        id: 'ember',
+        name: 'Ember Dynasty',
+        tagline: 'Obsidian and living flame, ruled from a burning throne.',
+        pieces: {
+            k: 'The Cinder King',
+            q: 'Phoenix Empress',
+            r: 'Obsidian Golem',
+            b: 'Flame Priest',
+            n: 'Magma Salamander',
+            p: 'Cinder Imp',
+        },
+        palette: [0xff6a00, 0xffc23a, 0x3a3230, 0xff2e1a],
     },
 };
 

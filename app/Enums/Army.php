@@ -10,6 +10,7 @@ enum Army: string
 {
     case Clockwork = 'clockwork';
     case Wildwood = 'wildwood';
+    case Ember = 'ember';
 
     /**
      * The army's display name.
@@ -19,6 +20,7 @@ enum Army: string
         return match ($this) {
             self::Clockwork => 'Clockwork Legion',
             self::Wildwood => 'Wildwood Court',
+            self::Ember => 'Ember Dynasty',
         };
     }
 }
