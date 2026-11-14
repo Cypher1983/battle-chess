@@ -24,7 +24,15 @@ class GamePagesTest extends TestCase
         ];
     }
 
-    #[DataProvider('pages')]
+    /**
+     * @return array<string, array{0: string}>
+     */
+    public static function routes(): array
+    {
+        return array_map(fn (array $page) => [$page[0]], self::pages());
+    }
+
+    #[DataProvider('routes')]
     public function test_guests_are_redirected_to_the_login_page(string $route)
     {
         $this->get(route($route))->assertRedirect(route('login'));
