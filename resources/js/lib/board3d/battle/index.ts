@@ -4,6 +4,7 @@ import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { attack } from '@/lib/board3d/battle/attacks';
 import { defeat } from '@/lib/board3d/battle/defeat';
 import { dustCloud, impactBurst } from '@/lib/board3d/battle/effects';
+import { gestures } from '@/lib/board3d/battle/gestures';
 import {
     DURATION,
     faceOff,
@@ -291,6 +292,7 @@ function defaultBeats(battle: BattleScene): Beat[] {
     return [
         faceOff(battle),
         attack(battle),
+        gestures(battle),
         impactBurst(battle),
         dustCloud(battle),
         defeat(battle),
