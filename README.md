@@ -11,7 +11,8 @@ and climb the scoreboard.
 - **Frontend:** Vue 3 + Inertia + TypeScript, Tailwind CSS
 - **Database:** MySQL
 - **Testing:** Pest / PHPUnit, PHPStan, Pint
-- **Planned:** Laravel Reverb (real-time moves), PixiJS (battle animations)
+- **Real-time:** Laravel Reverb + Echo (optional; pages fall back to polling)
+- **Planned:** PixiJS (battle animations)
 
 ## Requirements
 
@@ -57,7 +58,10 @@ php artisan migrate
 composer run dev
 ```
 
-This starts the Laravel server, queue worker and Vite dev server together.
+This starts the Laravel server, queue worker, Reverb WebSocket server and Vite
+dev server together. Live updates are broadcast through the queue, so the
+queue worker must be running. Without Reverb keys in `.env` (generate them with
+`php artisan reverb:install`) the game still works and polls for moves instead.
 The queue worker sends challenge emails. With the default `MAIL_MAILER=log`
 they are written to `storage/logs/laravel.log` instead of being delivered.
 Open the URL it prints (or your Herd/XAMPP site URL), register an account and
@@ -77,7 +81,7 @@ npm run types:check     # TypeScript type check
 1. ✅ Foundation: authentication with usernames, navigation shell
 2. ✅ Players and invites: challenge by username or email, accept, decline, cancel
 3. ✅ Core game: board, legal moves, server-side move validation, resign and draws
-4. Real-time play with Reverb
+4. ✅ Real-time play with Reverb: live moves, opponent online status, challenge toasts
 5. Scoreboard with Elo ratings
 6. Battle animations for Clockwork Legion vs. Wildwood Court
 7. Polish: sounds, clocks, rematches
