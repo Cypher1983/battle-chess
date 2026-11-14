@@ -10,6 +10,7 @@ import type { PieceColor, PieceType } from '@/lib/armies';
 import { approach, IMPACT_AT, onImpact } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
 import { lightning, RELEASE_AT, vine } from '@/lib/board3d/battle/spells';
+import { afterimages } from '@/lib/board3d/battle/trails';
 import { glowBoost } from '@/lib/board3d/pieces/parts';
 import { clamp01, easeIn, easeOut, lerp } from '@/lib/board3d/tweens';
 
@@ -54,8 +55,28 @@ const orbColours: Record<PieceColor, number> = {
 /** The attacker's part of the battle, up to and just after the blow. */
 export function attack(battle: BattleScene): Beat {
     const style = attackStyles[battle.attacker.type];
+    const strike = (attacks[style] ?? approach)(battle);
 
-    return (attacks[style] ?? approach)(battle);
+    if (style === 'projectile') {
+        return strike;
+    }
+
+    // Charges and slams leave a trail while they move fast.
+    const trail =
+        style === 'slam'
+            ? afterimages(battle, 700, IMPACT_AT)
+            : afterimages(battle, 850, IMPACT_AT);
+
+    return {
+        update(elapsed) {
+            strike.update(elapsed);
+            trail.update(elapsed);
+        },
+        finish() {
+            strike.finish?.();
+            trail.finish?.();
+        },
+    };
 }
 
 /**
