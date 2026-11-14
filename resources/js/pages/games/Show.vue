@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { Head, router, usePage, usePoll } from '@inertiajs/vue3';
+import { Head, Link, router, usePage, usePoll } from '@inertiajs/vue3';
+import { RotateCcw } from '@lucide/vue';
 import { Chess } from 'chess.js';
 import type { Square } from 'chess.js';
 import { computed, ref, watch } from 'vue';
 import GameMoveController from '@/actions/App/Http/Controllers/GameMoveController';
+import RematchController from '@/actions/App/Http/Controllers/RematchController';
 import ChessBoard from '@/components/chess/ChessBoard.vue';
 import GameControls from '@/components/chess/GameControls.vue';
 import PromotionPicker from '@/components/chess/PromotionPicker.vue';
 import BattleOverlay from '@/components/chess/BattleOverlay.vue';
 import RatingTag from '@/components/chess/RatingTag.vue';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBattleScenes } from '@/composables/useBattleScenes';
 import { useSoundEffects } from '@/composables/useSoundEffects';
@@ -439,6 +442,22 @@ watch(
                 :my-color="myColor"
                 :draw-offered-by="game.draw_offered_by"
             />
+
+            <Card v-if="game.status === 'finished' && myColor">
+                <CardContent>
+                    <Button class="w-full" as-child>
+                        <Link
+                            :href="RematchController.store(game.id)"
+                            as="button"
+                            preserve-scroll
+                            data-test="rematch-button"
+                        >
+                            <RotateCcw />
+                            Rematch
+                        </Link>
+                    </Button>
+                </CardContent>
+            </Card>
 
             <Card class="min-h-0 flex-1">
                 <CardHeader>
