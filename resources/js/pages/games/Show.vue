@@ -11,8 +11,15 @@ import BattleOverlay from '@/components/chess/BattleOverlay.vue';
 import RatingTag from '@/components/chess/RatingTag.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBattleScenes } from '@/composables/useBattleScenes';
+import { useSoundEffects } from '@/composables/useSoundEffects';
 import { useIsLive, usePresence } from '@/composables/useRealtime';
 import type { Fighter } from '@/lib/battle/playBattle';
+import {
+    playCheckSound,
+    playGameOverSound,
+    playImpactSound,
+    playMoveSound,
+} from '@/lib/sounds';
 import { armies } from '@/lib/armies';
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { play } from '@/routes';
@@ -127,6 +134,7 @@ watch(
         lastSeenPly = move.ply;
 
         if (battleScenes.value && move.piece && move.captured) {
+            // The impact sound plays when the battle's blow lands.
             battle.value = {
                 ply: move.ply,
                 attacker: { color: move.color, type: move.piece },
@@ -135,6 +143,41 @@ watch(
                     type: move.captured,
                 },
             };
+        } else if (move.captured) {
+            sound(playImpactSound);
+        } else {
+            sound(playMoveSound);
+        }
+
+        if (new Chess(props.game.fen).inCheck()) {
+            sound(playCheckSound);
+        }
+    },
+);
+
+// --- Sound ----------------------------------------------------------------
+
+const soundEffects = useSoundEffects();
+
+function sound(play: () => void): void {
+    if (soundEffects.value) {
+        play();
+    }
+}
+
+watch(
+    () => props.game.status,
+    (status, previous) => {
+        if (previous !== 'active' || status !== 'finished') {
+            return;
+        }
+
+        if (props.game.result === '1/2-1/2' || props.myColor === null) {
+            sound(() => playGameOverSound('draw'));
+        } else {
+            const won =
+                (props.game.result === '1-0') === (props.myColor === 'w');
+            sound(() => playGameOverSound(won ? 'win' : 'loss'));
         }
     },
 );
@@ -330,6 +373,7 @@ watch(
                     :key="battle.ply"
                     :attacker="battle.attacker"
                     :defender="battle.defender"
+                    @impact="sound(playImpactSound)"
                     @done="battle = null"
                 />
             </div>
@@ -374,6 +418,17 @@ watch(
                             data-test="battle-scenes-toggle"
                         />
                         Play battle scenes on captures
+                    </label>
+                    <label
+                        class="mt-2 flex cursor-pointer items-center gap-2 text-sm text-muted-foreground"
+                    >
+                        <input
+                            v-model="soundEffects"
+                            type="checkbox"
+                            class="size-4 accent-primary"
+                            data-test="sound-toggle"
+                        />
+                        Sound effects
                     </label>
                 </CardContent>
             </Card>
