@@ -1,6 +1,6 @@
 import type { Group, Object3D, PointLight, Scene, Vector3 } from 'three';
 import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import type { PieceColor, PieceType } from '@/lib/armies';
+import type { ArmyId, PieceColor, PieceType } from '@/lib/armies';
 import type { Stage } from '@/lib/board3d/stage';
 import { clamp01, easeInOut } from '@/lib/board3d/tweens';
 
@@ -11,6 +11,7 @@ export const IMPACT_AT = 1300;
 export const DURATION = 2900;
 
 export type Combatant = {
+    army: ArmyId;
     color: PieceColor;
     type: PieceType;
     object: Object3D;

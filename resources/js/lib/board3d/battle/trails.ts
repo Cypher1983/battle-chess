@@ -1,13 +1,7 @@
 import { AdditiveBlending, Mesh, MeshBasicMaterial } from 'three';
 import type { Object3D } from 'three';
-import type { PieceColor } from '@/lib/armies';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
-
-/** Afterimage tints: Clockwork blue, Wildwood green. */
-const tints: Record<PieceColor, number> = {
-    w: 0x7fd4ff,
-    b: 0x9dff6a,
-};
+import { armyStyles } from '@/lib/board3d/styles';
 
 const EVERY = 45;
 const FADE = 260;
@@ -31,7 +25,8 @@ export function afterimages(
 
     function spawn(elapsed: number): void {
         const material = new MeshBasicMaterial({
-            color: tints[attacker.color],
+            // Tinted with the army's magic.
+            color: armyStyles[attacker.army].magic,
             transparent: true,
             opacity: 0.28,
             blending: AdditiveBlending,

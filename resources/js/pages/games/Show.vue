@@ -397,7 +397,7 @@ watch(
             <div class="relative">
                 <Board3D
                     v-if="show3d"
-                    :key="graphics"
+                    :key="`${graphics}:${game.armies.w}:${game.armies.b}`"
                     :quality="graphics"
                     :fen="game.fen"
                     :orientation="orientation"

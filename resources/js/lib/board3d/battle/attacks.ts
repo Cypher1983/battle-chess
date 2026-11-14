@@ -6,12 +6,14 @@ import {
     MeshStandardMaterial,
     Vector3,
 } from 'three';
-import type { PieceColor, PieceType } from '@/lib/armies';
+import type { PieceType } from '@/lib/armies';
 import { approach, IMPACT_AT, onImpact } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
 import { lightning, RELEASE_AT, vine } from '@/lib/board3d/battle/spells';
 import { afterimages } from '@/lib/board3d/battle/trails';
 import { glowBoost } from '@/lib/board3d/pieces/parts';
+import { armyStyles } from '@/lib/board3d/styles';
+import type { SpellKind } from '@/lib/board3d/styles';
 import { clamp01, easeIn, easeOut, lerp } from '@/lib/board3d/tweens';
 
 /** When the attack starts, once the camera has swooped in (ms). */
@@ -36,20 +38,12 @@ const attacks: Partial<Record<AttackStyle, (battle: BattleScene) => Beat>> = {
 };
 
 /** Spells cast by bishops and queens instead of throwing the orb. */
-const spells: Partial<
-    Record<
-        PieceColor,
-        (battle: BattleScene, from: Vector3, to: Vector3) => Beat
-    >
+const spells: Record<
+    SpellKind,
+    (battle: BattleScene, from: Vector3, to: Vector3) => Beat
 > = {
-    w: lightning,
-    b: vine,
-};
-
-/** Clockwork throws blue lightning, the Wildwood green magic. */
-const orbColours: Record<PieceColor, number> = {
-    w: 0x7fd4ff,
-    b: 0x9dff6a,
+    lightning,
+    vine,
 };
 
 /** The attacker's part of the battle, up to and just after the blow. */
@@ -131,7 +125,8 @@ function charge(battle: BattleScene): Beat {
 function projectile(battle: BattleScene): Beat {
     const { attacker, defender, props } = battle;
     const object = attacker.object;
-    const colour = orbColours[attacker.color];
+    const style = armyStyles[attacker.army];
+    const colour = style.magic;
     const throwFrom = RELEASE_AT;
 
     const material = new MeshStandardMaterial({
@@ -159,7 +154,7 @@ function projectile(battle: BattleScene): Beat {
     const impact = onImpact(() => battle.shake(0.1));
 
     // Armies with a spell release it instead of throwing the orb.
-    const spell = spells[attacker.color]?.(
+    const spell = (style.spell ? spells[style.spell] : undefined)?.(
         battle,
         hand.clone().setY(hand.y + 0.18),
         target,

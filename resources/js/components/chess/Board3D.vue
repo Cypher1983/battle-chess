@@ -70,6 +70,7 @@ onMounted(async () => {
         view = new BoardView(host.value, {
             orientation: props.orientation,
             quality: props.quality,
+            armies: props.armies,
             onSquareClick: (square) => emit('squareClick', square),
         });
         view.setPosition(props.fen);

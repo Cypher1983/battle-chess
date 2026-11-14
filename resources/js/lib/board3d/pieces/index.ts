@@ -1,8 +1,7 @@
 import type { Group } from 'three';
-import type { PieceColor, PieceType } from '@/lib/armies';
-import { buildClockwork } from '@/lib/board3d/pieces/clockwork';
-import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
+import type { ArmyId, PieceColor, PieceType } from '@/lib/armies';
 import { disposeObject } from '@/lib/board3d/stage';
+import { armyStyles } from '@/lib/board3d/styles';
 
 const templates = new Map<string, Group>();
 
@@ -24,12 +23,16 @@ function enlarge(model: Group, factor: number): void {
  * A 3D piece, facing the opponent's side of the board. Each model is built
  * once and then cloned, so all copies share geometry and materials.
  */
-export function createPiece(color: PieceColor, type: PieceType): Group {
-    const key = `${color}${type}`;
+export function createPiece(
+    army: ArmyId,
+    color: PieceColor,
+    type: PieceType,
+): Group {
+    const key = `${army}:${type}`;
     let template = templates.get(key);
 
     if (!template) {
-        template = color === 'w' ? buildClockwork(type) : buildWildwood(type);
+        template = armyStyles[army].build(type);
         enlarge(template, MODEL_SCALE);
         templates.set(key, template);
     }
@@ -39,7 +42,7 @@ export function createPiece(color: PieceColor, type: PieceType): Group {
     piece.rotation.order = 'YXZ';
     // Models face +z; white stands on the +z side and faces −z.
     piece.rotation.y = color === 'w' ? Math.PI : 0;
-    piece.userData = { color, type };
+    piece.userData = { army, color, type };
 
     return piece;
 }

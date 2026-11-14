@@ -3,7 +3,8 @@ import type { Square } from 'chess.js';
 import { Group, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import type { Object3D } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import type { PieceColor, PieceType } from '@/lib/armies';
+import { CLASSIC_ARMIES } from '@/lib/armies';
+import type { ArmyId, GameArmies, PieceColor, PieceType } from '@/lib/armies';
 import { playBattle } from '@/lib/board3d/battle';
 import { createBoard } from '@/lib/board3d/board';
 import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
@@ -23,6 +24,8 @@ export type BoardViewOptions = {
     orientation: PieceColor;
     /** Graphics level; "auto" lets the device decide. */
     quality?: QualityChoice;
+    /** Which army plays each colour (the classic pair if not given). */
+    armies?: GameArmies;
     onSquareClick: (square: Square) => void;
 };
 
@@ -236,10 +239,12 @@ export class BoardView {
                 {
                     attacker: {
                         ...attacker,
+                        army: this.armyOf(attacker.color),
                         position: attacker.object.position.clone(),
                     },
                     defender: {
                         ...defender,
+                        army: this.armyOf(defender.color),
                         position: defender.object.position.clone(),
                     },
                     destination: squareToPosition(move.to),
@@ -334,7 +339,7 @@ export class BoardView {
         color: PieceColor,
         type: PieceType,
     ): PlacedPiece {
-        const object = createPiece(color, type);
+        const object = createPiece(this.armyOf(color), color, type);
         object.position.copy(squareToPosition(square));
         this.piecesLayer.add(object);
 
@@ -531,6 +536,10 @@ export class BoardView {
         );
 
         return true;
+    }
+
+    protected armyOf(color: PieceColor): ArmyId {
+        return (this.options.armies ?? CLASSIC_ARMIES)[color];
     }
 
     /** Glide the camera back to its starting view. */

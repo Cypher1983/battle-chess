@@ -14,21 +14,17 @@ import {
     Vector3,
 } from 'three';
 import type { BufferGeometry } from 'three';
-import type { PieceColor } from '@/lib/armies';
+import { armies } from '@/lib/armies';
 import { IMPACT_AT } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
 import { glowBoost } from '@/lib/board3d/pieces/parts';
+import { armyStyles } from '@/lib/board3d/styles';
+import type { DebrisKind } from '@/lib/board3d/styles';
 import { clamp01, easeOut } from '@/lib/board3d/tweens';
 
-/** Effect colours per army (as in the 2D battles). */
-const palettes: Record<PieceColor, number[]> = {
-    w: [0xffd75e, 0xfff1b8, 0x7fd4ff, 0xc9952b],
-    b: [0x3f8f3a, 0x8fcf6a, 0x6b4a2b, 0xd6336c],
-};
-
-/** Clockwork sheds cogs and sparks, the Wildwood leaves and thorns. */
-function debrisShapes(color: PieceColor): BufferGeometry[] {
-    if (color === 'w') {
+/** Cogs and sparks, or leaves and thorns. */
+function debrisShapes(kind: DebrisKind): BufferGeometry[] {
+    if (kind === 'cogs') {
         return [
             new CylinderGeometry(0.05, 0.05, 0.02, 7),
             new BoxGeometry(0.02, 0.02, 0.12),
@@ -59,8 +55,9 @@ const COUNT = 40;
 export function impactBurst(battle: BattleScene): Beat {
     const { attacker, defender, props } = battle;
     const centre = defender.position.clone().setY(0.45);
-    const palette = palettes[attacker.color];
-    const shapes = debrisShapes(attacker.color);
+    const style = armyStyles[attacker.army];
+    const palette = armies[attacker.army].palette;
+    const shapes = debrisShapes(style.debris);
     const materials = palette.map(
         (colour) =>
             new MeshStandardMaterial({
@@ -68,8 +65,7 @@ export function impactBurst(battle: BattleScene): Beat {
                 emissive: colour,
                 // Sparks glow; with bloom on, gently, or forty of them wash out the shot.
                 emissiveIntensity:
-                    (attacker.color === 'w' ? 0.6 : 0.15) *
-                    Math.min(glowBoost(), 2.5),
+                    style.debrisGlow * Math.min(glowBoost(), 2.5),
                 roughness: 0.5,
             }),
     );
