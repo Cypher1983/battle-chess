@@ -141,7 +141,11 @@ function cameraMove(
     const homePosition = camera.position.clone();
     const homeTarget = controls.target.clone();
 
-    const middle = from.clone().add(to).multiplyScalar(0.5);
+    // Long attacks are framed towards the defender, where the blow lands.
+    const distance = from.distanceTo(to);
+    const middle = from
+        .clone()
+        .lerp(to, 0.5 + clamp01((distance - 2) / 6) * 0.3);
     const along = to.clone().sub(from).setY(0);
 
     if (along.lengthSq() === 0) {
@@ -149,7 +153,7 @@ function cameraMove(
     }
 
     along.normalize();
-    const span = Math.max(from.distanceTo(to), 1);
+    const span = Math.min(Math.max(distance, 1), 3.5);
     const fightTarget = middle.clone().setY(0.45);
 
     // Look from the side of the fight with fewer pieces in the way; on a
