@@ -8,6 +8,7 @@ import { playBattle } from '@/lib/board3d/battle';
 import { createBoard } from '@/lib/board3d/board';
 import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
 import { createHighlights } from '@/lib/board3d/highlights';
+import { animateIdle } from '@/lib/board3d/idle';
 import type { HighlightState } from '@/lib/board3d/highlights';
 import { createPiece, disposePieceModels } from '@/lib/board3d/pieces';
 import { RIG } from '@/lib/board3d/pieces/parts';
@@ -66,6 +67,7 @@ export class BoardView {
     protected readonly tweens = new Tweens();
     protected readonly controls: OrbitControls;
     protected battling = false;
+    protected idledAt = 0;
     /** Ends the running battle early. */
     protected battleAbort: AbortController | null = null;
     /** A position that arrived during a battle, shown when it ends. */
@@ -101,7 +103,7 @@ export class BoardView {
             // During a battle the battle moves the camera, not the controls.
             const turned = this.controls.enabled && this.controls.update();
 
-            return animating || turned;
+            return animating || turned || this.idle(now);
         });
     }
 
@@ -506,6 +508,29 @@ export class BoardView {
             canvas.removeEventListener('pointerup', up);
             canvas.removeEventListener('pointermove', move);
         };
+    }
+
+    /**
+     * Idle animation, about 30 times a second, when the quality allows it.
+     * Returns whether the frame needs drawing.
+     */
+    protected idle(now: number): boolean {
+        if (
+            !this.stage.quality.idleAnimation ||
+            this.battling ||
+            prefersReducedMotion() ||
+            now - this.idledAt < 33
+        ) {
+            return false;
+        }
+
+        this.idledAt = now;
+        animateIdle(
+            [...this.pieces.values()].map((placed) => placed.object),
+            now,
+        );
+
+        return true;
     }
 
     /** Glide the camera back to its starting view. */

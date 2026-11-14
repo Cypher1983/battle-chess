@@ -18,6 +18,8 @@ export type QualitySettings = {
     ambientOcclusion: boolean;
     /** Blur the background during battles. */
     depthOfField: boolean;
+    /** Characters breathe and look around while the board is still. */
+    idleAnimation: boolean;
 };
 
 export const QUALITY_LEVELS: Record<Quality, QualitySettings> = {
@@ -30,6 +32,7 @@ export const QUALITY_LEVELS: Record<Quality, QualitySettings> = {
         bloom: false,
         ambientOcclusion: false,
         depthOfField: false,
+        idleAnimation: false,
     },
     high: {
         quality: 'high',
@@ -40,6 +43,7 @@ export const QUALITY_LEVELS: Record<Quality, QualitySettings> = {
         bloom: true,
         ambientOcclusion: false,
         depthOfField: true,
+        idleAnimation: true,
     },
     ultra: {
         quality: 'ultra',
@@ -50,6 +54,7 @@ export const QUALITY_LEVELS: Record<Quality, QualitySettings> = {
         bloom: true,
         ambientOcclusion: true,
         depthOfField: true,
+        idleAnimation: true,
     },
 };
 
