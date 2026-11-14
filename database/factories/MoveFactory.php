@@ -25,6 +25,8 @@ class MoveFactory extends Factory
             'user_id' => User::factory(),
             'from' => 'e2',
             'to' => 'e4',
+            'piece' => 'p',
+            'captured' => null,
             'promotion' => null,
             'san' => 'e4',
             'fen' => 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1',

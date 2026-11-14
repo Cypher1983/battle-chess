@@ -16,6 +16,8 @@ use Illuminate\Support\Carbon;
  * @property int $user_id
  * @property string $from
  * @property string $to
+ * @property string|null $piece
+ * @property string|null $captured
  * @property string|null $promotion
  * @property string $san
  * @property string $fen
@@ -24,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @property-read Game $game
  * @property-read User $user
  */
-#[Fillable(['game_id', 'ply', 'user_id', 'from', 'to', 'promotion', 'san', 'fen'])]
+#[Fillable(['game_id', 'ply', 'user_id', 'from', 'to', 'piece', 'captured', 'promotion', 'san', 'fen'])]
 class Move extends Model
 {
     /** @use HasFactory<MoveFactory> */

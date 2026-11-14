@@ -41,6 +41,8 @@ class MakeMove
                 'user_id' => $player->id,
                 'from' => $played->from,
                 'to' => $played->to,
+                'piece' => $played->piece,
+                'captured' => $played->captured,
                 'promotion' => $played->promotion,
                 'san' => $played->san,
                 'fen' => $played->fen,

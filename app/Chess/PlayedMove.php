@@ -10,6 +10,7 @@ final readonly class PlayedMove
     public function __construct(
         public string $from,
         public string $to,
+        public string $piece,
         public string $san,
         public string $fen,
         public ?string $promotion,

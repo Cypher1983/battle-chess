@@ -81,6 +81,7 @@ final class ChessEngine
         return new PlayedMove(
             from: $move->from,
             to: $move->to,
+            piece: $move->piece->getType(),
             san: (string) $move->san,
             fen: $this->chess->fen(),
             promotion: $move->promotion,
