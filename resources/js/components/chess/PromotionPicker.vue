@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { armies, pieceGlyphs } from '@/lib/armies';
+import { armies, pieceImage } from '@/lib/armies';
 import type { PieceColor, PieceType } from '@/lib/armies';
 
 defineProps<{
@@ -33,14 +33,12 @@ const choices: PieceType[] = ['q', 'r', 'b', 'n'];
                     :data-test="`promote-${piece}`"
                     @click="emit('choose', piece)"
                 >
-                    <span
-                        class="text-3xl leading-none"
-                        :class="
-                            color === 'w' ? 'text-[#d9a521]' : 'text-[#2f6b35]'
-                        "
-                    >
-                        {{ pieceGlyphs[piece] }}
-                    </span>
+                    <img
+                        :src="pieceImage(color, piece)"
+                        :alt="armies[color].pieces[piece]"
+                        class="size-12"
+                        draggable="false"
+                    />
                     <span class="text-xs">{{
                         armies[color].pieces[piece]
                     }}</span>

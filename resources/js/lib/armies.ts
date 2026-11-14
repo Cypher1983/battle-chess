@@ -35,14 +35,23 @@ export const armies: Record<PieceColor, Army> = {
     },
 };
 
+const pieceFiles = import.meta.glob<string>('../assets/pieces/*/*.svg', {
+    eager: true,
+    query: '?url',
+    import: 'default',
+});
+
 /**
- * Placeholder glyphs until the animated sprites arrive.
+ * The image URL for a piece. Replace the SVG files in
+ * resources/js/assets/pieces to restyle an army.
  */
-export const pieceGlyphs: Record<PieceType, string> = {
-    k: '♚',
-    q: '♛',
-    r: '♜',
-    b: '♝',
-    n: '♞',
-    p: '♟',
-};
+export function pieceImage(color: PieceColor, type: PieceType): string {
+    return pieceFiles[`../assets/pieces/${color}/${type}.svg`];
+}
+
+/**
+ * The display name of a piece, e.g. "Wildwood Court · Briar Wolf".
+ */
+export function pieceLabel(color: PieceColor, type: PieceType): string {
+    return `${armies[color].name} · ${armies[color].pieces[type]}`;
+}

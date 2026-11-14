@@ -2,7 +2,7 @@
 import { Chess } from 'chess.js';
 import type { Square } from 'chess.js';
 import { computed } from 'vue';
-import { armies, pieceGlyphs } from '@/lib/armies';
+import { pieceImage, pieceLabel } from '@/lib/armies';
 import type { PieceColor } from '@/lib/armies';
 
 type Props = {
@@ -96,7 +96,7 @@ function isHighlighted(square: string): boolean {
             :data-square="cell.square"
             :aria-label="
                 cell.piece
-                    ? `${cell.square}: ${armies[cell.piece.color].pieces[cell.piece.type]}`
+                    ? `${cell.square}: ${pieceLabel(cell.piece.color, cell.piece.type)}`
                     : cell.square
             "
             @click="emit('squareClick', cell.square)"
@@ -116,18 +116,15 @@ function isHighlighted(square: string): boolean {
                 {{ cell.showFile }}
             </span>
 
-            <span
+            <img
                 v-if="cell.piece"
-                class="relative z-10 text-[clamp(1.6rem,8vw,3.4rem)] leading-none"
-                :class="
-                    cell.piece.color === 'w'
-                        ? 'text-[#d9a521] [text-shadow:0_0_2px_#3b2a10,0_1px_0_#3b2a10]'
-                        : 'text-[#2f6b35] [text-shadow:0_0_2px_#e8f5e0,0_1px_0_#0f2a12]'
-                "
-                :title="`${armies[cell.piece.color].name} · ${armies[cell.piece.color].pieces[cell.piece.type]}`"
-            >
-                {{ pieceGlyphs[cell.piece.type] }}
-            </span>
+                :src="pieceImage(cell.piece.color, cell.piece.type)"
+                :alt="pieceLabel(cell.piece.color, cell.piece.type)"
+                :title="pieceLabel(cell.piece.color, cell.piece.type)"
+                class="pointer-events-none relative z-10 size-[88%] drop-shadow"
+                draggable="false"
+                :data-piece="`${cell.piece.color}${cell.piece.type}`"
+            />
 
             <span
                 v-if="targets.includes(cell.square)"
