@@ -3,8 +3,10 @@
 namespace App\Notifications;
 
 use App\Models\Invitation;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -27,7 +29,20 @@ class InvitationReceived extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        // Registered players also get a live toast; email-only invitees cannot.
+        return $notifiable instanceof User ? ['mail', 'broadcast'] : ['mail'];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     */
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'kind' => 'invitation.received',
+            'message' => __(':name challenges you to battle!', ['name' => $this->invitation->inviter->name]),
+            'url' => route('invites'),
+        ]);
     }
 
     /**
