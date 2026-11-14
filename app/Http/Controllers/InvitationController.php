@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Games\StartGame;
+use App\Actions\Invitations\SendInvitation;
 use App\Enums\InvitationStatus;
 use App\Http\Requests\StoreInvitationRequest;
 use App\Models\Invitation;
 use App\Models\User;
 use App\Notifications\ChallengeAnswered;
-use App\Notifications\InvitationReceived;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -52,22 +51,9 @@ class InvitationController extends Controller
     /**
      * Challenge another player by username or email.
      */
-    public function store(StoreInvitationRequest $request): RedirectResponse
+    public function store(StoreInvitationRequest $request, SendInvitation $sendInvitation): RedirectResponse
     {
-        $invitation = $request->user()->sentInvitations()->create([
-            'invitee_id' => $request->invitee()?->id,
-            'email' => $request->inviteEmail(),
-            'status' => InvitationStatus::Pending,
-            'expires_at' => now()->addDays(Invitation::EXPIRES_AFTER_DAYS),
-        ]);
-
-        $notification = new InvitationReceived($invitation);
-
-        if ($request->invitee() !== null) {
-            $request->invitee()->notify($notification);
-        } else {
-            Notification::route('mail', $invitation->email)->notify($notification);
-        }
+        $sendInvitation($request->user(), $request->invitee(), $request->inviteEmail());
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Challenge sent.')]);
 
