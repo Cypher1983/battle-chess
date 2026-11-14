@@ -31,6 +31,7 @@ class ShowGameTest extends TestCase
                 ->where('game.fen', Game::START_FEN)
                 ->where('game.turn', 'w')
                 ->where('game.status', 'active')
+                ->where('game.move_deadline', $game->moveDeadline()->toIso8601String())
                 ->where('game.white', ['name' => 'Wendy', 'username' => 'wendy', 'rating' => 1200, 'rating_change' => null])
                 ->where('game.last_move', null)
                 ->has('game.moves', 0)
@@ -79,6 +80,7 @@ class ShowGameTest extends TestCase
             ->get(route('games.show', $game))
             ->assertInertia(fn (Assert $page) => $page
                 ->where('game.status', 'finished')
+                ->where('game.move_deadline', null)
                 ->where('game.result', '0-1')
                 ->where('game.end_reason', 'Resignation')
             );

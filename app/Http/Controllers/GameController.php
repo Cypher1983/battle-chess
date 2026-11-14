@@ -88,6 +88,7 @@ class GameController extends Controller
                     'piece' => $lastMove->piece,
                     'captured' => $lastMove->captured,
                 ] : null,
+                'move_deadline' => $game->isActive() ? $game->moveDeadline()->toIso8601String() : null,
                 'draw_offered_by' => $game->draw_offered_by_id === null
                     ? null
                     : ($game->draw_offered_by_id === $game->white_id ? 'w' : 'b'),

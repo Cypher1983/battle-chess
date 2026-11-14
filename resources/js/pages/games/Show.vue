@@ -52,6 +52,7 @@ type GameData = {
         piece: PieceType | null;
         captured: PieceType | null;
     } | null;
+    move_deadline: string | null;
     draw_offered_by: PieceColor | null;
 };
 
@@ -440,6 +441,8 @@ watch(
                 v-if="game.status === 'active' && myColor"
                 :game-id="game.id"
                 :my-color="myColor"
+                :turn="game.turn"
+                :move-deadline="game.move_deadline"
                 :draw-offered-by="game.draw_offered_by"
             />
 

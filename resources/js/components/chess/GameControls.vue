@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { Flag, Handshake } from '@lucide/vue';
-import { computed } from 'vue';
+import { Clock, Flag, Handshake, Trophy } from '@lucide/vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import GameActionController from '@/actions/App/Http/Controllers/GameActionController';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,8 +10,36 @@ import type { PieceColor } from '@/lib/armies';
 const props = defineProps<{
     gameId: number;
     myColor: PieceColor;
+    turn: PieceColor;
+    moveDeadline: string | null;
     drawOfferedBy: PieceColor | null;
 }>();
+
+// Re-check the deadline periodically so the claim button appears without a reload.
+const now = ref(Date.now());
+let timer: ReturnType<typeof setInterval> | undefined;
+onMounted(() => (timer = setInterval(() => (now.value = Date.now()), 30_000)));
+onBeforeUnmount(() => clearInterval(timer));
+
+const deadline = computed(() =>
+    props.moveDeadline ? new Date(props.moveDeadline) : null,
+);
+const myTurn = computed(() => props.turn === props.myColor);
+const deadlineLabel = computed(() =>
+    deadline.value?.toLocaleString(undefined, {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+    }),
+);
+const canClaim = computed(
+    () =>
+        !myTurn.value &&
+        deadline.value !== null &&
+        deadline.value.getTime() <= now.value,
+);
 
 const iOffered = computed(() => props.drawOfferedBy === props.myColor);
 const opponentOffered = computed(
@@ -26,6 +54,28 @@ function confirmResign(): boolean {
 <template>
     <Card>
         <CardContent class="flex flex-col gap-3">
+            <p
+                v-if="deadlineLabel"
+                class="flex items-center gap-1.5 text-sm text-muted-foreground"
+                data-test="move-deadline"
+            >
+                <Clock class="size-4" />
+                {{ myTurn ? 'You must move by' : 'Your opponent must move by' }}
+                {{ deadlineLabel }}
+            </p>
+
+            <Button v-if="canClaim" size="sm" as-child>
+                <Link
+                    :href="GameActionController.claimTimeout(gameId)"
+                    as="button"
+                    preserve-scroll
+                    data-test="claim-timeout-button"
+                >
+                    <Trophy />
+                    Claim victory (deadline missed)
+                </Link>
+            </Button>
+
             <div
                 v-if="opponentOffered"
                 class="flex flex-col gap-2 rounded-lg border border-amber-400/60 bg-amber-50 p-3 text-sm dark:bg-amber-950/30"
