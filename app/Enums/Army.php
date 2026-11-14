@@ -11,6 +11,7 @@ enum Army: string
     case Clockwork = 'clockwork';
     case Wildwood = 'wildwood';
     case Ember = 'ember';
+    case Frost = 'frost';
 
     /**
      * The army's display name.
@@ -21,6 +22,7 @@ enum Army: string
             self::Clockwork => 'Clockwork Legion',
             self::Wildwood => 'Wildwood Court',
             self::Ember => 'Ember Dynasty',
+            self::Frost => 'Frost Covenant',
         };
     }
 }

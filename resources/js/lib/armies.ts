@@ -2,7 +2,7 @@ export type PieceColor = 'w' | 'b';
 export type PieceType = 'k' | 'q' | 'r' | 'b' | 'n' | 'p';
 
 /** The armies players can command (matches the server's Army enum). */
-export type ArmyId = 'clockwork' | 'wildwood' | 'ember';
+export type ArmyId = 'clockwork' | 'wildwood' | 'ember' | 'frost';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -59,6 +59,21 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Cinder Imp',
         },
         palette: [0xff6a00, 0xffc23a, 0x3a3230, 0xff2e1a],
+    },
+    frost: {
+        id: 'frost',
+        name: 'Frost Covenant',
+        tagline:
+            'Glacier-born sorcerers who freeze the board one square at a time.',
+        pieces: {
+            k: 'The Glacier King',
+            q: 'The Rime Matriarch',
+            r: 'Ice Golem',
+            b: 'Crystal Mage',
+            n: 'Snow Bear',
+            p: 'Frostling',
+        },
+        palette: [0x9cd3f2, 0xe8f6ff, 0x4f94c4, 0x7fe8ff],
     },
 };
 
