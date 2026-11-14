@@ -60,6 +60,8 @@ export type BattleScene = {
     contact: Vector3;
     destination: Vector3;
     shake: (strength: number) => void;
+    /** Brighten the whole picture for a moment (0.5 = half again). */
+    flash: (strength: number) => void;
 };
 
 /** Call `strike` once, on the first frame at or after the impact. */

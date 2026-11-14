@@ -135,6 +135,7 @@ export function impactBurst(battle: BattleScene): Beat {
 
             if (!burst && elapsed >= IMPACT_AT) {
                 burst = true;
+                battle.flash(0.6);
                 spawn();
             }
 

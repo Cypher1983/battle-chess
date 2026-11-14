@@ -50,6 +50,9 @@ export function playBattle(
 
     let shakeUntil = 0;
     let shakeStrength = 0;
+    let flashStrength = 0;
+    let flashAt = 0;
+    const exposure = stage.renderer.toneMappingExposure;
     let elapsed = 0;
 
     const battle: BattleScene = {
@@ -61,6 +64,10 @@ export function playBattle(
         heading,
         contact: defender.position.clone().addScaledVector(heading, -0.55),
         destination,
+        flash: (strength) => {
+            flashStrength = strength;
+            flashAt = elapsed;
+        },
         shake: (strength) => {
             shakeStrength = strength;
             shakeUntil = elapsed + 260;
@@ -101,6 +108,7 @@ export function playBattle(
 
             stage.scene.remove(props);
             stage.effectLight.intensity = 0;
+            stage.renderer.toneMappingExposure = exposure;
             controls.enabled = wasEnabled;
             stage.invalidate();
             resolve();
@@ -109,6 +117,10 @@ export function playBattle(
         const stopFrames = stage.onFrame((delta) => {
             elapsed += delta * timeScale(elapsed);
             steps.forEach((step) => step.update(Math.min(elapsed, DURATION)));
+
+            const flashFade = 1 - clamp01((elapsed - flashAt) / 220);
+            stage.renderer.toneMappingExposure =
+                exposure * (1 + flashStrength * flashFade);
 
             if (elapsed < shakeUntil) {
                 const fade = (shakeUntil - elapsed) / 260;
