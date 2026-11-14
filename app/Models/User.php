@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -34,6 +35,26 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
+
+    /**
+     * Invitations this player has sent.
+     *
+     * @return HasMany<Invitation, $this>
+     */
+    public function sentInvitations(): HasMany
+    {
+        return $this->hasMany(Invitation::class, 'inviter_id');
+    }
+
+    /**
+     * Invitations this player has received.
+     *
+     * @return HasMany<Invitation, $this>
+     */
+    public function receivedInvitations(): HasMany
+    {
+        return $this->hasMany(Invitation::class, 'invitee_id');
+    }
 
     /**
      * Get the attributes that should be cast.
