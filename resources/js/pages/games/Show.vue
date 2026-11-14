@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBattleScenes } from '@/composables/useBattleScenes';
 import { useBoardView } from '@/composables/useBoardView';
+import { useGraphicsQuality } from '@/composables/useGraphicsQuality';
 import { useSoundEffects } from '@/composables/useSoundEffects';
 import { useIsLive, usePresence } from '@/composables/useRealtime';
 import type { Fighter } from '@/lib/battle/playBattle';
@@ -116,6 +117,7 @@ function player(color: PieceColor): Player {
 
 const { preferred: boardView, view, supports3d } = useBoardView();
 const failed3d = ref(false);
+const graphics = useGraphicsQuality();
 
 // The server renders the 2D board; the browser switches to 3D once mounted.
 const mounted = ref(false);
@@ -389,6 +391,8 @@ watch(
             <div class="relative">
                 <Board3D
                     v-if="show3d"
+                    :key="graphics"
+                    :quality="graphics"
                     :fen="game.fen"
                     :orientation="orientation"
                     :last-move="game.last_move"
@@ -484,6 +488,22 @@ watch(
                             data-test="board-3d-toggle"
                         />
                         3D board
+                    </label>
+                    <label
+                        v-if="show3d"
+                        class="mt-2 flex items-center gap-2 text-sm text-muted-foreground"
+                    >
+                        Graphics
+                        <select
+                            v-model="graphics"
+                            class="rounded border border-input bg-background px-1 py-0.5 text-sm text-foreground"
+                            data-test="graphics-quality"
+                        >
+                            <option value="auto">Auto</option>
+                            <option value="low">Low</option>
+                            <option value="high">High</option>
+                            <option value="ultra">Ultra (4K)</option>
+                        </select>
                     </label>
                     <label
                         class="mt-2 flex cursor-pointer items-center gap-2 text-sm text-muted-foreground"

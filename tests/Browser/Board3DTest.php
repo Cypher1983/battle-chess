@@ -74,3 +74,17 @@ it('fits the board inside the window height', function () {
 
     expect($bottom)->toBeLessThanOrEqual(560);
 });
+
+it('rebuilds the 3D board at the chosen graphics quality', function () {
+    $game = Game::factory()->create();
+    $this->actingAs($game->white);
+
+    visit("/games/{$game->id}")
+        ->assertSee('Reset view')
+        ->select('@graphics-quality', 'ultra')
+        ->assertSee('Reset view')
+        ->refresh()
+        ->assertSelected('@graphics-quality', 'ultra')
+        ->assertSee('Reset view')
+        ->assertNoJavaScriptErrors();
+});
