@@ -4,6 +4,7 @@ import { Group, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import type { Object3D } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import type { PieceColor, PieceType } from '@/lib/armies';
+import { playBattle } from '@/lib/board3d/battle';
 import { createBoard } from '@/lib/board3d/board';
 import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
 import { createHighlights } from '@/lib/board3d/highlights';
@@ -58,6 +59,7 @@ export class BoardView {
     protected readonly removeListeners: () => void;
     protected readonly tweens = new Tweens();
     protected readonly controls: OrbitControls;
+    protected battling = false;
 
     constructor(host: HTMLElement, options: BoardViewOptions) {
         this.options = options;
@@ -85,7 +87,11 @@ export class BoardView {
         this.removeListeners = this.listen(this.stage.renderer.domElement);
         this.stage.onFrame((_delta, now) => {
             this.tweens.tick(now);
-            this.controls.update();
+
+            // During a battle the battle moves the camera, not the controls.
+            if (this.controls.enabled) {
+                this.controls.update();
+            }
         });
     }
 
@@ -152,6 +158,79 @@ export class BoardView {
         }
 
         this.refreshHighlights();
+    }
+
+    /**
+     * Fight out the capture that leads to `fen`, then show that position.
+     * The attacker is the piece on `from`; the defender is the enemy piece
+     * that the new position no longer has (so en passant works too).
+     * Resolves when the battle ends or is skipped via `signal`.
+     */
+    async playBattle(
+        fen: string,
+        move: { from: Square; to: Square },
+        options: {
+            signal?: AbortSignal;
+            onProgress?: (elapsedMs: number) => void;
+        } = {},
+    ): Promise<void> {
+        this.tweens.finishAll();
+
+        const next = readPosition(fen);
+        const attacker = this.pieces.get(move.from);
+        let defenderSquare: Square | null = null;
+
+        for (const [square, placed] of this.pieces) {
+            const wanted = next.get(square);
+
+            if (
+                attacker &&
+                placed.color !== attacker.color &&
+                (!wanted || !sameOccupant(wanted, placed))
+            ) {
+                defenderSquare = square;
+            }
+        }
+
+        const defender = defenderSquare
+            ? this.pieces.get(defenderSquare)
+            : null;
+
+        if (!attacker || !defenderSquare || !defender) {
+            // The board isn't showing the position before this capture.
+            this.setPosition(fen);
+
+            return;
+        }
+
+        this.battling = true;
+        this.highlights.group.visible = false;
+
+        try {
+            await playBattle(
+                { stage: this.stage, controls: this.controls },
+                {
+                    attacker: {
+                        ...attacker,
+                        position: attacker.object.position.clone(),
+                    },
+                    defender: {
+                        ...defender,
+                        position: defender.object.position.clone(),
+                    },
+                    destination: squareToPosition(move.to),
+                    ...options,
+                },
+            );
+        } finally {
+            // The battle left the attacker on its new square, the defender gone.
+            this.pieces.delete(move.from);
+            this.pieces.delete(defenderSquare);
+            this.pieces.set(move.to, attacker);
+            this.battling = false;
+            this.highlights.group.visible = true;
+            this.setPosition(fen);
+        }
     }
 
     setHighlights(marks: Partial<Highlights>): void {
@@ -330,6 +409,7 @@ export class BoardView {
             this.pressedAt = null;
 
             if (
+                this.battling ||
                 !start ||
                 Math.hypot(event.clientX - start.x, event.clientY - start.y) > 6
             ) {
