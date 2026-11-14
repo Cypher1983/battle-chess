@@ -58,6 +58,7 @@ composer run dev
 ```
 
 This starts the Laravel server, queue worker and Vite dev server together.
+The queue worker sends challenge emails. With the default `MAIL_MAILER=log`\nthey are written to `storage/logs/laravel.log` instead of being delivered.
 Open the URL it prints (or your Herd/XAMPP site URL), register an account and
 log in with your email or username.
 
@@ -73,7 +74,7 @@ npm run types:check     # TypeScript type check
 ## Roadmap
 
 1. ✅ Foundation: authentication with usernames, navigation shell
-2. Players and invites: challenge by username or email
+2. ✅ Players and invites: challenge by username or email, accept, decline, cancel
 3. Core game: board, legal moves, server-side move validation
 4. Real-time play with Reverb
 5. Scoreboard with Elo ratings
