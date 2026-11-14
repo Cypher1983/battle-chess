@@ -58,3 +58,17 @@ it('plays a 3D battle on a capture that can be skipped', function () {
 
     expect($game->refresh()->moves->last()->san)->toBe('exd5');
 });
+
+it('fits the board inside the window height', function () {
+    $game = Game::factory()->create();
+    $this->actingAs($game->white);
+
+    $page = visit("/games/{$game->id}")->resize(1280, 560);
+    $page->assertSee('Reset view');
+
+    $bottom = $page->script(
+        "document.querySelector('[data-test=\"chess-board-3d\"]').getBoundingClientRect().bottom",
+    );
+
+    expect($bottom)->toBeLessThanOrEqual(560);
+});

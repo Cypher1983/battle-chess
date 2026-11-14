@@ -359,7 +359,10 @@ watch(
     <div
         class="mx-auto grid w-full max-w-6xl gap-6 p-4 lg:grid-cols-[minmax(0,1fr)_20rem]"
     >
-        <div class="mx-auto flex w-full max-w-[min(100%,36rem)] flex-col gap-3">
+        <!-- As wide as fits, and never taller than the window. -->
+        <div
+            class="mx-auto flex w-full max-w-[min(100%,calc(100dvh_-_10.5rem))] flex-col gap-3"
+        >
             <div class="flex items-center justify-between text-sm">
                 <span class="font-medium">
                     <span
