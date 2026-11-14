@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Cinder Imp</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <path d="M44 86 L46 72 M56 86 L54 72" stroke="#1f1b22" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="50" cy="64" rx="14" ry="13" fill="#1f1b22" stroke="#120c0c" stroke-width="3"/>
+  <path d="M44 62 L52 66 L47 70" fill="none" stroke="#ff5a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M62 66 Q74 64 76 52" fill="none" stroke="#1f1b22" stroke-width="3" stroke-linecap="round"/>
+  <path d="M73 50 L79 46 L78 54 Z" fill="#ff5a1a"/>
+  <circle cx="50" cy="42" r="12" fill="#1f1b22" stroke="#120c0c" stroke-width="3"/>
+  <path d="M41 34 L35 20 L45 31 M59 34 L65 20 L55 31" fill="#1f1b22" stroke="#120c0c" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="45" cy="42" r="2.8" fill="#ffd23a"/>
+  <circle cx="55" cy="42" r="2.8" fill="#ffd23a"/>
+  <path d="M45 49 h10" stroke="#ff5a1a" stroke-width="2" stroke-linecap="round"/>
+  <path d="M30 86 V30" stroke="#d9a441" stroke-width="3" stroke-linecap="round"/>
+  <path d="M24 34 V24 M30 30 V18 M36 34 V24 M24 32 H36" fill="none" stroke="#d9a441" stroke-width="3" stroke-linecap="round"/>
+  <path d="M37 58 L31 52" stroke="#1f1b22" stroke-width="5" stroke-linecap="round"/>
+</svg>

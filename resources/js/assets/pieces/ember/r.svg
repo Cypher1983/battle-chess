@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Obsidian Golem</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <path d="M36 86 L38 70 H46 L46 86 Z M54 86 L54 70 H62 L64 86 Z" fill="#1f1b22" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M28 70 L24 44 L34 30 H66 L76 44 L72 70 Z" fill="#1f1b22" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M42 40 L50 48 L46 56 M58 44 L54 52 L62 60 M36 58 L44 62" fill="none" stroke="#ff5a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M50 46 L56 52 L50 58 L44 52 Z" fill="#ffb02e" stroke="#ff5a1a" stroke-width="1.5"/>
+  <circle cx="22" cy="36" r="9" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <circle cx="78" cy="36" r="9" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <path d="M18 44 L14 62 M82 44 L86 62" stroke="#1f1b22" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="14" cy="66" r="7" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <circle cx="86" cy="66" r="7" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <rect x="42" y="16" width="16" height="14" rx="2" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <path d="M45 23 h10" stroke="#ff5a1a" stroke-width="3" stroke-linecap="round"/>
+</svg>

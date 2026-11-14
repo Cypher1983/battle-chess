@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The Cinder King</title>
+  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <path d="M26 86 L32 46 H68 L74 86 Z" fill="#5c1410" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 86 L38 50 H62 L66 86 Z" fill="#1f1b22" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="28" y="44" width="44" height="6" rx="2" fill="#d9a441" stroke="#120c0c" stroke-width="2"/>
+  <path d="M46 60 L50 66 L54 60 L50 56 Z M44 74 L48 78 M56 70 L52 76" fill="#ff5a1a" stroke="#ff5a1a" stroke-width="2"/>
+  <circle cx="50" cy="34" r="10" fill="#1f1b22" stroke="#120c0c" stroke-width="3"/>
+  <path d="M44 34 h12" stroke="#ffd23a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M39 26 L39 18 L44 22 L50 12 L56 22 L61 18 L61 26 Z" fill="#d9a441" stroke="#120c0c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M44 18 Q42 10 46 6 Q47 12 50 12 M56 18 Q58 10 54 6" fill="none" stroke="#ffb02e" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M80 86 V30" stroke="#d9a441" stroke-width="3" stroke-linecap="round"/>
+  <path d="M80 18 L86 26 L80 34 L74 26 Z" fill="#ff5a1a" stroke="#120c0c" stroke-width="2"/>
+  <path d="M68 52 L78 48" stroke="#1f1b22" stroke-width="5" stroke-linecap="round"/>
+</svg>

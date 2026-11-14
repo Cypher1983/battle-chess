@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Flame Priest</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <path d="M32 86 L40 44 H60 L68 86 Z" fill="#5c1410" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M50 50 V84" stroke="#d9a441" stroke-width="4"/>
+  <path d="M38 66 H62" stroke="#d9a441" stroke-width="3"/>
+  <path d="M36 44 Q50 6 64 44 Z" fill="#5c1410" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
+  <ellipse cx="50" cy="38" rx="8" ry="7" fill="#1f1b22"/>
+  <circle cx="47" cy="38" r="2" fill="#ffd23a"/>
+  <circle cx="53" cy="38" r="2" fill="#ffd23a"/>
+  <path d="M40 24 L34 14 M60 24 L66 14" stroke="#1f1b22" stroke-width="3" stroke-linecap="round"/>
+  <path d="M76 86 V34" stroke="#1f1b22" stroke-width="3" stroke-linecap="round"/>
+  <path d="M70 34 H82 L80 28 H72 Z" fill="#d9a441" stroke="#120c0c" stroke-width="2"/>
+  <path d="M76 28 Q68 18 75 8 Q78 16 82 14 Q86 22 76 28 Z" fill="#ffb02e" stroke="#ff5a1a" stroke-width="2"/>
+  <path d="M62 52 L74 46" stroke="#5c1410" stroke-width="5" stroke-linecap="round"/>
+</svg>

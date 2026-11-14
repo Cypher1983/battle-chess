@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Phoenix Empress</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
+  <path d="M40 46 Q22 40 8 22 Q22 30 30 30 Q20 22 18 12 Q32 26 42 38 Z" fill="#ff7a1a" stroke="#120c0c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M60 46 Q78 40 92 22 Q78 30 70 30 Q80 22 82 12 Q68 26 58 38 Z" fill="#ff7a1a" stroke="#120c0c" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M32 86 L42 46 H58 L68 86 Z" fill="#5c1410" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 86 L38 74 L42 86 L46 72 L50 86 L54 72 L58 86 L62 74 L66 86" fill="#ffb02e" stroke="#ff5a1a" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="50" cy="36" r="10" fill="#d9a441" stroke="#120c0c" stroke-width="3"/>
+  <circle cx="46" cy="36" r="2" fill="#5c1410"/>
+  <circle cx="54" cy="36" r="2" fill="#5c1410"/>
+  <path d="M48 41 L50 44 L52 41" fill="#5c1410"/>
+  <path d="M40 28 Q38 16 44 10 Q44 18 48 20 Q48 8 54 4 Q54 14 58 18 Q62 12 64 16 Q62 24 60 28 Z" fill="#ffb02e" stroke="#ff5a1a" stroke-width="2" stroke-linejoin="round"/>
+</svg>
