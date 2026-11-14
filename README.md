@@ -71,25 +71,41 @@ log in with your email or username.
 ## 3D board
 
 The game page shows a 3D board by default (scroll or pinch to
-zoom, **Reset view** to return). Captures play out as 3D battles on the board
-itself: charges, magic bolts and slams, depending on the attacker. The
+zoom, **Reset view** to return). The pieces are characters: tin soldiers, a
+clockwork war-horse and a grandfather-clock king for the Clockwork Legion;
+seedlings, a bramble wolf, a treant and a stag lord for the Wildwood Court.
+They walk to their squares and, at High quality and above, breathe and look
+around. Captures play out as 3D battles on the board itself: spear thrusts
+and charges, lightning bolts and thorn vines, and leaping slams, with slow
+motion, dust and sparks as the blow lands. The
 **3D board** checkbox switches to the flat 2D board with its PixiJS battle
 scenes. The choice is remembered per browser, and browsers without WebGL always
 get the 2D board. Keyboard players can tab to the board and use the arrow keys
 and Enter in either view.
 
+The **Graphics** setting picks the 3D quality (remembered per browser):
+
+- **Low:** no screen effects and no idle animation; chosen automatically on
+  small touch devices and computers without a graphics card.
+- **High** (the automatic choice otherwise): bloom on glowing eyes and magic,
+  soft shadows, depth of field in battles, idle animation.
+- **Ultra (4K):** adds ambient occlusion, sharper shadows and draws at up to
+  3× pixel density for 4K screens.
+
 The 3D code lives in `resources/js/lib/board3d`: `BoardView.ts` runs the board,
-`pieces/` builds the models, and `battle/` holds the battle timeline, attacks,
-effects and defeat animation.
+`pieces/` builds the characters, `post.ts` holds the screen effects, `idle.ts`
+the idle animation, and `battle/` the battle timeline, attacks, spells,
+gestures, effects and defeat animation.
 
 ## Artwork
 
 Piece art lives in `resources/js/assets/pieces` (`w/` Clockwork Legion,
 `b/` Wildwood Court). The included SVGs are original placeholders: replace any
 file to restyle a piece without code changes. See the README in that folder.
-The 3D pieces are built from simple shapes in code
+The 3D characters are built from simple shapes in code
 (`resources/js/lib/board3d/pieces`), so restyling those means editing the
-model builders.
+model builders. Their movable parts (head, arms, legs) are named with `RIG`
+in `parts.ts`, which battles and the idle animation rely on.
 
 ## Quality checks
 
