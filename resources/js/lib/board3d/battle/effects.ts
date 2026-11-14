@@ -1,6 +1,7 @@
 import {
     AdditiveBlending,
     BoxGeometry,
+    CanvasTexture,
     ConeGeometry,
     CylinderGeometry,
     Mesh,
@@ -8,6 +9,8 @@ import {
     MeshStandardMaterial,
     RingGeometry,
     SphereGeometry,
+    Sprite,
+    SpriteMaterial,
     Vector3,
 } from 'three';
 import type { BufferGeometry } from 'three';
@@ -174,6 +177,86 @@ export function impactBurst(battle: BattleScene): Beat {
             materials.forEach((material) => material.dispose());
             ring.geometry.dispose();
             ringMaterial.dispose();
+        },
+    };
+}
+
+/** A soft round puff, drawn once and shared by every dust sprite. */
+function puffTexture(): CanvasTexture {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d')!;
+    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+    gradient.addColorStop(0.5, 'rgba(255,255,255,0.45)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 64, 64);
+
+    return new CanvasTexture(canvas);
+}
+
+/** Dust billows out along the board where the blow lands. */
+export function dustCloud(battle: BattleScene): Beat {
+    const { defender, props } = battle;
+    const texture = puffTexture();
+    const puffs: {
+        sprite: Sprite;
+        material: SpriteMaterial;
+        drift: Vector3;
+    }[] = [];
+    let spawned = false;
+
+    return {
+        update(elapsed) {
+            const since = elapsed - IMPACT_AT;
+
+            if (since < 0) {
+                return;
+            }
+
+            if (!spawned) {
+                spawned = true;
+
+                for (let i = 0; i < 12; i++) {
+                    const angle = (i / 12) * Math.PI * 2 + Math.random() * 0.4;
+                    const material = new SpriteMaterial({
+                        map: texture,
+                        color: 0xb9a27c,
+                        transparent: true,
+                        depthWrite: false,
+                        opacity: 0,
+                    });
+                    const sprite = new Sprite(material);
+                    sprite.position.copy(defender.position).setY(0.12);
+                    props.add(sprite);
+                    puffs.push({
+                        sprite,
+                        material,
+                        drift: new Vector3(
+                            Math.cos(angle),
+                            0.25 + Math.random() * 0.2,
+                            Math.sin(angle),
+                        ),
+                    });
+                }
+            }
+
+            const t = clamp01(since / 900);
+
+            for (const { sprite, material, drift } of puffs) {
+                sprite.position
+                    .copy(defender.position)
+                    .setY(0.12)
+                    .addScaledVector(drift, easeOut(t) * 0.9);
+                sprite.scale.setScalar(0.35 + easeOut(t) * 0.8);
+                material.opacity = 0.75 * Math.min(t * 8, 1) * (1 - t);
+            }
+        },
+        finish() {
+            texture.dispose();
+            puffs.forEach(({ material }) => material.dispose());
         },
     };
 }

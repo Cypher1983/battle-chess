@@ -3,7 +3,7 @@ import type { Material, Object3D, PerspectiveCamera } from 'three';
 import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { attack } from '@/lib/board3d/battle/attacks';
 import { defeat } from '@/lib/board3d/battle/defeat';
-import { impactBurst } from '@/lib/board3d/battle/effects';
+import { dustCloud, impactBurst } from '@/lib/board3d/battle/effects';
 import {
     DURATION,
     faceOff,
@@ -280,6 +280,7 @@ function defaultBeats(battle: BattleScene): Beat[] {
         faceOff(battle),
         attack(battle),
         impactBurst(battle),
+        dustCloud(battle),
         defeat(battle),
         takeSquare(battle),
     ];
