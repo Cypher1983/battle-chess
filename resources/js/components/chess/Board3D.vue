@@ -7,9 +7,16 @@ import type { BoardView } from '@/lib/board3d/BoardView';
 type Props = {
     fen: string;
     orientation: PieceColor;
+    lastMove?: { from: string; to: string } | null;
+    selected?: string | null;
+    targets?: string[];
 };
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    lastMove: null,
+    selected: null,
+    targets: () => [],
+});
 
 const emit = defineEmits<{
     squareClick: [square: Square];
@@ -36,6 +43,7 @@ onMounted(async () => {
             onSquareClick: (square) => emit('squareClick', square),
         });
         view.setPosition(props.fen);
+        view.setHighlights(highlights());
         ready.value = true;
     } catch (error) {
         console.error('3D board failed', error);
@@ -53,6 +61,18 @@ watch(
     () => props.fen,
     (fen) => view?.setPosition(fen),
 );
+
+function highlights() {
+    return {
+        lastMove: props.lastMove
+            ? { from: props.lastMove.from, to: props.lastMove.to }
+            : null,
+        selected: props.selected,
+        targets: props.targets,
+    };
+}
+
+watch(highlights, (marks) => view?.setHighlights(marks));
 
 watch(
     () => props.orientation,

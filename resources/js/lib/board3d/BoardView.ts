@@ -5,6 +5,8 @@ import type { Object3D } from 'three';
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { createBoard } from '@/lib/board3d/board';
 import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
+import { createHighlights } from '@/lib/board3d/highlights';
+import type { HighlightState } from '@/lib/board3d/highlights';
 import { createPiece, disposePieceModels } from '@/lib/board3d/pieces';
 import { createStage, disposeObject } from '@/lib/board3d/stage';
 import type { Stage } from '@/lib/board3d/stage';
@@ -13,6 +15,12 @@ export type BoardViewOptions = {
     orientation: PieceColor;
     onSquareClick: (square: Square) => void;
 };
+
+/** The marks the caller controls; check is worked out from the position. */
+export type Highlights = Pick<
+    HighlightState,
+    'lastMove' | 'selected' | 'targets' | 'focused'
+>;
 
 type PlacedPiece = {
     color: PieceColor;
@@ -33,6 +41,14 @@ export class BoardView {
     protected pieces = new Map<Square, PlacedPiece>();
     protected readonly raycaster = new Raycaster();
     protected readonly surface = new Plane(new Vector3(0, 1, 0), 0);
+    protected readonly highlights = createHighlights();
+    protected marks: Highlights = {
+        lastMove: null,
+        selected: null,
+        targets: [],
+        focused: null,
+    };
+    protected checkedKing: Square | null = null;
     protected pressedAt: { x: number; y: number } | null = null;
     protected readonly removeListeners: () => void;
 
@@ -43,6 +59,7 @@ export class BoardView {
 
         this.board = createBoard(this.orientation);
         this.stage.scene.add(this.board);
+        this.stage.scene.add(this.highlights.group);
         this.stage.scene.add(this.piecesLayer);
 
         this.placeCamera();
@@ -52,6 +69,7 @@ export class BoardView {
     /** Show the position described by a FEN string. */
     setPosition(fen: string): void {
         const next = readPosition(fen);
+        this.checkedKing = findCheckedKing(fen);
 
         for (const [square, placed] of this.pieces) {
             const wanted = next.get(square);
@@ -70,6 +88,13 @@ export class BoardView {
                 this.addPiece(square, color, type);
             }
         }
+
+        this.refreshHighlights();
+    }
+
+    setHighlights(marks: Partial<Highlights>): void {
+        this.marks = { ...this.marks, ...marks };
+        this.refreshHighlights();
     }
 
     setOrientation(orientation: PieceColor): void {
@@ -148,6 +173,14 @@ export class BoardView {
             this.piecesLayer.remove(placed.object);
             this.pieces.delete(square);
         }
+    }
+
+    protected refreshHighlights(): void {
+        this.highlights.update({
+            ...this.marks,
+            occupied: new Set(this.pieces.keys()),
+            check: this.checkedKing,
+        });
     }
 
     /** The square of the piece that `object` is part of. */
@@ -241,4 +274,23 @@ function readPosition(
     }
 
     return position;
+}
+
+/** The square of the king to move, if it is in check. */
+function findCheckedKing(fen: string): Square | null {
+    const chess = new Chess(fen);
+
+    if (!chess.inCheck()) {
+        return null;
+    }
+
+    for (const row of chess.board()) {
+        for (const piece of row) {
+            if (piece?.type === 'k' && piece.color === chess.turn()) {
+                return piece.square;
+            }
+        }
+    }
+
+    return null;
 }
