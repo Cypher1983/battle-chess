@@ -79,12 +79,14 @@ it('rebuilds the 3D board at the chosen graphics quality', function () {
     $game = Game::factory()->create();
     $this->actingAs($game->white);
 
+    // Low, not ultra: the software renderer used in tests is far too slow
+    // for the high-end effects (and the idle animation that comes with them).
     visit("/games/{$game->id}")
         ->assertSee('Reset view')
-        ->select('@graphics-quality', 'ultra')
+        ->select('@graphics-quality', 'low')
         ->assertSee('Reset view')
         ->refresh()
-        ->assertSelected('@graphics-quality', 'ultra')
+        ->assertSelected('@graphics-quality', 'low')
         ->assertSee('Reset view')
         ->assertNoJavaScriptErrors();
 });
