@@ -6,6 +6,7 @@ import {
     PCFSoftShadowMap,
     PerspectiveCamera,
     PlaneGeometry,
+    PMREMGenerator,
     Scene,
     ShadowMaterial,
     SRGBColorSpace,
@@ -13,6 +14,7 @@ import {
     WebGLRenderer,
 } from 'three';
 import type { Object3D } from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 /** Called every frame with the time (ms) since the previous frame. */
 export type FrameCallback = (deltaMs: number, now: number) => void;
@@ -45,6 +47,14 @@ export function createStage(host: HTMLElement): Stage {
     host.appendChild(renderer.domElement);
 
     const scene = new Scene();
+
+    // A soft studio for metal and varnish to reflect.
+    const pmrem = new PMREMGenerator(renderer);
+    const room = new RoomEnvironment();
+    scene.environment = pmrem.fromScene(room, 0.04).texture;
+    scene.environmentIntensity = 0.45;
+    room.dispose();
+    pmrem.dispose();
     const camera = new PerspectiveCamera(38, 1, 0.1, 100);
 
     scene.add(new HemisphereLight(0xfff4e0, 0x3a2a1c, 1.4));
@@ -113,6 +123,7 @@ export function createStage(host: HTMLElement): Stage {
             observer.disconnect();
             callbacks.clear();
             disposeObject(scene);
+            scene.environment?.dispose();
             renderer.dispose();
             renderer.domElement.remove();
         },
