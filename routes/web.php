@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameActionController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GameMoveController;
 use App\Http\Controllers\InvitationController;
@@ -23,6 +24,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('games/{game}/moves', [GameMoveController::class, 'store'])
         ->middleware('throttle:60,1')
         ->name('games.moves.store');
+    Route::post('games/{game}/resign', [GameActionController::class, 'resign'])->name('games.resign');
+    Route::post('games/{game}/draw/offer', [GameActionController::class, 'offerDraw'])->name('games.draw.offer');
+    Route::post('games/{game}/draw/accept', [GameActionController::class, 'acceptDraw'])->name('games.draw.accept');
+    Route::post('games/{game}/draw/decline', [GameActionController::class, 'declineDraw'])->name('games.draw.decline');
 });
 
 require __DIR__.'/settings.php';

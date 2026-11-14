@@ -37,6 +37,9 @@ class GameController extends Controller
                     'san' => $move->san,
                 ]),
                 'last_move' => $lastMove ? ['from' => $lastMove->from, 'to' => $lastMove->to] : null,
+                'draw_offered_by' => $game->draw_offered_by_id === null
+                    ? null
+                    : ($game->draw_offered_by_id === $game->white_id ? 'w' : 'b'),
             ],
             'myColor' => $game->colorOf($request->user())?->value,
         ]);
