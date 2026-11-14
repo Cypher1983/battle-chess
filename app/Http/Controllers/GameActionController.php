@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Games\FinishGame;
 use App\Enums\GameEndReason;
 use App\Enums\GameResult;
-use App\Enums\GameStatus;
 use App\Enums\PieceColor;
 use App\Events\GameUpdated;
 use App\Models\Game;
@@ -18,6 +18,8 @@ use Inertia\Inertia;
 
 class GameActionController extends Controller
 {
+    public function __construct(private readonly FinishGame $finishGame) {}
+
     /**
      * Concede the game to the opponent.
      */
@@ -130,12 +132,6 @@ class GameActionController extends Controller
      */
     private function finish(Game $game, GameResult $result, GameEndReason $reason): void
     {
-        $game->update([
-            'status' => GameStatus::Finished,
-            'result' => $result,
-            'end_reason' => $reason,
-            'draw_offered_by_id' => null,
-            'finished_at' => now(),
-        ]);
+        ($this->finishGame)($game, $result, $reason);
     }
 }

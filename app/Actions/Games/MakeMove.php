@@ -3,7 +3,6 @@
 namespace App\Actions\Games;
 
 use App\Chess\ChessEngine;
-use App\Enums\GameStatus;
 use App\Events\GameUpdated;
 use App\Models\Game;
 use App\Models\Move;
@@ -13,6 +12,8 @@ use Illuminate\Validation\ValidationException;
 
 class MakeMove
 {
+    public function __construct(private readonly FinishGame $finishGame) {}
+
     /**
      * Validate and apply a move, ending the game if the rules say so.
      *
@@ -45,19 +46,17 @@ class MakeMove
                 'fen' => $played->fen,
             ]);
 
-            $outcome = $engine->outcome();
-
             $game->update([
                 'fen' => $played->fen,
                 'last_move_at' => now(),
                 'draw_offered_by_id' => null,
-                ...($outcome === null ? [] : [
-                    'status' => GameStatus::Finished,
-                    'result' => $outcome->result,
-                    'end_reason' => $outcome->reason,
-                    'finished_at' => now(),
-                ]),
             ]);
+
+            $outcome = $engine->outcome();
+
+            if ($outcome !== null) {
+                ($this->finishGame)($game, $outcome->result, $outcome->reason);
+            }
 
             GameUpdated::dispatch($game);
 
