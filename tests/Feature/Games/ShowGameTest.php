@@ -68,6 +68,25 @@ class ShowGameTest extends TestCase
             );
     }
 
+    public function test_finished_games_show_the_rating_each_player_reached()
+    {
+        $game = Game::factory()->create();
+
+        $this->actingAs($game->black)->post(route('games.resign', $game));
+
+        // Later results must not change what this game shows.
+        $game->white->forceFill(['rating' => 1500])->save();
+
+        $this->actingAs($game->white)
+            ->get(route('games.show', $game))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('game.white.rating', 1216)
+                ->where('game.white.rating_change', 16)
+                ->where('game.black.rating', 1184)
+                ->where('game.black.rating_change', -16)
+            );
+    }
+
     public function test_other_players_cannot_view_a_game()
     {
         $game = Game::factory()->create();
