@@ -28,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('throttle:60,1')
         ->name('games.moves.store');
     Route::post('games/{game}/resign', [GameActionController::class, 'resign'])->name('games.resign');
+    Route::post('games/{game}/claim-timeout', [GameActionController::class, 'claimTimeout'])->name('games.claim-timeout');
     Route::post('games/{game}/rematch', [RematchController::class, 'store'])
         ->middleware('throttle:10,1')
         ->name('games.rematch');

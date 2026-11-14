@@ -33,6 +33,22 @@ class GameActionController extends Controller
     }
 
     /**
+     * Claim the win because the opponent missed the move deadline.
+     */
+    public function claimTimeout(Request $request, Game $game): RedirectResponse
+    {
+        return $this->act($request, $game, function (Game $game, PieceColor $color, User $user) {
+            if (! $game->canClaimTimeout($user)) {
+                return null;
+            }
+
+            $this->finish($game, GameResult::winFor($color), GameEndReason::Timeout);
+
+            return 'Victory claimed: your opponent missed the move deadline.';
+        });
+    }
+
+    /**
      * Offer a draw, or accept one if the opponent already offered.
      */
     public function offerDraw(Request $request, Game $game): RedirectResponse

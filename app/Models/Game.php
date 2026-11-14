@@ -6,6 +6,7 @@ use App\Enums\GameEndReason;
 use App\Enums\GameResult;
 use App\Enums\GameStatus;
 use App\Enums\PieceColor;
+use Carbon\CarbonInterface;
 use Database\Factories\GameFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -54,6 +55,11 @@ class Game extends Model
      * The standard chess starting position.
      */
     public const START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+
+    /**
+     * How long the player to move has before the opponent may claim the win.
+     */
+    public const MOVE_DEADLINE_HOURS = 72;
 
     /**
      * Get the attributes that should be cast.
@@ -177,6 +183,31 @@ class Game extends Model
     public function turn(): PieceColor
     {
         return PieceColor::from(explode(' ', $this->fen)[1] ?? 'w');
+    }
+
+    /**
+     * When the player to move must have moved by: three days after the last
+     * move, or after the game started if nobody has moved yet.
+     */
+    public function moveDeadline(): CarbonInterface
+    {
+        // The app uses immutable dates (see AppServiceProvider), so no copy is needed.
+        return ($this->last_move_at ?? $this->created_at ?? now())
+            ->addHours(self::MOVE_DEADLINE_HOURS);
+    }
+
+    /**
+     * Whether the given user may claim the win because their opponent,
+     * who is to move, has missed the move deadline.
+     */
+    public function canClaimTimeout(User $user): bool
+    {
+        $color = $this->colorOf($user);
+
+        return $this->isActive()
+            && $color !== null
+            && $this->turn() !== $color
+            && $this->moveDeadline()->isPast();
     }
 
     /**
