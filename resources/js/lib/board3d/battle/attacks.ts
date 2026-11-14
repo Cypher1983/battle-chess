@@ -9,6 +9,8 @@ import {
 import type { PieceType } from '@/lib/armies';
 import { approach, IMPACT_AT, onImpact } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
+import { beam } from '@/lib/board3d/battle/beam';
+import { gust } from '@/lib/board3d/battle/gust';
 import { missile } from '@/lib/board3d/battle/missile';
 import { lightning, RELEASE_AT, vine } from '@/lib/board3d/battle/spells';
 import { afterimages } from '@/lib/board3d/battle/trails';
@@ -52,6 +54,10 @@ function cast(
             return vine(battle, from, to, spell);
         case 'missile':
             return missile(battle, from, to, spell);
+        case 'beam':
+            return beam(battle, from, to, spell);
+        case 'gust':
+            return gust(battle, from, to, spell);
     }
 }
 

@@ -26,6 +26,45 @@ import { clamp01, easeOut } from '@/lib/board3d/tweens';
 
 /** Cogs and sparks, or leaves and thorns. */
 function debrisShapes(kind: DebrisKind): BufferGeometry[] {
+    switch (kind) {
+        case 'shards':
+            return [
+                new OctahedronGeometry(0.04, 0),
+                new ConeGeometry(0.02, 0.1, 4),
+            ];
+        case 'droplets':
+            return [
+                new SphereGeometry(0.03, 8, 6),
+                new SphereGeometry(0.02, 6, 5),
+            ];
+        case 'feathers': {
+            const feather = new SphereGeometry(0.06, 6, 4);
+            feather.scale(0.35, 0.08, 1);
+
+            return [feather];
+        }
+        case 'sand':
+            return [
+                new BoxGeometry(0.025, 0.025, 0.025),
+                new BoxGeometry(0.04, 0.02, 0.03),
+            ];
+        case 'ash': {
+            const flake = new BoxGeometry(0.05, 0.004, 0.04);
+
+            return [flake, new SphereGeometry(0.02, 5, 4)];
+        }
+        case 'scrap':
+            return [
+                new BoxGeometry(0.06, 0.01, 0.04),
+                new CylinderGeometry(0.012, 0.012, 0.08, 6),
+            ];
+        case 'bones':
+            return [
+                new CylinderGeometry(0.012, 0.012, 0.09, 6),
+                new SphereGeometry(0.025, 6, 5),
+            ];
+    }
+
     if (kind === 'embers') {
         return [
             new OctahedronGeometry(0.035, 0),

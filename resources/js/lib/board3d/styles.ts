@@ -5,7 +5,17 @@ import { buildEmber } from '@/lib/board3d/pieces/ember';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
-export type DebrisKind = 'cogs' | 'leaves' | 'embers';
+export type DebrisKind =
+    | 'cogs'
+    | 'leaves'
+    | 'embers'
+    | 'shards'
+    | 'droplets'
+    | 'feathers'
+    | 'sand'
+    | 'ash'
+    | 'scrap'
+    | 'bones';
 
 /** A jagged, flickering bolt (lightning): a white-hot core in a glow. */
 export type BoltSpell = { kind: 'bolt'; core: number; glow: number };
@@ -31,8 +41,19 @@ export type MissileSpell = {
     glow?: boolean;
 };
 
+/** A straight beam of light (a sunbeam, a laser). */
+export type BeamSpell = { kind: 'beam'; core: number; glow: number };
+
+/** A spiralling gust (wind, a water spout). */
+export type GustSpell = { kind: 'gust'; colour: number };
+
 /** The spell bishops and queens cast instead of throwing an orb. */
-export type Spell = BoltSpell | TendrilSpell | MissileSpell;
+export type Spell =
+    | BoltSpell
+    | TendrilSpell
+    | MissileSpell
+    | BeamSpell
+    | GustSpell;
 
 /** How an army looks and fights in 3D. */
 export type ArmyStyle = {
