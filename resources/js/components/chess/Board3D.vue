@@ -19,18 +19,25 @@ type Props = {
     lastMove?: { from: string; to: string } | null;
     selected?: string | null;
     targets?: string[];
+    /** A capture to fight out when the position changes to `fen`. */
+    battle?: { ply: number; from: string; to: string } | null;
 };
 
 const props = withDefaults(defineProps<Props>(), {
     lastMove: null,
     selected: null,
     targets: () => [],
+    battle: null,
 });
 
 const emit = defineEmits<{
     squareClick: [square: Square];
     /** The 3D board could not start (e.g. WebGL failed); show 2D instead. */
     failed: [];
+    /** A battle's blow lands (e.g. to play the impact sound). */
+    battleImpact: [];
+    /** A battle is over (or was skipped). */
+    battleDone: [];
 }>();
 
 const host = ref<HTMLDivElement | null>(null);
@@ -44,7 +51,9 @@ const focused = ref<Square | null>(null);
 onMounted(async () => {
     try {
         // three.js is only downloaded when the 3D board is shown.
-        const { BoardView } = await import('@/lib/board3d/BoardView');
+        const { BoardView, BATTLE_IMPACT_AT } =
+            await import('@/lib/board3d/BoardView');
+        impactAt = BATTLE_IMPACT_AT;
 
         if (unmounted || !host.value) {
             return;
@@ -60,19 +69,90 @@ onMounted(async () => {
     } catch (error) {
         console.error('3D board failed', error);
         emit('failed');
+    } finally {
+        // A battle that arrived before the board was ready can't be shown.
+        if (props.battle && !view) {
+            emit('battleImpact');
+            emit('battleDone');
+        }
     }
 });
 
 onBeforeUnmount(() => {
     unmounted = true;
+    battleController?.abort();
     view?.dispose();
     view = null;
 });
 
+// --- Battles ---------------------------------------------------------------
+
+let impactAt = 0;
+let lastBattlePly = props.battle?.ply ?? 0;
+let battleController: AbortController | null = null;
+const battling = ref(false);
+
 watch(
     () => props.fen,
-    (fen) => view?.setPosition(fen),
+    (fen) => {
+        const battle = props.battle;
+
+        if (!view) {
+            return;
+        }
+
+        if (battle && battle.ply !== lastBattlePly) {
+            lastBattlePly = battle.ply;
+            fight(view, fen, battle);
+        } else {
+            view.setPosition(fen);
+        }
+    },
 );
+
+function fight(
+    board: BoardView,
+    fen: string,
+    battle: { from: string; to: string },
+): void {
+    const controller = new AbortController();
+    battleController = controller;
+    battling.value = true;
+    let impacted = false;
+
+    const impact = (): void => {
+        if (!impacted) {
+            impacted = true;
+            emit('battleImpact');
+        }
+    };
+
+    board
+        .playBattle(
+            fen,
+            { from: battle.from as Square, to: battle.to as Square },
+            {
+                signal: controller.signal,
+                onProgress: (elapsed) => elapsed >= impactAt && impact(),
+            },
+        )
+        .catch((error) => console.error('Battle scene failed', error))
+        .finally(() => {
+            // Skipped or failed battles still deliver the impact.
+            impact();
+
+            if (battleController === controller) {
+                battleController = null;
+                battling.value = false;
+            }
+
+            emit('battleDone');
+        });
+}
+
+function skipBattle(): void {
+    battleController?.abort();
+}
 
 function highlights() {
     return {
@@ -191,6 +271,22 @@ watch(
             >
                 {{ cell.label }}
             </button>
+        </div>
+        <div
+            v-if="battling"
+            class="absolute inset-0 z-20 cursor-pointer"
+            role="button"
+            tabindex="0"
+            aria-label="Capture battle. Click to skip."
+            data-test="battle-overlay-3d"
+            @click="skipBattle"
+            @keydown.enter.space.prevent="skipBattle"
+        >
+            <span
+                class="pointer-events-none absolute right-2 bottom-2 rounded bg-black/50 px-2 py-0.5 text-xs text-white"
+            >
+                Click to skip
+            </span>
         </div>
         <div
             v-if="!ready"

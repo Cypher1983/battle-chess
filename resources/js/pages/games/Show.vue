@@ -143,6 +143,8 @@ const moveError = computed(() => page.props.errors?.move as string | undefined);
 const battleScenes = useBattleScenes();
 const battle = ref<{
     ply: number;
+    from: string;
+    to: string;
     attacker: Fighter;
     defender: Fighter;
 } | null>(null);
@@ -164,6 +166,8 @@ watch(
             // The impact sound plays when the battle's blow lands.
             battle.value = {
                 ply: move.ply,
+                from: move.from,
+                to: move.to,
                 attacker: { color: move.color, type: move.piece },
                 defender: {
                     color: move.color === 'w' ? 'b' : 'w',
@@ -387,8 +391,11 @@ watch(
                     :last-move="game.last_move"
                     :selected="selected"
                     :targets="targets"
+                    :battle="battle"
                     @square-click="onSquareClick"
                     @failed="failed3d = true"
+                    @battle-impact="sound(playImpactSound)"
+                    @battle-done="battle = null"
                 />
                 <ChessBoard
                     v-else
@@ -407,7 +414,7 @@ watch(
                     @cancel="pendingPromotion = null"
                 />
                 <BattleOverlay
-                    v-if="battle"
+                    v-if="battle && !show3d"
                     :key="battle.ply"
                     :attacker="battle.attacker"
                     :defender="battle.defender"

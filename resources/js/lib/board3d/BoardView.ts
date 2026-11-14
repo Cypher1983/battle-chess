@@ -14,6 +14,8 @@ import { createStage, disposeObject } from '@/lib/board3d/stage';
 import type { Stage } from '@/lib/board3d/stage';
 import { easeIn, easeInOut, easeOut, Tweens } from '@/lib/board3d/tweens';
 
+export { IMPACT_AT as BATTLE_IMPACT_AT } from '@/lib/board3d/battle';
+
 export type BoardViewOptions = {
     orientation: PieceColor;
     onSquareClick: (square: Square) => void;
@@ -60,6 +62,10 @@ export class BoardView {
     protected readonly tweens = new Tweens();
     protected readonly controls: OrbitControls;
     protected battling = false;
+    /** Ends the running battle early. */
+    protected battleAbort: AbortController | null = null;
+    /** A position that arrived during a battle, shown when it ends. */
+    protected queuedFen: string | null = null;
 
     constructor(host: HTMLElement, options: BoardViewOptions) {
         this.options = options;
@@ -101,6 +107,14 @@ export class BoardView {
      * change shape when they arrive. The first position appears at once.
      */
     setPosition(fen: string): void {
+        if (this.battling) {
+            // A newer position ends the battle; it is shown when it does.
+            this.queuedFen = fen;
+            this.battleAbort?.abort();
+
+            return;
+        }
+
         this.tweens.finishAll();
 
         const next = readPosition(fen);
@@ -205,6 +219,10 @@ export class BoardView {
 
         this.battling = true;
         this.highlights.group.visible = false;
+        this.battleAbort = new AbortController();
+        const signal = options.signal
+            ? AbortSignal.any([options.signal, this.battleAbort.signal])
+            : this.battleAbort.signal;
 
         try {
             await playBattle(
@@ -225,7 +243,8 @@ export class BoardView {
                                 placed !== attacker && placed !== defender,
                         )
                         .map((placed) => placed.object),
-                    ...options,
+                    onProgress: options.onProgress,
+                    signal,
                 },
             );
         } finally {
@@ -234,8 +253,11 @@ export class BoardView {
             this.pieces.delete(defenderSquare);
             this.pieces.set(move.to, attacker);
             this.battling = false;
+            this.battleAbort = null;
             this.highlights.group.visible = true;
-            this.setPosition(fen);
+            const latest = this.queuedFen ?? fen;
+            this.queuedFen = null;
+            this.setPosition(latest);
         }
     }
 
@@ -293,6 +315,7 @@ export class BoardView {
     }
 
     dispose(): void {
+        this.battleAbort?.abort();
         this.removeListeners();
         this.controls.dispose();
         this.tweens.finishAll();
