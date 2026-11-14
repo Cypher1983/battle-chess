@@ -11,6 +11,7 @@ import type {
     BattleScene,
     Beat,
 } from '@/lib/board3d/battle/core';
+import type { Stage } from '@/lib/board3d/stage';
 import { clamp01, easeInOut, lerp } from '@/lib/board3d/tweens';
 
 export { DURATION, IMPACT_AT } from '@/lib/board3d/battle/core';
@@ -67,6 +68,7 @@ export function playBattle(
         attacker.position,
         defender.position,
         options.bystanders ?? [],
+        stage.focusOn,
     );
     const steps = [...camera, ...beats(battle)];
 
@@ -139,6 +141,7 @@ function cameraMove(
     from: Vector3,
     to: Vector3,
     bystanders: Object3D[],
+    focusOn: Stage['focusOn'],
 ): Beat[] {
     const homePosition = camera.position.clone();
     const homeTarget = controls.target.clone();
@@ -195,6 +198,7 @@ function cameraMove(
                     blend(homePosition, fightPosition, t),
                     blend(homeTarget, fightTarget, t),
                 );
+                focusOn(fightTarget, clamp01(t));
             } else if (elapsed < DURATION - 650) {
                 // A slow push in keeps the shot alive.
                 const t = (elapsed - 550) / (DURATION - 1200);
@@ -202,6 +206,7 @@ function cameraMove(
                     fightPosition.clone().lerp(fightTarget, lerp(0, 0.12, t)),
                     fightTarget,
                 );
+                focusOn(fightTarget, 1);
             } else {
                 const t = (elapsed - (DURATION - 650)) / 650;
                 const pushed = fightPosition.clone().lerp(fightTarget, 0.12);
@@ -209,10 +214,12 @@ function cameraMove(
                     blend(pushed, homePosition, t),
                     blend(fightTarget, homeTarget, t),
                 );
+                focusOn(fightTarget, 1 - clamp01(t));
             }
         },
         finish() {
             place(homePosition, homeTarget);
+            focusOn(null);
         },
     };
 

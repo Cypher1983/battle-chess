@@ -1,5 +1,6 @@
 import { HalfFloatType, Vector2, WebGLRenderTarget } from 'three';
-import type { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import type { PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
@@ -9,6 +10,11 @@ import type { QualitySettings } from '@/lib/board3d/quality';
 
 export type PostProcessing = {
     render: () => void;
+    /**
+     * Keep `point` sharp and blur what is nearer or further, by `amount`
+     * (0 = off, 1 = full); null turns the blur off.
+     */
+    focusOn: (point: Vector3 | null, amount?: number) => void;
     setSize: (width: number, height: number) => void;
     dispose: () => void;
 };
@@ -50,10 +56,49 @@ export function createPostProcessing(
         composer.addPass(new UnrealBloomPass(size.clone(), 0.75, 0.4, 3.2));
     }
 
+    const depthOfField = quality.depthOfField
+        ? new BokehPass(scene, camera, {
+              focus: 10,
+              aperture: 0,
+              maxblur: 0.008,
+          })
+        : null;
+
+    if (depthOfField) {
+        // Keep the canvas see-through: the stock shader makes every pixel
+        // opaque, which turns the page behind the board black.
+        const shader = depthOfField.materialBokeh;
+        shader.fragmentShader = shader.fragmentShader.replace(
+            'gl_FragColor.a = 1.0;',
+            '',
+        );
+        shader.needsUpdate = true;
+        depthOfField.enabled = false;
+        composer.addPass(depthOfField);
+    }
+
     composer.addPass(new OutputPass());
 
+    let focus: Vector3 | null = null;
+
     return {
-        render: () => composer.render(),
+        render() {
+            if (depthOfField && focus) {
+                depthOfField.materialBokeh.uniforms.focus.value =
+                    camera.position.distanceTo(focus);
+            }
+
+            composer.render();
+        },
+        focusOn(point, amount = 1) {
+            focus = point;
+
+            if (depthOfField) {
+                depthOfField.enabled = point !== null && amount > 0;
+                depthOfField.materialBokeh.uniforms.aperture.value =
+                    0.006 * amount;
+            }
+        },
         setSize(width, height) {
             composer.setPixelRatio(
                 Math.min(window.devicePixelRatio, quality.maxPixelRatio),

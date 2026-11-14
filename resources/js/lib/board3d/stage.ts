@@ -14,7 +14,7 @@ import {
     Texture,
     WebGLRenderer,
 } from 'three';
-import type { Object3D } from 'three';
+import type { Object3D, Vector3 } from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { createPostProcessing } from '@/lib/board3d/post';
 import type { PostProcessing } from '@/lib/board3d/post';
@@ -41,6 +41,8 @@ export type Stage = {
     effectLight: PointLight;
     /** Run a callback every frame. Returns a function that removes it. */
     onFrame: (callback: FrameCallback) => () => void;
+    /** Blur all but `point` (when the quality allows); null to stop. */
+    focusOn: (point: Vector3 | null, amount?: number) => void;
     /** Draw the next frame, e.g. after changing the scene. */
     invalidate: () => void;
     dispose: () => void;
@@ -175,6 +177,9 @@ export function createStage(
         },
         invalidate() {
             dirty = true;
+        },
+        focusOn(point, amount) {
+            post?.focusOn(point, amount);
         },
         dispose() {
             renderer.setAnimationLoop(null);
