@@ -93,6 +93,7 @@ export function playBattle(
 
             stage.scene.remove(props);
             controls.enabled = wasEnabled;
+            stage.invalidate();
             resolve();
         };
 
@@ -113,6 +114,8 @@ export function playBattle(
             if (elapsed >= DURATION) {
                 finish();
             }
+
+            return true;
         });
 
         if (options.signal?.aborted) {

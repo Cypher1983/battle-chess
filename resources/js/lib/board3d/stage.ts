@@ -16,8 +16,11 @@ import {
 import type { Object3D } from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-/** Called every frame with the time (ms) since the previous frame. */
-export type FrameCallback = (deltaMs: number, now: number) => void;
+/**
+ * Called every frame with the time (ms) since the previous frame. Return
+ * true when something changed, so the frame is drawn.
+ */
+export type FrameCallback = (deltaMs: number, now: number) => boolean | void;
 
 export type Stage = {
     renderer: WebGLRenderer;
@@ -25,6 +28,8 @@ export type Stage = {
     camera: PerspectiveCamera;
     /** Run a callback every frame. Returns a function that removes it. */
     onFrame: (callback: FrameCallback) => () => void;
+    /** Draw the next frame, e.g. after changing the scene. */
+    invalidate: () => void;
     dispose: () => void;
 };
 
@@ -93,7 +98,12 @@ export function createStage(host: HTMLElement): Stage {
         renderer.setSize(width, height, false);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
+        dirty = true;
     }
+
+    // Only draw frames in which something changed: a turn-based board can
+    // sit open for hours without moving.
+    let dirty = true;
 
     const observer = new ResizeObserver(resize);
     observer.observe(host);
@@ -105,8 +115,18 @@ export function createStage(host: HTMLElement): Stage {
     renderer.setAnimationLoop((now: number) => {
         const delta = Math.min(now - previous, 100);
         previous = now;
-        callbacks.forEach((callback) => callback(delta, now));
-        renderer.render(scene, camera);
+        let changed = dirty;
+        dirty = false;
+
+        callbacks.forEach((callback) => {
+            if (callback(delta, now)) {
+                changed = true;
+            }
+        });
+
+        if (changed) {
+            renderer.render(scene, camera);
+        }
     });
 
     return {
@@ -117,6 +137,9 @@ export function createStage(host: HTMLElement): Stage {
             callbacks.add(callback);
 
             return () => callbacks.delete(callback);
+        },
+        invalidate() {
+            dirty = true;
         },
         dispose() {
             renderer.setAnimationLoop(null);

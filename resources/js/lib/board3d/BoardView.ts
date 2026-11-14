@@ -92,12 +92,13 @@ export class BoardView {
         this.placeCamera();
         this.removeListeners = this.listen(this.stage.renderer.domElement);
         this.stage.onFrame((_delta, now) => {
+            const animating = this.tweens.busy;
             this.tweens.tick(now);
 
             // During a battle the battle moves the camera, not the controls.
-            if (this.controls.enabled) {
-                this.controls.update();
-            }
+            const turned = this.controls.enabled && this.controls.update();
+
+            return animating || turned;
         });
     }
 
@@ -400,6 +401,7 @@ export class BoardView {
     }
 
     protected refreshHighlights(): void {
+        this.stage.invalidate();
         this.highlights.update({
             ...this.marks,
             occupied: new Set(this.pieces.keys()),
@@ -499,6 +501,7 @@ export class BoardView {
     }
 
     protected placeCamera(): void {
+        this.stage.invalidate();
         const { position, target } = this.homeView();
         this.stage.camera.position.copy(position);
         this.controls.target.copy(target);
