@@ -6,9 +6,13 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
 import { configureEcho } from '@laravel/echo-vue';
 
-configureEcho({
-    broadcaster: 'reverb',
-});
+// Real-time updates are optional: without Reverb keys the app still works
+// and game pages fall back to polling.
+if (import.meta.env.VITE_REVERB_APP_KEY) {
+    configureEcho({
+        broadcaster: 'reverb',
+    });
+}
 
 const appName = import.meta.env.VITE_APP_NAME || 'Battle Chess';
 
