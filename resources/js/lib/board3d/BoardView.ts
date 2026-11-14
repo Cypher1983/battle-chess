@@ -10,6 +10,7 @@ import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
 import { createHighlights } from '@/lib/board3d/highlights';
 import type { HighlightState } from '@/lib/board3d/highlights';
 import { createPiece, disposePieceModels } from '@/lib/board3d/pieces';
+import { RIG } from '@/lib/board3d/pieces/parts';
 import type { QualityChoice } from '@/lib/board3d/quality';
 import { createStage, disposeObject } from '@/lib/board3d/stage';
 import type { Stage } from '@/lib/board3d/stage';
@@ -342,6 +343,11 @@ export class BoardView {
     }
 
     /** Move a piece along a low arc (knights hop higher). */
+    /**
+     * Walk a piece to its new square: it turns to face the way it goes,
+     * strides with its legs and swings its arms, then turns back. Knights
+     * leap instead.
+     */
     protected slide(
         placed: PlacedPiece,
         from: Square,
@@ -352,17 +358,41 @@ export class BoardView {
         const start = squareToPosition(from);
         const end = squareToPosition(to);
         const distance = start.distanceTo(end);
-        const height = placed.type === 'n' ? 0.9 : 0.15 + distance * 0.05;
         const object = placed.object;
+        const leaps = placed.type === 'n';
+        const steps = Math.max(2, Math.round(distance * 2));
+
+        const facing = object.rotation.y;
+        const travel = Math.atan2(end.x - start.x, end.z - start.z);
+        const turn = Math.atan2(
+            Math.sin(travel - facing),
+            Math.cos(travel - facing),
+        );
+        const limbs = walkingLimbs(object);
 
         this.tweens.add(
-            animate ? 260 + distance * 45 : 0,
+            animate ? 320 + distance * 140 : 0,
             (t) => {
                 const eased = easeInOut(t);
+                // Turned towards the destination for most of the walk.
+                const facingAway =
+                    Math.min(t / 0.2, 1) * Math.min((1 - t) / 0.2, 1);
                 object.position.lerpVectors(start, end, eased);
-                object.position.y = Math.sin(Math.PI * eased) * height;
+                object.position.y = leaps
+                    ? Math.sin(Math.PI * eased) * 0.9
+                    : Math.abs(Math.sin(eased * steps * Math.PI)) * 0.04;
+                object.rotation.y = facing + turn * facingAway;
+
+                const stride =
+                    Math.sin(eased * steps * Math.PI) * 0.7 * facingAway;
+                limbs.forEach(({ node, rest, sway }) => {
+                    node.rotation.x = rest + stride * sway;
+                });
             },
             () => {
+                object.rotation.y = facing;
+                limbs.forEach(({ node, rest }) => (node.rotation.x = rest));
+
                 if (becomes.type !== placed.type) {
                     this.piecesLayer.remove(object);
                     const promoted = this.addPiece(
@@ -577,4 +607,34 @@ function prefersReducedMotion(): boolean {
     return (
         window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
     );
+}
+
+/**
+ * The limbs that swing when a character walks, and which way: legs
+ * alternate, arms swing against the legs.
+ */
+function walkingLimbs(
+    piece: Object3D,
+): { node: Object3D; rest: number; sway: number }[] {
+    const sways: [string, number][] = [
+        [RIG.legLeft, 1],
+        [RIG.legRight, -1],
+        [RIG.legFrontLeft, 1],
+        [RIG.legBackRight, 1],
+        [RIG.legFrontRight, -1],
+        [RIG.legBackLeft, -1],
+        [RIG.armLeft, -0.6],
+        [RIG.armRight, 0.6],
+    ];
+    const limbs: { node: Object3D; rest: number; sway: number }[] = [];
+
+    for (const [name, sway] of sways) {
+        const node = piece.getObjectByName(name);
+
+        if (node) {
+            limbs.push({ node, rest: node.rotation.x, sway });
+        }
+    }
+
+    return limbs;
 }
