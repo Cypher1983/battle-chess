@@ -1,0 +1,34 @@
+import type { Group } from 'three';
+import type { PieceColor, PieceType } from '@/lib/armies';
+import { buildClockwork } from '@/lib/board3d/pieces/clockwork';
+import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
+import { disposeObject } from '@/lib/board3d/stage';
+
+const templates = new Map<string, Group>();
+
+/**
+ * A 3D piece, facing the opponent's side of the board. Each model is built
+ * once and then cloned, so all copies share geometry and materials.
+ */
+export function createPiece(color: PieceColor, type: PieceType): Group {
+    const key = `${color}${type}`;
+    let template = templates.get(key);
+
+    if (!template) {
+        template = color === 'w' ? buildClockwork(type) : buildWildwood(type);
+        templates.set(key, template);
+    }
+
+    const piece = template.clone();
+    // Models face +z; white stands on the +z side and faces −z.
+    piece.rotation.y = color === 'w' ? Math.PI : 0;
+    piece.userData = { color, type };
+
+    return piece;
+}
+
+/** Free the shared models, e.g. when the 3D board is closed. */
+export function disposePieceModels(): void {
+    templates.forEach((template) => disposeObject(template));
+    templates.clear();
+}
