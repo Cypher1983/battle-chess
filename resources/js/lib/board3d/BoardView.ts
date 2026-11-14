@@ -10,6 +10,7 @@ import type { HighlightState } from '@/lib/board3d/highlights';
 import { createPiece, disposePieceModels } from '@/lib/board3d/pieces';
 import { createStage, disposeObject } from '@/lib/board3d/stage';
 import type { Stage } from '@/lib/board3d/stage';
+import { easeIn, easeInOut, easeOut, Tweens } from '@/lib/board3d/tweens';
 
 export type BoardViewOptions = {
     orientation: PieceColor;
@@ -22,9 +23,12 @@ export type Highlights = Pick<
     'lastMove' | 'selected' | 'targets' | 'focused'
 >;
 
-type PlacedPiece = {
+type Occupant = {
     color: PieceColor;
     type: PieceType;
+};
+
+type PlacedPiece = Occupant & {
     object: Group;
 };
 
@@ -51,6 +55,7 @@ export class BoardView {
     protected checkedKing: Square | null = null;
     protected pressedAt: { x: number; y: number } | null = null;
     protected readonly removeListeners: () => void;
+    protected readonly tweens = new Tweens();
 
     constructor(host: HTMLElement, options: BoardViewOptions) {
         this.options = options;
@@ -64,29 +69,69 @@ export class BoardView {
 
         this.placeCamera();
         this.removeListeners = this.listen(this.stage.renderer.domElement);
+        this.stage.onFrame((_delta, now) => this.tweens.tick(now));
     }
 
-    /** Show the position described by a FEN string. */
+    /**
+     * Show the position described by a FEN string. Pieces that moved slide
+     * to their new squares, captured pieces sink away and promoted pawns
+     * change shape when they arrive. The first position appears at once.
+     */
     setPosition(fen: string): void {
+        this.tweens.finishAll();
+
         const next = readPosition(fen);
+        const animate = this.pieces.size > 0 && !prefersReducedMotion();
         this.checkedKing = findCheckedKing(fen);
+
+        const vacated = new Map<Square, PlacedPiece>();
+        const arrived = new Map<Square, Occupant>();
 
         for (const [square, placed] of this.pieces) {
             const wanted = next.get(square);
 
-            if (
-                !wanted ||
-                wanted.color !== placed.color ||
-                wanted.type !== placed.type
-            ) {
-                this.removePiece(square);
+            if (!wanted || !sameOccupant(wanted, placed)) {
+                vacated.set(square, placed);
+                this.pieces.delete(square);
             }
         }
 
-        for (const [square, { color, type }] of next) {
+        for (const [square, occupant] of next) {
             if (!this.pieces.has(square)) {
-                this.addPiece(square, color, type);
+                arrived.set(square, occupant);
             }
+        }
+
+        for (const [square, occupant] of arrived) {
+            // The piece that went there: same kind first, else a promoting pawn.
+            const from =
+                closest(square, vacated, (placed) =>
+                    sameOccupant(placed, occupant),
+                ) ??
+                closest(
+                    square,
+                    vacated,
+                    (placed) =>
+                        placed.color === occupant.color && placed.type === 'p',
+                );
+
+            if (from) {
+                const placed = vacated.get(from)!;
+                vacated.delete(from);
+                this.pieces.set(square, placed);
+                this.slide(placed, from, square, occupant, animate);
+            } else {
+                const placed = this.addPiece(
+                    square,
+                    occupant.color,
+                    occupant.type,
+                );
+                this.growIn(placed.object, animate);
+            }
+        }
+
+        for (const placed of vacated.values()) {
+            this.sinkAway(placed.object, animate);
         }
 
         this.refreshHighlights();
@@ -147,6 +192,7 @@ export class BoardView {
 
     dispose(): void {
         this.removeListeners();
+        this.tweens.finishAll();
         this.stage.dispose();
         disposePieceModels();
     }
@@ -166,13 +212,65 @@ export class BoardView {
         return placed;
     }
 
-    protected removePiece(square: Square): void {
-        const placed = this.pieces.get(square);
+    /** Move a piece along a low arc (knights hop higher). */
+    protected slide(
+        placed: PlacedPiece,
+        from: Square,
+        to: Square,
+        becomes: Occupant,
+        animate: boolean,
+    ): void {
+        const start = squareToPosition(from);
+        const end = squareToPosition(to);
+        const distance = start.distanceTo(end);
+        const height = placed.type === 'n' ? 0.9 : 0.15 + distance * 0.05;
+        const object = placed.object;
 
-        if (placed) {
-            this.piecesLayer.remove(placed.object);
-            this.pieces.delete(square);
+        this.tweens.add(
+            animate ? 260 + distance * 45 : 0,
+            (t) => {
+                const eased = easeInOut(t);
+                object.position.lerpVectors(start, end, eased);
+                object.position.y = Math.sin(Math.PI * eased) * height;
+            },
+            () => {
+                if (becomes.type !== placed.type) {
+                    this.piecesLayer.remove(object);
+                    const promoted = this.addPiece(
+                        to,
+                        becomes.color,
+                        becomes.type,
+                    );
+                    this.growIn(promoted.object, animate);
+                }
+            },
+        );
+    }
+
+    /** A captured piece shrinks into the board, just as the attacker lands. */
+    protected sinkAway(object: Group, animate: boolean): void {
+        this.tweens.add(
+            animate ? 300 : 0,
+            (t) => {
+                const eased = easeIn(t);
+                object.scale.setScalar(1 - eased);
+                object.position.y = -0.3 * eased;
+                object.rotation.z = 0.6 * eased;
+            },
+            () => this.piecesLayer.remove(object),
+            animate ? 220 : 0,
+        );
+    }
+
+    protected growIn(object: Group, animate: boolean): void {
+        if (!animate) {
+            return;
         }
+
+        object.scale.setScalar(0.001);
+        this.tweens.add(260, (t) =>
+            object.scale.setScalar(Math.max(easeOut(t), 0.001)),
+        );
     }
 
     protected refreshHighlights(): void {
@@ -257,10 +355,8 @@ export class BoardView {
     }
 }
 
-function readPosition(
-    fen: string,
-): Map<Square, { color: PieceColor; type: PieceType }> {
-    const position = new Map<Square, { color: PieceColor; type: PieceType }>();
+function readPosition(fen: string): Map<Square, Occupant> {
+    const position = new Map<Square, Occupant>();
 
     for (const row of new Chess(fen).board()) {
         for (const piece of row) {
@@ -293,4 +389,36 @@ function findCheckedKing(fen: string): Square | null {
     }
 
     return null;
+}
+
+function sameOccupant(a: Occupant, b: Occupant): boolean {
+    return a.color === b.color && a.type === b.type;
+}
+
+/** The nearest square in `candidates` to `square` whose piece matches. */
+function closest(
+    square: Square,
+    candidates: Map<Square, PlacedPiece>,
+    matches: (placed: PlacedPiece) => boolean,
+): Square | null {
+    const target = squareToPosition(square);
+    let best: Square | null = null;
+    let bestDistance = Infinity;
+
+    for (const [candidate, placed] of candidates) {
+        const distance = squareToPosition(candidate).distanceTo(target);
+
+        if (matches(placed) && distance < bestDistance) {
+            best = candidate;
+            bestDistance = distance;
+        }
+    }
+
+    return best;
+}
+
+function prefersReducedMotion(): boolean {
+    return (
+        window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true
+    );
 }
