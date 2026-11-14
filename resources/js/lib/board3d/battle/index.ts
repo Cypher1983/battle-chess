@@ -2,13 +2,9 @@ import { Group, Mesh, Vector3 } from 'three';
 import type { Material, Object3D, PerspectiveCamera } from 'three';
 import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { attack } from '@/lib/board3d/battle/attacks';
+import { defeat } from '@/lib/board3d/battle/defeat';
 import { impactBurst } from '@/lib/board3d/battle/effects';
-import {
-    DURATION,
-    faceOff,
-    IMPACT_AT,
-    takeSquare,
-} from '@/lib/board3d/battle/core';
+import { DURATION, faceOff, takeSquare } from '@/lib/board3d/battle/core';
 import type {
     BattleContext,
     BattleOptions,
@@ -267,18 +263,9 @@ function defaultBeats(battle: BattleScene): Beat[] {
         faceOff(battle),
         attack(battle),
         impactBurst(battle),
+        defeat(battle),
         takeSquare(battle),
-        vanish(battle),
     ];
-}
-
-/** Until the defeat animation exists: the defender disappears on impact. */
-function vanish(battle: BattleScene): Beat {
-    return {
-        update(elapsed) {
-            battle.defender.object.visible = elapsed < IMPACT_AT;
-        },
-    };
 }
 
 /** Whether `point` is within `radius` of the line from `start` to `end`. */
