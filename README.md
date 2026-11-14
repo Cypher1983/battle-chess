@@ -76,7 +76,7 @@ npm run types:check     # TypeScript type check
 
 1. ✅ Foundation: authentication with usernames, navigation shell
 2. ✅ Players and invites: challenge by username or email, accept, decline, cancel
-3. Core game: board, legal moves, server-side move validation
+3. ✅ Core game: board, legal moves, server-side move validation, resign and draws
 4. Real-time play with Reverb
 5. Scoreboard with Elo ratings
 6. Battle animations for Clockwork Legion vs. Wildwood Court
