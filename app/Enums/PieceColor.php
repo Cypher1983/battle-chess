@@ -14,12 +14,4 @@ enum PieceColor: string
     {
         return $this === self::White ? self::Black : self::White;
     }
-
-    /**
-     * The army that plays this colour.
-     */
-    public function army(): string
-    {
-        return $this === self::White ? 'Clockwork Legion' : 'Wildwood Court';
-    }
 }

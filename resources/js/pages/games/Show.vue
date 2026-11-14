@@ -561,7 +561,8 @@ watch(
                         v-if="movePairs.length === 0"
                         class="text-sm text-muted-foreground"
                     >
-                        No moves yet. The Clockwork Legion moves first.
+                        No moves yet. The {{ armies[game.armies.w].name }} moves
+                        first, with the white pieces.
                     </p>
                     <div
                         v-else

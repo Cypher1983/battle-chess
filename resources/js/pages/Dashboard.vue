@@ -45,7 +45,7 @@ const games = computed(
                 Welcome back, {{ page.props.auth.user.name }}
             </h1>
             <p class="text-sm text-muted-foreground">
-                The Clockwork Legion and the Wildwood Court await your orders.
+                Your army awaits your orders.
             </p>
         </div>
 

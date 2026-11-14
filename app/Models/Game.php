@@ -93,7 +93,7 @@ class Game extends Model
     }
 
     /**
-     * The player commanding the Clockwork Legion.
+     * The player with the white pieces.
      *
      * @return BelongsTo<User, $this>
      */
@@ -103,7 +103,7 @@ class Game extends Model
     }
 
     /**
-     * The player commanding the Wildwood Court.
+     * The player with the black pieces.
      *
      * @return BelongsTo<User, $this>
      */
