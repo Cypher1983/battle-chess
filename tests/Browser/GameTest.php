@@ -24,6 +24,18 @@ function square(string $name): string
     return "[data-square=\"{$name}\"]";
 }
 
+/**
+ * Visit a page with the 2D board chosen, so squares can be clicked as
+ * buttons. The choice is remembered in the browser's local storage.
+ */
+function visitIn2d(string $url): AwaitableWebpage
+{
+    $page = visit($url);
+    $page->script("localStorage.setItem('battle-chess:board-view', '2d')");
+
+    return $page->refresh();
+}
+
 it('starts a game from an accepted challenge', function () {
     $alice = User::factory()->create(['name' => 'Alice', 'username' => 'alice']);
     $bob = User::factory()->create(['name' => 'Bob', 'username' => 'bob']);
@@ -38,7 +50,7 @@ it('starts a game from an accepted challenge', function () {
 
     $this->actingAs($bob);
 
-    visit('/invites')
+    visitIn2d('/invites')
         ->assertSee('Alice')
         ->click('@accept-invitation-button')
         ->assertPathBeginsWith('/games/')
@@ -53,7 +65,7 @@ it('moves a piece by clicking squares', function () {
     $game = Game::factory()->create();
     $this->actingAs($game->white);
 
-    visit("/games/{$game->id}")
+    visitIn2d("/games/{$game->id}")
         ->assertSee('Your move')
         ->click(square('e2'))
         ->assertPresent(square('e4').' span.rounded-full')
@@ -73,7 +85,7 @@ it('promotes a pawn using the picker', function () {
     ]);
     $this->actingAs($game->white);
 
-    visit("/games/{$game->id}")
+    visitIn2d("/games/{$game->id}")
         ->click(square('g7'))
         ->click(square('h8'))
         ->assertSee('Promote your pawn to')
@@ -90,7 +102,7 @@ it('plays a battle scene on a capture that can be skipped', function () {
     playMoves($game, [['e2', 'e4'], ['d7', 'd5']]);
     $this->actingAs($game->white);
 
-    visit("/games/{$game->id}")
+    visitIn2d("/games/{$game->id}")
         ->click(square('e4'))
         ->click(square('d5'))
         ->assertPresent('@battle-overlay')
@@ -105,7 +117,7 @@ it('ends the game on checkmate and offers a rematch', function () {
     playMoves($game, [['f2', 'f3'], ['e7', 'e5'], ['g2', 'g4']]);
     $this->actingAs($game->black);
 
-    visit("/games/{$game->id}")
+    visitIn2d("/games/{$game->id}")
         ->click(square('d8'))
         ->click(square('h4'))
         ->waitForText('Wildwood Court wins')
@@ -125,7 +137,7 @@ it('resigns after confirming', function () {
     $game = Game::factory()->create();
     $this->actingAs($game->white);
 
-    $page = visit("/games/{$game->id}");
+    $page = visitIn2d("/games/{$game->id}");
     $page->script('window.confirm = () => true');
 
     $page->click('@resign-button')
@@ -140,7 +152,7 @@ it('keeps playing when resignation is cancelled', function () {
     $game = Game::factory()->create();
     $this->actingAs($game->white);
 
-    visit("/games/{$game->id}")
+    visitIn2d("/games/{$game->id}")
         ->click('@resign-button')
         ->assertSee('Your move')
         ->assertPresent('@resign-button');
