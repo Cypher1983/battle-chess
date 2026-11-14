@@ -12,7 +12,7 @@ and climb the scoreboard.
 - **Database:** MySQL
 - **Testing:** Pest / PHPUnit, PHPStan, Pint
 - **Real-time:** Laravel Reverb + Echo (optional; pages fall back to polling)
-- **Planned:** PixiJS (battle animations)
+- **Animation:** PixiJS capture battle scenes (lazy-loaded)
 
 ## Requirements
 
@@ -67,6 +67,12 @@ they are written to `storage/logs/laravel.log` instead of being delivered.
 Open the URL it prints (or your Herd/XAMPP site URL), register an account and
 log in with your email or username.
 
+## Artwork
+
+Piece art lives in `resources/js/assets/pieces` (`w/` Clockwork Legion,
+`b/` Wildwood Court). The included SVGs are original placeholders: replace any
+file to restyle a piece without code changes. See the README in that folder.
+
 ## Quality checks
 
 ```bash
@@ -83,5 +89,5 @@ npm run types:check     # TypeScript type check
 3. ✅ Core game: board, legal moves, server-side move validation, resign and draws
 4. ✅ Real-time play with Reverb: live moves, opponent online status, challenge toasts
 5. ✅ Scoreboard with Elo ratings (start 1200, K=32), records and dashboard stats
-6. Battle animations for Clockwork Legion vs. Wildwood Court
+6. ✅ Battle animations: PixiJS capture scenes and original army artwork
 7. Polish: sounds, clocks, rematches
