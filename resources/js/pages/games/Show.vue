@@ -171,11 +171,36 @@ function submitMove(from: Square, to: Square, promotion?: PieceType): void {
 
 // The broadcast only says "this game changed"; the page then reloads the
 // game from the server, which stays the single source of truth.
-usePresence(`games.${props.game.id}`, '.game.updated', () => {
+const presence = usePresence(`games.${props.game.id}`, '.game.updated', () => {
     router.reload({ only: ['game'] });
 });
 
 const isLive = useIsLive();
+
+// --- Who is watching -----------------------------------------------------
+
+type Member = { id: number; username: string; color: PieceColor };
+
+const onlineColors = ref(new Set<PieceColor>());
+
+presence
+    ?.channel()
+    .here((members: Member[]) => {
+        onlineColors.value = new Set(members.map((member) => member.color));
+    })
+    .joining((member: Member) => {
+        onlineColors.value = new Set([...onlineColors.value, member.color]);
+    })
+    .leaving((member: Member) => {
+        const next = new Set(onlineColors.value);
+        next.delete(member.color);
+        onlineColors.value = next;
+    });
+
+const showPresence = computed(() => presence !== null && isLive.value);
+const opponentOnline = computed(() =>
+    onlineColors.value.has(opponentColor.value),
+);
 
 // Fall back to polling while waiting for the opponent if the WebSocket
 // is not connected (for example when Reverb is not running).
@@ -215,6 +240,13 @@ watch(
         <div class="mx-auto flex w-full max-w-[min(100%,36rem)] flex-col gap-3">
             <div class="flex items-center justify-between text-sm">
                 <span class="font-medium">
+                    <span
+                        v-if="showPresence"
+                        class="mr-1 inline-block size-2 rounded-full"
+                        :class="opponentOnline ? 'bg-green-500' : 'bg-gray-400'"
+                        :title="opponentOnline ? 'Online' : 'Offline'"
+                        data-test="opponent-presence"
+                    />
                     {{ player(opponentColor).name }}
                     <span class="text-muted-foreground">
                         @{{ player(opponentColor).username }}
