@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\InvitationReceived;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -66,6 +67,42 @@ class InvitationController extends Controller
         }
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Challenge sent.')]);
+
+        return back();
+    }
+
+    /**
+     * Accept a challenge.
+     */
+    public function accept(Invitation $invitation): RedirectResponse
+    {
+        return $this->close($invitation, 'respond', InvitationStatus::Accepted, __('Challenge accepted.'));
+    }
+
+    /**
+     * Decline a challenge.
+     */
+    public function decline(Invitation $invitation): RedirectResponse
+    {
+        return $this->close($invitation, 'respond', InvitationStatus::Declined, __('Challenge declined.'));
+    }
+
+    /**
+     * Authorize and close an invitation, if it is still open.
+     */
+    private function close(Invitation $invitation, string $ability, InvitationStatus $status, string $message): RedirectResponse
+    {
+        Gate::authorize($ability, $invitation);
+
+        if (! $invitation->isOpen()) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => __('This challenge is no longer open.')]);
+
+            return back();
+        }
+
+        $invitation->close($status);
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => $message]);
 
         return back();
     }

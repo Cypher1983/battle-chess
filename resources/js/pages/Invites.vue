@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
-import { Clock, Mail, Swords } from '@lucide/vue';
+import { Form, Head, Link } from '@inertiajs/vue3';
+import { Check, Clock, Mail, Swords, X } from '@lucide/vue';
 import InvitationController from '@/actions/App/Http/Controllers/InvitationController';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
@@ -134,6 +134,38 @@ defineOptions({
                                 Sent {{ invitation.sent_at }} · expires
                                 {{ invitation.expires_in }}
                             </p>
+                        </div>
+                        <div class="flex gap-2">
+                            <Button size="sm" as-child>
+                                <Link
+                                    :href="
+                                        InvitationController.accept(
+                                            invitation.id,
+                                        )
+                                    "
+                                    as="button"
+                                    preserve-scroll
+                                    data-test="accept-invitation-button"
+                                >
+                                    <Check />
+                                    Accept
+                                </Link>
+                            </Button>
+                            <Button size="sm" variant="outline" as-child>
+                                <Link
+                                    :href="
+                                        InvitationController.decline(
+                                            invitation.id,
+                                        )
+                                    "
+                                    as="button"
+                                    preserve-scroll
+                                    data-test="decline-invitation-button"
+                                >
+                                    <X />
+                                    Decline
+                                </Link>
+                            </Button>
                         </div>
                     </li>
                 </ul>
