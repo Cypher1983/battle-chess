@@ -8,8 +8,11 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
+    impact: [];
     done: [];
 }>();
+
+let impacted = false;
 
 const host = ref<HTMLDivElement | null>(null);
 const controller = new AbortController();
@@ -17,19 +20,32 @@ const controller = new AbortController();
 onMounted(async () => {
     try {
         // PixiJS is only downloaded the first time a battle plays.
-        const { playBattle } = await import('@/lib/battle/playBattle');
+        const { playBattle, IMPACT_AT } =
+            await import('@/lib/battle/playBattle');
 
         if (host.value) {
             await playBattle(host.value, {
                 attacker: props.attacker,
                 defender: props.defender,
                 signal: controller.signal,
+                onProgress: (elapsed) => {
+                    if (!impacted && elapsed >= IMPACT_AT) {
+                        impacted = true;
+                        emit('impact');
+                    }
+                },
             });
         }
     } catch (error) {
         // A failed animation must never block the game.
         console.error('Battle scene failed', error);
     } finally {
+        // Skipped or failed scenes still deliver the impact (e.g. its sound).
+        if (!impacted) {
+            impacted = true;
+            emit('impact');
+        }
+
         emit('done');
     }
 });
