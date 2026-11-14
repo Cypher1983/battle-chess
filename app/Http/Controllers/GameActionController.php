@@ -6,6 +6,7 @@ use App\Enums\GameEndReason;
 use App\Enums\GameResult;
 use App\Enums\GameStatus;
 use App\Enums\PieceColor;
+use App\Events\GameUpdated;
 use App\Models\Game;
 use App\Models\User;
 use Closure;
@@ -100,7 +101,13 @@ class GameActionController extends Controller
                 return null;
             }
 
-            return $action($game, $color, $user);
+            $message = $action($game, $color, $user);
+
+            if ($message !== null) {
+                GameUpdated::dispatch($game);
+            }
+
+            return $message;
         });
 
         Inertia::flash('toast', $message === null

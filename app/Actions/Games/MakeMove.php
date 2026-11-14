@@ -4,6 +4,7 @@ namespace App\Actions\Games;
 
 use App\Chess\ChessEngine;
 use App\Enums\GameStatus;
+use App\Events\GameUpdated;
 use App\Models\Game;
 use App\Models\Move;
 use App\Models\User;
@@ -57,6 +58,8 @@ class MakeMove
                     'finished_at' => now(),
                 ]),
             ]);
+
+            GameUpdated::dispatch($game);
 
             return $move;
         });
