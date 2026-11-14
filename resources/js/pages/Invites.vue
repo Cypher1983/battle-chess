@@ -218,6 +218,19 @@ defineOptions({
                                 {{ invitation.expires_in }}
                             </p>
                         </div>
+                        <Button size="sm" variant="ghost" as-child>
+                            <Link
+                                :href="
+                                    InvitationController.cancel(invitation.id)
+                                "
+                                as="button"
+                                preserve-scroll
+                                data-test="cancel-invitation-button"
+                            >
+                                <X />
+                                Cancel
+                            </Link>
+                        </Button>
                     </li>
                 </ul>
             </CardContent>

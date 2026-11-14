@@ -88,6 +88,14 @@ class InvitationController extends Controller
     }
 
     /**
+     * Withdraw a challenge you sent.
+     */
+    public function cancel(Invitation $invitation): RedirectResponse
+    {
+        return $this->close($invitation, 'cancel', InvitationStatus::Cancelled, __('Challenge cancelled.'));
+    }
+
+    /**
      * Authorize and close an invitation, if it is still open.
      */
     private function close(Invitation $invitation, string $ability, InvitationStatus $status, string $message): RedirectResponse

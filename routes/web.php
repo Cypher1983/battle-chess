@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('invitations.store');
     Route::post('invitations/{invitation}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::post('invitations/{invitation}/decline', [InvitationController::class, 'decline'])->name('invitations.decline');
+    Route::post('invitations/{invitation}/cancel', [InvitationController::class, 'cancel'])->name('invitations.cancel');
     Route::inertia('scoreboard', 'Scoreboard')->name('scoreboard');
 });
 
