@@ -2,6 +2,7 @@ import { Chess } from 'chess.js';
 import type { Square } from 'chess.js';
 import { Group, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import type { Object3D } from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { createBoard } from '@/lib/board3d/board';
 import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
@@ -56,6 +57,7 @@ export class BoardView {
     protected pressedAt: { x: number; y: number } | null = null;
     protected readonly removeListeners: () => void;
     protected readonly tweens = new Tweens();
+    protected readonly controls: OrbitControls;
 
     constructor(host: HTMLElement, options: BoardViewOptions) {
         this.options = options;
@@ -67,9 +69,24 @@ export class BoardView {
         this.stage.scene.add(this.highlights.group);
         this.stage.scene.add(this.piecesLayer);
 
+        this.controls = new OrbitControls(
+            this.stage.camera,
+            this.stage.renderer.domElement,
+        );
+        this.controls.enablePan = false;
+        this.controls.enableDamping = true;
+        this.controls.minDistance = 9;
+        this.controls.maxDistance = 19;
+        // From nearly overhead down to a low, dramatic angle.
+        this.controls.minPolarAngle = 0.05;
+        this.controls.maxPolarAngle = 1.2;
+
         this.placeCamera();
         this.removeListeners = this.listen(this.stage.renderer.domElement);
-        this.stage.onFrame((_delta, now) => this.tweens.tick(now));
+        this.stage.onFrame((_delta, now) => {
+            this.tweens.tick(now);
+            this.controls.update();
+        });
     }
 
     /**
@@ -192,6 +209,7 @@ export class BoardView {
 
     dispose(): void {
         this.removeListeners();
+        this.controls.dispose();
         this.tweens.finishAll();
         this.stage.dispose();
         disposePieceModels();
@@ -347,11 +365,35 @@ export class BoardView {
         };
     }
 
-    /** Look at the board from behind the player's own army. */
-    protected placeCamera(): void {
+    /** Glide the camera back to its starting view. */
+    resetCamera(): void {
+        const camera = this.stage.camera;
+        const fromPosition = camera.position.clone();
+        const fromTarget = this.controls.target.clone();
+        const { position, target } = this.homeView();
+
+        this.tweens.add(prefersReducedMotion() ? 0 : 600, (t) => {
+            const eased = easeInOut(t);
+            camera.position.lerpVectors(fromPosition, position, eased);
+            this.controls.target.lerpVectors(fromTarget, target, eased);
+        });
+    }
+
+    /** Behind the player's own army, looking down at the board. */
+    protected homeView(): { position: Vector3; target: Vector3 } {
         const side = this.orientation === 'w' ? 1 : -1;
-        this.stage.camera.position.set(0, 11.5, 8.5 * side);
-        this.stage.camera.lookAt(0, 0, 0.5 * side);
+
+        return {
+            position: new Vector3(0, 11.5, 8.5 * side),
+            target: new Vector3(0, 0, 0.5 * side),
+        };
+    }
+
+    protected placeCamera(): void {
+        const { position, target } = this.homeView();
+        this.stage.camera.position.copy(position);
+        this.controls.target.copy(target);
+        this.controls.update();
     }
 }
 

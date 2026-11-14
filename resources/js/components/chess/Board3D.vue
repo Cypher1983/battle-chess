@@ -85,7 +85,17 @@ watch(
         class="relative aspect-square w-full select-none"
         data-test="chess-board-3d"
     >
-        <div ref="host" class="absolute inset-0" />
+        <div ref="host" class="absolute inset-0 touch-none" />
+        <button
+            v-if="ready"
+            type="button"
+            class="absolute top-2 right-2 z-10 rounded bg-black/40 px-2 py-0.5 text-xs text-white hover:bg-black/60"
+            title="Drag to turn the board, scroll or pinch to zoom"
+            data-test="reset-camera"
+            @click="view?.resetCamera()"
+        >
+            Reset view
+        </button>
         <div
             v-if="!ready"
             class="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground"
