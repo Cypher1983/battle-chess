@@ -7,9 +7,12 @@ import GameMoveController from '@/actions/App/Http/Controllers/GameMoveControlle
 import ChessBoard from '@/components/chess/ChessBoard.vue';
 import GameControls from '@/components/chess/GameControls.vue';
 import PromotionPicker from '@/components/chess/PromotionPicker.vue';
+import BattleOverlay from '@/components/chess/BattleOverlay.vue';
 import RatingTag from '@/components/chess/RatingTag.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useBattleScenes } from '@/composables/useBattleScenes';
 import { useIsLive, usePresence } from '@/composables/useRealtime';
+import type { Fighter } from '@/lib/battle/playBattle';
 import { armies } from '@/lib/armies';
 import type { PieceColor, PieceType } from '@/lib/armies';
 import { play } from '@/routes';
@@ -100,6 +103,41 @@ function player(color: PieceColor): Player {
 
 const page = usePage();
 const moveError = computed(() => page.props.errors?.move as string | undefined);
+
+// --- Battle scenes ---------------------------------------------------------
+
+const battleScenes = useBattleScenes();
+const battle = ref<{
+    ply: number;
+    attacker: Fighter;
+    defender: Fighter;
+} | null>(null);
+
+// Only captures that arrive while the page is open play a battle,
+// not the capture that happened to be the last move on page load.
+let lastSeenPly = props.game.last_move?.ply ?? 0;
+
+watch(
+    () => props.game.last_move,
+    (move) => {
+        if (!move || move.ply <= lastSeenPly) {
+            return;
+        }
+
+        lastSeenPly = move.ply;
+
+        if (battleScenes.value && move.piece && move.captured) {
+            battle.value = {
+                ply: move.ply,
+                attacker: { color: move.color, type: move.piece },
+                defender: {
+                    color: move.color === 'w' ? 'b' : 'w',
+                    type: move.captured,
+                },
+            };
+        }
+    },
+);
 
 const position = computed(() => new Chess(props.game.fen));
 const canMove = computed(
@@ -287,6 +325,13 @@ watch(
                     @choose="choosePromotion"
                     @cancel="pendingPromotion = null"
                 />
+                <BattleOverlay
+                    v-if="battle"
+                    :key="battle.ply"
+                    :attacker="battle.attacker"
+                    :defender="battle.defender"
+                    @done="battle = null"
+                />
             </div>
 
             <div class="flex items-center justify-between text-sm">
@@ -317,6 +362,19 @@ watch(
                     <p class="text-sm text-red-600" data-test="move-error">
                         {{ moveError }}
                     </p>
+                </CardContent>
+                <CardContent>
+                    <label
+                        class="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground"
+                    >
+                        <input
+                            v-model="battleScenes"
+                            type="checkbox"
+                            class="size-4 accent-primary"
+                            data-test="battle-scenes-toggle"
+                        />
+                        Play battle scenes on captures
+                    </label>
                 </CardContent>
             </Card>
 
