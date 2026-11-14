@@ -1,6 +1,7 @@
 import { HalfFloatType, Vector2, WebGLRenderTarget } from 'three';
 import type { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
@@ -31,6 +32,18 @@ export function createPostProcessing(
 
     const composer = new EffectComposer(renderer, target);
     composer.addPass(new RenderPass(scene, camera));
+
+    if (quality.ambientOcclusion) {
+        // Soft contact shadows in creases and where pieces meet the board.
+        const occlusion = new GTAOPass(scene, camera, size.x, size.y);
+        occlusion.updateGtaoMaterial({
+            radius: 0.6,
+            distanceExponent: 2,
+            scale: 2.2,
+        });
+        occlusion.blendIntensity = 0.9;
+        composer.addPass(occlusion);
+    }
 
     if (quality.bloom) {
         // Only light brighter than this (the boosted glows) blooms.
