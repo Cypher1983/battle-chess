@@ -1,10 +1,11 @@
 # Piece artwork
 
-Original placeholder art for the two armies. Replace any file to restyle a piece;
-no code changes are needed.
+Original placeholder art for the armies, one folder per army (named like the
+server's `Army` enum). Replace any file to restyle a piece; no code changes are
+needed. Any army can play either colour: the board marks the side with a rim.
 
-- `w/` — Clockwork Legion (white): brass, gears, rivets, steam.
-- `b/` — Wildwood Court (black): bark, leaves, antlers, moss.
+- `clockwork/` — Clockwork Legion: brass, gears, rivets, steam.
+- `wildwood/` — Wildwood Court: bark, leaves, antlers, moss.
 
 File names are the chess.js piece types:
 

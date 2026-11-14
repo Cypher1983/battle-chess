@@ -10,13 +10,16 @@ import {
     watch,
 } from 'vue';
 import { pieceLabel } from '@/lib/armies';
-import type { PieceColor } from '@/lib/armies';
+import { CLASSIC_ARMIES } from '@/lib/armies';
+import type { GameArmies, PieceColor } from '@/lib/armies';
 import type { BoardView } from '@/lib/board3d/BoardView';
 import type { QualityChoice } from '@/lib/board3d/quality';
 
 type Props = {
     fen: string;
     orientation: PieceColor;
+    /** Which army plays each colour. */
+    armies?: GameArmies;
     lastMove?: { from: string; to: string } | null;
     selected?: string | null;
     targets?: string[];
@@ -27,6 +30,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
+    armies: () => CLASSIC_ARMIES,
     lastMove: null,
     selected: null,
     targets: () => [],
@@ -198,7 +202,7 @@ const cells = computed(() => {
             return {
                 square,
                 label: piece
-                    ? `${square}: ${pieceLabel(piece.color, piece.type)}`
+                    ? `${square}: ${pieceLabel(props.armies[piece.color], piece.type)}`
                     : square,
             };
         }),

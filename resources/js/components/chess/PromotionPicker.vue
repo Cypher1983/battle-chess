@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { armies, pieceImage } from '@/lib/armies';
-import type { PieceColor, PieceType } from '@/lib/armies';
+import type { ArmyId, PieceType } from '@/lib/armies';
 
 defineProps<{
-    color: PieceColor;
+    army: ArmyId;
 }>();
 
 const emit = defineEmits<{
@@ -34,13 +34,13 @@ const choices: PieceType[] = ['q', 'r', 'b', 'n'];
                     @click="emit('choose', piece)"
                 >
                     <img
-                        :src="pieceImage(color, piece)"
-                        :alt="armies[color].pieces[piece]"
+                        :src="pieceImage(army, piece)"
+                        :alt="armies[army].pieces[piece]"
                         class="size-12"
                         draggable="false"
                     />
                     <span class="text-xs">{{
-                        armies[color].pieces[piece]
+                        armies[army].pieces[piece]
                     }}</span>
                 </Button>
             </div>

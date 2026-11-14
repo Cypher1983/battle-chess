@@ -8,9 +8,10 @@ import {
 } from 'pixi.js';
 import type { Texture, Ticker } from 'pixi.js';
 import { armies, pieceImage } from '@/lib/armies';
-import type { PieceColor, PieceType } from '@/lib/armies';
+import type { ArmyId, PieceColor, PieceType } from '@/lib/armies';
 
 export type Fighter = {
+    army: ArmyId;
     color: PieceColor;
     type: PieceType;
 };
@@ -40,12 +41,6 @@ const attackStyles: Record<PieceType, AttackStyle> = {
     b: 'projectile',
     q: 'projectile',
     r: 'slam',
-};
-
-/** Effect colours per army: Clockwork sparks and lightning, Wildwood leaves and thorns. */
-const effectPalettes: Record<PieceColor, number[]> = {
-    w: [0xffd75e, 0xfff1b8, 0x7fd4ff, 0xc9952b],
-    b: [0x3f8f3a, 0x8fcf6a, 0x6b4a2b, 0xd6336c],
 };
 
 type Particle = {
@@ -103,9 +98,9 @@ export async function playBattle(
     }
 }
 
-function loadTexture({ color, type }: Fighter): Promise<Texture> {
+function loadTexture({ army, type }: Fighter): Promise<Texture> {
     return Assets.load<Texture>({
-        src: pieceImage(color, type),
+        src: pieceImage(army, type),
         data: { resolution: 3 },
     });
 }
@@ -146,7 +141,7 @@ function runScene(
     const heroScale = hero.scale.y;
 
     const caption = new Text({
-        text: `${armies[attacker.color].pieces[attacker.type]} defeats ${armies[defender.color].pieces[defender.type]}`,
+        text: `${armies[attacker.army].pieces[attacker.type]} defeats ${armies[defender.army].pieces[defender.type]}`,
         style: {
             fill: '#ffffff',
             fontFamily: 'ui-sans-serif, system-ui, sans-serif',
@@ -164,8 +159,8 @@ function runScene(
     stage.addChild(projectile);
 
     const particles: Particle[] = [];
-    const effects = effectPalettes[attacker.color];
-    const debris = effectPalettes[defender.color];
+    const effects = armies[attacker.army].palette;
+    const debris = armies[defender.army].palette;
     let elapsed = 0;
     let impacted = false;
 

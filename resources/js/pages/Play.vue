@@ -11,7 +11,7 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { armies } from '@/lib/armies';
-import type { PieceColor } from '@/lib/armies';
+import type { ArmyId, PieceColor } from '@/lib/armies';
 import { invites, play } from '@/routes';
 import { show } from '@/routes/games';
 
@@ -23,6 +23,7 @@ type Opponent = {
 type ActiveGame = {
     id: number;
     my_color: PieceColor;
+    my_army: ArmyId;
     opponent: Opponent;
     your_turn: boolean;
     move_count: number;
@@ -31,6 +32,7 @@ type ActiveGame = {
 type FinishedGame = {
     id: number;
     my_color: PieceColor;
+    my_army: ArmyId;
     opponent: Opponent;
     outcome: 'win' | 'loss' | 'draw';
     end_reason: string | null;
@@ -99,7 +101,7 @@ const outcomeLabels: Record<FinishedGame['outcome'], string> = {
                                 </p>
                                 <p class="text-xs text-muted-foreground">
                                     You command the
-                                    {{ armies[game.my_color].name }} ·
+                                    {{ armies[game.my_army].name }} ·
                                     {{ game.move_count }} moves
                                 </p>
                             </div>

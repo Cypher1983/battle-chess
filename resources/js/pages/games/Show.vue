@@ -27,7 +27,7 @@ import {
     playMoveSound,
 } from '@/lib/sounds';
 import { armies } from '@/lib/armies';
-import type { PieceColor, PieceType } from '@/lib/armies';
+import type { GameArmies, PieceColor, PieceType } from '@/lib/armies';
 import { play } from '@/routes';
 
 type Player = {
@@ -41,6 +41,7 @@ type GameData = {
     id: number;
     fen: string;
     turn: PieceColor;
+    armies: GameArmies;
     status: 'active' | 'finished';
     result: '1-0' | '0-1' | '1/2-1/2' | null;
     end_reason: string | null;
@@ -99,11 +100,11 @@ const statusText = computed(() => {
 
         const winner = game.result === '1-0' ? 'w' : 'b';
 
-        return `${armies[winner].name} wins · ${game.end_reason}`;
+        return `${armies[game.armies[winner]].name} wins · ${game.end_reason}`;
     }
 
     if (props.myColor === null) {
-        return `${armies[game.turn].name} to move`;
+        return `${armies[game.armies[game.turn]].name} to move`;
     }
 
     return game.turn === props.myColor ? 'Your move' : "Opponent's move";
@@ -170,8 +171,13 @@ watch(
                 ply: move.ply,
                 from: move.from,
                 to: move.to,
-                attacker: { color: move.color, type: move.piece },
+                attacker: {
+                    army: props.game.armies[move.color],
+                    color: move.color,
+                    type: move.piece,
+                },
                 defender: {
+                    army: props.game.armies[move.color === 'w' ? 'b' : 'w'],
                     color: move.color === 'w' ? 'b' : 'w',
                     type: move.captured,
                 },
@@ -384,7 +390,7 @@ watch(
                     />
                 </span>
                 <span class="text-muted-foreground">
-                    {{ armies[opponentColor].name }}
+                    {{ armies[game.armies[opponentColor]].name }}
                 </span>
             </div>
 
@@ -395,6 +401,7 @@ watch(
                     :quality="graphics"
                     :fen="game.fen"
                     :orientation="orientation"
+                    :armies="game.armies"
                     :last-move="game.last_move"
                     :selected="selected"
                     :targets="targets"
@@ -408,6 +415,7 @@ watch(
                     v-else
                     :fen="game.fen"
                     :orientation="orientation"
+                    :armies="game.armies"
                     :last-move="game.last_move"
                     :selected="selected"
                     :targets="targets"
@@ -416,7 +424,7 @@ watch(
                 />
                 <PromotionPicker
                     v-if="pendingPromotion && myColor"
-                    :color="myColor"
+                    :army="game.armies[myColor]"
                     @choose="choosePromotion"
                     @cancel="pendingPromotion = null"
                 />
@@ -442,7 +450,7 @@ watch(
                     />
                 </span>
                 <span class="text-muted-foreground">
-                    {{ armies[orientation].name }}
+                    {{ armies[game.armies[orientation]].name }}
                 </span>
             </div>
         </div>

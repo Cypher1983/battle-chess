@@ -3,11 +3,13 @@ import { Chess } from 'chess.js';
 import type { Square } from 'chess.js';
 import { computed } from 'vue';
 import { pieceImage, pieceLabel } from '@/lib/armies';
-import type { PieceColor } from '@/lib/armies';
+import type { GameArmies, PieceColor } from '@/lib/armies';
 
 type Props = {
     fen: string;
     orientation: PieceColor;
+    /** Which army plays each colour. */
+    armies: GameArmies;
     lastMove?: { from: string; to: string } | null;
     selected?: string | null;
     targets?: string[];
@@ -96,7 +98,7 @@ function isHighlighted(square: string): boolean {
             :data-square="cell.square"
             :aria-label="
                 cell.piece
-                    ? `${cell.square}: ${pieceLabel(cell.piece.color, cell.piece.type)}`
+                    ? `${cell.square}: ${pieceLabel(armies[cell.piece.color], cell.piece.type)}`
                     : cell.square
             "
             @click="emit('squareClick', cell.square)"
@@ -118,9 +120,9 @@ function isHighlighted(square: string): boolean {
 
             <img
                 v-if="cell.piece"
-                :src="pieceImage(cell.piece.color, cell.piece.type)"
-                :alt="pieceLabel(cell.piece.color, cell.piece.type)"
-                :title="pieceLabel(cell.piece.color, cell.piece.type)"
+                :src="pieceImage(armies[cell.piece.color], cell.piece.type)"
+                :alt="pieceLabel(armies[cell.piece.color], cell.piece.type)"
+                :title="pieceLabel(armies[cell.piece.color], cell.piece.type)"
                 class="pointer-events-none relative z-10 size-[88%] drop-shadow"
                 draggable="false"
                 :data-piece="`${cell.piece.color}${cell.piece.type}`"
