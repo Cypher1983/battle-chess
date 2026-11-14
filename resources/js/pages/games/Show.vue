@@ -7,6 +7,7 @@ import GameMoveController from '@/actions/App/Http/Controllers/GameMoveControlle
 import ChessBoard from '@/components/chess/ChessBoard.vue';
 import GameControls from '@/components/chess/GameControls.vue';
 import PromotionPicker from '@/components/chess/PromotionPicker.vue';
+import RatingTag from '@/components/chess/RatingTag.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useIsLive, usePresence } from '@/composables/useRealtime';
 import { armies } from '@/lib/armies';
@@ -16,6 +17,8 @@ import { play } from '@/routes';
 type Player = {
     name: string;
     username: string;
+    rating: number;
+    rating_change: number | null;
 };
 
 type GameData = {
@@ -251,6 +254,10 @@ watch(
                     <span class="text-muted-foreground">
                         @{{ player(opponentColor).username }}
                     </span>
+                    <RatingTag
+                        :rating="player(opponentColor).rating"
+                        :change="player(opponentColor).rating_change"
+                    />
                 </span>
                 <span class="text-muted-foreground">
                     {{ armies[opponentColor].name }}
@@ -281,6 +288,10 @@ watch(
                     <span class="text-muted-foreground">
                         @{{ player(orientation).username }}
                     </span>
+                    <RatingTag
+                        :rating="player(orientation).rating"
+                        :change="player(orientation).rating_change"
+                    />
                 </span>
                 <span class="text-muted-foreground">
                     {{ armies[orientation].name }}

@@ -74,8 +74,8 @@ class GameController extends Controller
                 'status' => $game->status->value,
                 'result' => $game->result?->value,
                 'end_reason' => $game->end_reason?->label(),
-                'white' => $this->presentPlayer($game->white),
-                'black' => $this->presentPlayer($game->black),
+                'white' => $this->presentContender($game->white, $game->white_rating_before, $game->white_rating_change),
+                'black' => $this->presentContender($game->black, $game->black_rating_before, $game->black_rating_change),
                 'moves' => $game->moves->map(fn (Move $move) => [
                     'ply' => $move->ply,
                     'san' => $move->san,
@@ -87,6 +87,23 @@ class GameController extends Controller
             ],
             'myColor' => $game->colorOf($request->user())?->value,
         ]);
+    }
+
+    /**
+     * A player in a game with their rating: the result of this game once
+     * it is finished, otherwise their current rating.
+     *
+     * @return array{name: string, username: string, rating: int, rating_change: int|null}
+     */
+    private function presentContender(User $user, ?int $ratingBefore, ?int $ratingChange): array
+    {
+        return [
+            ...$this->presentPlayer($user),
+            'rating' => $ratingBefore !== null && $ratingChange !== null
+                ? $ratingBefore + $ratingChange
+                : $user->rating,
+            'rating_change' => $ratingChange,
+        ];
     }
 
     /**

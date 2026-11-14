@@ -31,7 +31,7 @@ class ShowGameTest extends TestCase
                 ->where('game.fen', Game::START_FEN)
                 ->where('game.turn', 'w')
                 ->where('game.status', 'active')
-                ->where('game.white', ['name' => 'Wendy', 'username' => 'wendy'])
+                ->where('game.white', ['name' => 'Wendy', 'username' => 'wendy', 'rating' => 1200, 'rating_change' => null])
                 ->where('game.last_move', null)
                 ->has('game.moves', 0)
             );
