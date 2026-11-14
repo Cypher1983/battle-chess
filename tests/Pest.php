@@ -16,3 +16,6 @@ use Tests\TestCase;
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
     ->in('Browser');
+
+// The first page load of a run compiles views and boots the app server.
+pest()->browser()->timeout(15_000);
