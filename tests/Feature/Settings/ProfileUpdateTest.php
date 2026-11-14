@@ -108,6 +108,70 @@ class ProfileUpdateTest extends TestCase
         $this->assertNotNull($user->refresh()->email_verified_at);
     }
 
+    public function test_username_can_be_updated_and_is_stored_in_lowercase()
+    {
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->patch(route('profile.update'), [
+                'name' => $user->name,
+                'username' => 'New_Knight',
+                'email' => $user->email,
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame('new_knight', $user->refresh()->username);
+    }
+
+    public function test_user_can_keep_their_own_username()
+    {
+        $user = User::factory()->create(['username' => 'knight_rider']);
+
+        $this
+            ->actingAs($user)
+            ->patch(route('profile.update'), [
+                'name' => 'Renamed',
+                'username' => 'knight_rider',
+                'email' => $user->email,
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame('Renamed', $user->refresh()->name);
+    }
+
+    public function test_username_must_be_unique_regardless_of_case()
+    {
+        User::factory()->create(['username' => 'taken_name']);
+
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->from(route('profile.edit'))
+            ->patch(route('profile.update'), [
+                'name' => $user->name,
+                'username' => 'Taken_Name',
+                'email' => $user->email,
+            ])
+            ->assertSessionHasErrors('username')
+            ->assertRedirect(route('profile.edit'));
+    }
+
+    public function test_username_with_invalid_characters_is_rejected()
+    {
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->patch(route('profile.update'), [
+                'name' => $user->name,
+                'username' => 'bad name!',
+                'email' => $user->email,
+            ])
+            ->assertSessionHasErrors('username');
+    }
+
     public function test_user_can_delete_their_account()
     {
         $user = User::factory()->create();
