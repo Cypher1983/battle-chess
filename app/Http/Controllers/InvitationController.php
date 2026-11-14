@@ -100,7 +100,7 @@ class InvitationController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Challenge accepted. To battle!')]);
 
-        return back();
+        return to_route('games.show', $game);
     }
 
     /**

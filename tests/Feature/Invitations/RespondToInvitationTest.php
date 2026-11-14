@@ -38,9 +38,8 @@ class RespondToInvitationTest extends TestCase
         $invitation = Invitation::factory()->create();
 
         $this->actingAs($invitation->invitee)
-            ->from(route('invites'))
             ->post(route($route, $invitation))
-            ->assertRedirect(route('invites'));
+            ->assertRedirect();
 
         $invitation->refresh();
         $this->assertSame($expected, $invitation->status);
