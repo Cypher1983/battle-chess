@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The Elder Stag</title>
+  <ellipse cx="50" cy="88" rx="30" ry="7" fill="#3e2a17" stroke="#14280f" stroke-width="3"/>
+  <path d="M30 86 Q34 64 38 54 H62 Q66 64 70 86 Z" fill="#6b4a2b" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M38 60 Q50 54 62 60" fill="none" stroke="#3f8f3a" stroke-width="4" stroke-linecap="round"/>
+  <path d="M40 34 Q40 56 50 58 Q60 56 60 34 Q50 28 40 34 Z" fill="#8a5a2b" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
+  <ellipse cx="50" cy="52" rx="5" ry="3.5" fill="#14280f"/>
+  <circle cx="45" cy="40" r="2.5" fill="#f2e35a"/><circle cx="55" cy="40" r="2.5" fill="#f2e35a"/>
+  <path d="M42 32 Q34 22 30 8 M33 18 L24 14 M31 12 L26 4 M58 32 Q66 22 70 8 M67 18 L76 14 M69 12 L74 4" fill="none" stroke="#3e2a17" stroke-width="4" stroke-linecap="round"/>
+  <path d="M38 34 L32 30 Q34 36 40 38 M62 34 L68 30 Q66 36 60 38" fill="#8a5a2b" stroke="#14280f" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="30" cy="8" r="3" fill="#3f8f3a"/><circle cx="70" cy="8" r="3" fill="#3f8f3a"/>
+</svg>

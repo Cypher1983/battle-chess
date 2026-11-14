@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Briar Wolf</title>
+  <ellipse cx="50" cy="88" rx="28" ry="7" fill="#3e2a17" stroke="#14280f" stroke-width="3"/>
+  <path d="M30 86 L34 64 Q26 50 34 36 L38 16 L48 30 L56 18 L60 34 Q74 40 78 54 L70 60 Q64 58 58 60 Q62 74 70 86 Z" fill="#3f8f3a" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M70 52 L78 54 L72 58" fill="#14280f"/>
+  <path d="M58 46 L66 44" stroke="#14280f" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="60" cy="44" r="2.5" fill="#f2e35a"/>
+  <path d="M36 44 L30 40 M34 54 L27 54 M38 66 L31 70 M42 76 L37 82" stroke="#5a3a1c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M40 40 Q46 56 44 72" fill="none" stroke="#2f6b35" stroke-width="3" stroke-linecap="round"/>
+  <path d="M41 24 L44 30 M53 24 L55 30" stroke="#14280f" stroke-width="2" stroke-linecap="round"/>
+</svg>

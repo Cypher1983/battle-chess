@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Moss Oracle</title>
+  <ellipse cx="50" cy="88" rx="26" ry="7" fill="#3e2a17" stroke="#14280f" stroke-width="3"/>
+  <path d="M30 84 Q28 50 50 30 Q72 50 70 84 Z" fill="#6b4a2b" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M30 84 Q36 64 32 52 Q42 62 40 84 Z M70 84 Q64 64 68 52 Q58 62 60 84 Z" fill="#3e2a17" stroke="#14280f" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M36 30 L32 18 L44 28 M64 30 L68 18 L56 28" fill="#6b4a2b" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="42" cy="44" r="8" fill="#f2e35a" stroke="#14280f" stroke-width="2.5"/>
+  <circle cx="58" cy="44" r="8" fill="#f2e35a" stroke="#14280f" stroke-width="2.5"/>
+  <circle cx="42" cy="44" r="3.5" fill="#14280f"/>
+  <circle cx="58" cy="44" r="3.5" fill="#14280f"/>
+  <path d="M47 52 L50 58 L53 52 Z" fill="#c9952b" stroke="#14280f" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M42 68 Q50 62 58 68 M42 76 Q50 70 58 76" fill="none" stroke="#3f8f3a" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="40" cy="30" rx="6" ry="3" fill="#3f8f3a"/>
+</svg>

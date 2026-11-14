@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Arc Duchess</title>
+  <ellipse cx="50" cy="88" rx="28" ry="7" fill="#7a5212" stroke="#3b2a10" stroke-width="3"/>
+  <path d="M32 86 L38 52 H62 L68 86 Z" fill="#c9952b" stroke="#3b2a10" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M40 66 H60 M42 76 H58" stroke="#7a5212" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="50" cy="40" r="12" fill="#c9952b" stroke="#3b2a10" stroke-width="3"/>
+  <circle cx="46" cy="41" r="2" fill="#3b2a10"/><circle cx="54" cy="41" r="2" fill="#3b2a10"/>
+  <path d="M36 30 L32 12 M50 28 V8 M64 30 L68 12" stroke="#8a96a3" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="32" cy="10" r="4" fill="#7fd4ff" stroke="#3b2a10" stroke-width="2"/>
+  <circle cx="50" cy="6" r="4" fill="#7fd4ff" stroke="#3b2a10" stroke-width="2"/>
+  <circle cx="68" cy="10" r="4" fill="#7fd4ff" stroke="#3b2a10" stroke-width="2"/>
+  <path d="M35 10 L41 14 L44 9 L47 7 M53 7 L57 10 L60 6 L65 10" fill="none" stroke="#7fd4ff" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M38 30 H62" stroke="#f1d27a" stroke-width="3" stroke-linecap="round"/>
+</svg>

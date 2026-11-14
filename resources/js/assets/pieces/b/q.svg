@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The Thornmother</title>
+  <ellipse cx="50" cy="88" rx="28" ry="7" fill="#3e2a17" stroke="#14280f" stroke-width="3"/>
+  <path d="M30 86 Q36 66 40 52 H60 Q64 66 70 86 Z" fill="#2f6b35" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M30 86 Q40 76 50 86 Q60 76 70 86" fill="none" stroke="#8fcf6a" stroke-width="2.5"/>
+  <path d="M42 62 Q50 70 58 62" fill="none" stroke="#14280f" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="50" cy="40" r="12" fill="#8a5a2b" stroke="#14280f" stroke-width="3"/>
+  <circle cx="46" cy="41" r="2" fill="#f2e35a"/><circle cx="54" cy="41" r="2" fill="#f2e35a"/>
+  <path d="M36 32 Q32 20 38 14 M50 28 V8 M64 32 Q68 20 62 14" fill="none" stroke="#3e2a17" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M35 22 L31 20 M38 16 L35 12 M50 18 L46 16 M50 12 L54 10 M65 22 L69 20 M62 16 L65 12" stroke="#3e2a17" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="38" cy="13" r="4" fill="#d6336c" stroke="#14280f" stroke-width="2"/>
+  <circle cx="50" cy="7" r="4" fill="#d6336c" stroke="#14280f" stroke-width="2"/>
+  <circle cx="62" cy="13" r="4" fill="#d6336c" stroke="#14280f" stroke-width="2"/>
+</svg>

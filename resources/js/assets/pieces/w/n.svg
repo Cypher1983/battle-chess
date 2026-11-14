@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Cog Charger</title>
+  <ellipse cx="50" cy="88" rx="28" ry="7" fill="#7a5212" stroke="#3b2a10" stroke-width="3"/>
+  <path d="M30 86 L34 66 Q28 52 36 38 L44 20 L50 28 Q70 28 74 48 L76 60 Q70 64 62 58 L56 56 Q60 70 68 86 Z" fill="#c9952b" stroke="#3b2a10" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M44 22 L40 34 M50 28 L54 22" stroke="#3b2a10" stroke-width="3" stroke-linecap="round"/>
+  <g transform="translate(58 42)">
+    <circle r="7" fill="#f1d27a" stroke="#3b2a10" stroke-width="2.5"/>
+    <circle r="2.5" fill="#3b2a10"/>
+    <path d="M0 -10 V-7 M0 7 V10 M-10 0 H-7 M7 0 H10 M-7 -7 L-5 -5 M5 5 L7 7 M-7 7 L-5 5 M5 -5 L7 -7" stroke="#3b2a10" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <path d="M38 40 Q34 50 38 62" fill="none" stroke="#7a5212" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="42" cy="74" r="2.5" fill="#7a5212"/>
+  <circle cx="52" cy="74" r="2.5" fill="#7a5212"/>
+</svg>

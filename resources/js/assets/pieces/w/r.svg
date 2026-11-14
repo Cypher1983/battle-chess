@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Bulwark Engine</title>
+  <ellipse cx="50" cy="88" rx="30" ry="7" fill="#7a5212" stroke="#3b2a10" stroke-width="3"/>
+  <rect x="58" y="12" width="8" height="18" fill="#8a96a3" stroke="#3b2a10" stroke-width="3"/>
+  <circle cx="66" cy="8" r="4" fill="#e8e8e8" opacity="0.8"/>
+  <circle cx="72" cy="4" r="3" fill="#e8e8e8" opacity="0.6"/>
+  <path d="M28 86 V36 H72 V86 Z" fill="#c9952b" stroke="#3b2a10" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M26 36 V26 H34 V31 H42 V26 H50 V31 H58 V26 H74 V36 Z" fill="#7a5212" stroke="#3b2a10" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M28 50 H72 M28 70 H72" stroke="#7a5212" stroke-width="3"/>
+  <g fill="#f1d27a">
+    <circle cx="34" cy="43" r="2"/><circle cx="66" cy="43" r="2"/>
+    <circle cx="34" cy="63" r="2"/><circle cx="66" cy="63" r="2"/>
+    <circle cx="34" cy="78" r="2"/><circle cx="66" cy="78" r="2"/>
+  </g>
+  <circle cx="50" cy="60" r="8" fill="#3b2a10"/>
+  <circle cx="50" cy="60" r="4" fill="#ff8a2a"/>
+</svg>
