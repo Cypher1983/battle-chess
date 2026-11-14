@@ -58,7 +58,8 @@ composer run dev
 ```
 
 This starts the Laravel server, queue worker and Vite dev server together.
-The queue worker sends challenge emails. With the default `MAIL_MAILER=log`\nthey are written to `storage/logs/laravel.log` instead of being delivered.
+The queue worker sends challenge emails. With the default `MAIL_MAILER=log`
+they are written to `storage/logs/laravel.log` instead of being delivered.
 Open the URL it prints (or your Herd/XAMPP site URL), register an account and
 log in with your email or username.
 
