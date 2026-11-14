@@ -5,6 +5,7 @@ import type { Square } from 'chess.js';
 import { computed, ref, watch } from 'vue';
 import GameMoveController from '@/actions/App/Http/Controllers/GameMoveController';
 import ChessBoard from '@/components/chess/ChessBoard.vue';
+import GameControls from '@/components/chess/GameControls.vue';
 import PromotionPicker from '@/components/chess/PromotionPicker.vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { armies } from '@/lib/armies';
@@ -27,6 +28,7 @@ type GameData = {
     black: Player;
     moves: { ply: number; san: string }[];
     last_move: { from: string; to: string } | null;
+    draw_offered_by: PieceColor | null;
 };
 
 const props = defineProps<{
@@ -257,6 +259,13 @@ watch(
                     </p>
                 </CardContent>
             </Card>
+
+            <GameControls
+                v-if="game.status === 'active' && myColor"
+                :game-id="game.id"
+                :my-color="myColor"
+                :draw-offered-by="game.draw_offered_by"
+            />
 
             <Card class="min-h-0 flex-1">
                 <CardHeader>
