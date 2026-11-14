@@ -4,7 +4,12 @@ import type { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { attack } from '@/lib/board3d/battle/attacks';
 import { defeat } from '@/lib/board3d/battle/defeat';
 import { impactBurst } from '@/lib/board3d/battle/effects';
-import { DURATION, faceOff, takeSquare } from '@/lib/board3d/battle/core';
+import {
+    DURATION,
+    faceOff,
+    IMPACT_AT,
+    takeSquare,
+} from '@/lib/board3d/battle/core';
 import type {
     BattleContext,
     BattleOptions,
@@ -102,7 +107,7 @@ export function playBattle(
         };
 
         const stopFrames = stage.onFrame((delta) => {
-            elapsed += delta;
+            elapsed += delta * timeScale(elapsed);
             steps.forEach((step) => step.update(Math.min(elapsed, DURATION)));
 
             if (elapsed < shakeUntil) {
@@ -293,4 +298,12 @@ function nearSegment(
     const t = clamp01(middle.clone().sub(start).dot(line) / line.lengthSq());
 
     return start.clone().addScaledVector(line, t).distanceTo(middle) < radius;
+}
+
+/**
+ * Hit-stop: time slows to a crawl for a moment as the blow lands, so the
+ * impact reads. Battles last about half a second longer in real time.
+ */
+function timeScale(elapsed: number): number {
+    return elapsed >= IMPACT_AT - 40 && elapsed < IMPACT_AT + 110 ? 0.2 : 1;
 }
