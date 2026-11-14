@@ -16,6 +16,8 @@ import {
 } from 'three';
 import type { Object3D } from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { createPostProcessing } from '@/lib/board3d/post';
+import type { PostProcessing } from '@/lib/board3d/post';
 import { resolveQuality } from '@/lib/board3d/quality';
 import type { QualityChoice, QualitySettings } from '@/lib/board3d/quality';
 
@@ -112,10 +114,15 @@ export function createStage(
     floor.receiveShadow = true;
     scene.add(floor);
 
+    const post: PostProcessing | null = quality.postProcessing
+        ? createPostProcessing(renderer, scene, camera, quality)
+        : null;
+
     function resize(): void {
         const width = Math.max(host.clientWidth, 1);
         const height = Math.max(host.clientHeight, 1);
         renderer.setSize(width, height, false);
+        post?.setSize(width, height);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         dirty = true;
@@ -145,7 +152,11 @@ export function createStage(
         });
 
         if (changed) {
-            renderer.render(scene, camera);
+            if (post) {
+                post.render();
+            } else {
+                renderer.render(scene, camera);
+            }
         }
     });
 
@@ -167,6 +178,7 @@ export function createStage(
             renderer.setAnimationLoop(null);
             observer.disconnect();
             callbacks.clear();
+            post?.dispose();
             disposeObject(scene);
             scene.environment?.dispose();
             renderer.dispose();
