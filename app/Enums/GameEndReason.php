@@ -6,6 +6,7 @@ enum GameEndReason: string
 {
     case Checkmate = 'checkmate';
     case Resignation = 'resignation';
+    case Timeout = 'timeout';
     case Stalemate = 'stalemate';
     case DrawAgreed = 'draw_agreed';
     case InsufficientMaterial = 'insufficient_material';
@@ -20,6 +21,7 @@ enum GameEndReason: string
         return match ($this) {
             self::Checkmate => __('Checkmate'),
             self::Resignation => __('Resignation'),
+            self::Timeout => __('Move deadline missed'),
             self::Stalemate => __('Stalemate'),
             self::DrawAgreed => __('Draw agreed'),
             self::InsufficientMaterial => __('Insufficient material'),
