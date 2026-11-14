@@ -71,6 +71,10 @@ class GameController extends Controller
                 'id' => $game->id,
                 'fen' => $game->fen,
                 'turn' => $game->turn()->value,
+                'armies' => [
+                    'w' => $game->white_army->value,
+                    'b' => $game->black_army->value,
+                ],
                 'status' => $game->status->value,
                 'result' => $game->result?->value,
                 'end_reason' => $game->end_reason?->label(),
@@ -117,7 +121,7 @@ class GameController extends Controller
     /**
      * The fields shared by every game summary in the list.
      *
-     * @return array{id: int, my_color: string, opponent: array{name: string, username: string}}
+     * @return array{id: int, my_color: string, my_army: string, opponent: array{name: string, username: string}}
      */
     private function presentSummary(Game $game, User $user): array
     {
@@ -126,6 +130,7 @@ class GameController extends Controller
         return [
             'id' => $game->id,
             'my_color' => $color->value,
+            'my_army' => ($color === PieceColor::White ? $game->white_army : $game->black_army)->value,
             'opponent' => $this->presentPlayer($color === PieceColor::White ? $game->black : $game->white),
         ];
     }

@@ -33,9 +33,11 @@ class ListGamesTest extends TestCase
                 ->where('active.0.id', $myTurn->id)
                 ->where('active.0.your_turn', true)
                 ->where('active.0.my_color', 'w')
+                ->where('active.0.my_army', 'clockwork')
                 ->where('active.1.id', $waiting->id)
                 ->where('active.1.your_turn', false)
                 ->where('active.1.my_color', 'b')
+                ->where('active.1.my_army', 'wildwood')
                 ->where('active.1.opponent', ['name' => 'Olga', 'username' => 'olga'])
             );
     }
