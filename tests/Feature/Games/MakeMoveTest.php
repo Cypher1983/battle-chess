@@ -112,6 +112,19 @@ class MakeMoveTest extends TestCase
         $this->assertSame('q', $move->promotion);
     }
 
+    public function test_moves_record_the_moving_and_captured_piece()
+    {
+        $game = Game::factory()->create();
+
+        $this->playMoves($game, [['e2', 'e4'], ['d7', 'd5'], ['e4', 'd5'], ['d8', 'd5'], ['b1', 'c3']]);
+
+        $moves = $game->refresh()->moves;
+        $this->assertSame(['p', null], [$moves[0]->piece, $moves[0]->captured]);
+        $this->assertSame(['p', 'p'], [$moves[2]->piece, $moves[2]->captured]);
+        $this->assertSame(['q', 'p'], [$moves[3]->piece, $moves[3]->captured]);
+        $this->assertSame(['n', null], [$moves[4]->piece, $moves[4]->captured]);
+    }
+
     public function test_moving_withdraws_a_pending_draw_offer()
     {
         $game = Game::factory()->create();

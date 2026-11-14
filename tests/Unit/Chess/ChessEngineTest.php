@@ -49,6 +49,7 @@ class ChessEngineTest extends TestCase
         $move = $engine->play('e4', 'd5');
 
         $this->assertSame('exd5', $move?->san);
+        $this->assertSame('p', $move->piece);
         $this->assertSame('p', $move->captured);
     }
 
