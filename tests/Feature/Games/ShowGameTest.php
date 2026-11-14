@@ -51,7 +51,23 @@ class ShowGameTest extends TestCase
             ->get(route('games.show', $game))
             ->assertInertia(fn (Assert $page) => $page
                 ->where('game.moves', [['ply' => 1, 'san' => 'e4'], ['ply' => 2, 'san' => 'e5']])
-                ->where('game.last_move', ['from' => 'e7', 'to' => 'e5'])
+                ->where('game.last_move', ['ply' => 2, 'from' => 'e7', 'to' => 'e5', 'color' => 'b', 'piece' => 'p', 'captured' => null])
+            );
+    }
+
+    public function test_last_move_includes_capture_details()
+    {
+        $game = Game::factory()->create();
+
+        foreach ([['e2', 'e4'], ['d7', 'd5'], ['e4', 'd5']] as $index => [$from, $to]) {
+            $this->actingAs($index % 2 === 0 ? $game->white : $game->black)
+                ->post(route('games.moves.store', $game), ['from' => $from, 'to' => $to]);
+        }
+
+        $this->actingAs($game->black)
+            ->get(route('games.show', $game))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('game.last_move', ['ply' => 3, 'from' => 'e4', 'to' => 'd5', 'color' => 'w', 'piece' => 'p', 'captured' => 'p'])
             );
     }
 

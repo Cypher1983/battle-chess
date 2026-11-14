@@ -31,7 +31,14 @@ type GameData = {
     white: Player;
     black: Player;
     moves: { ply: number; san: string }[];
-    last_move: { from: string; to: string } | null;
+    last_move: {
+        ply: number;
+        from: string;
+        to: string;
+        color: PieceColor;
+        piece: PieceType | null;
+        captured: PieceType | null;
+    } | null;
     draw_offered_by: PieceColor | null;
 };
 

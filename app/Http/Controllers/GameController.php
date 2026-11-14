@@ -80,7 +80,14 @@ class GameController extends Controller
                     'ply' => $move->ply,
                     'san' => $move->san,
                 ]),
-                'last_move' => $lastMove ? ['from' => $lastMove->from, 'to' => $lastMove->to] : null,
+                'last_move' => $lastMove ? [
+                    'ply' => $lastMove->ply,
+                    'from' => $lastMove->from,
+                    'to' => $lastMove->to,
+                    'color' => $lastMove->ply % 2 === 1 ? 'w' : 'b',
+                    'piece' => $lastMove->piece,
+                    'captured' => $lastMove->captured,
+                ] : null,
                 'draw_offered_by' => $game->draw_offered_by_id === null
                     ? null
                     : ($game->draw_offered_by_id === $game->white_id ? 'w' : 'b'),
