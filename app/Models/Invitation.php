@@ -97,4 +97,15 @@ class Invitation extends Model
     {
         return $this->status->isOpen() && ! $this->isExpired();
     }
+
+    /**
+     * Close the invitation with the given answer.
+     */
+    public function close(InvitationStatus $status): void
+    {
+        $this->update([
+            'status' => $status,
+            'responded_at' => now(),
+        ]);
+    }
 }
