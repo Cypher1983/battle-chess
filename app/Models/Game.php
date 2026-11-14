@@ -26,6 +26,10 @@ use Illuminate\Support\Carbon;
  * @property GameStatus $status
  * @property GameResult|null $result
  * @property GameEndReason|null $end_reason
+ * @property int|null $white_rating_before
+ * @property int|null $black_rating_before
+ * @property int|null $white_rating_change
+ * @property int|null $black_rating_change
  * @property int|null $draw_offered_by_id
  * @property Carbon|null $last_move_at
  * @property Carbon|null $finished_at
