@@ -76,7 +76,7 @@ export class BoardView {
         this.controls.enablePan = false;
         this.controls.enableDamping = true;
         this.controls.minDistance = 9;
-        this.controls.maxDistance = 19;
+        this.controls.maxDistance = 21;
         // From nearly overhead down to a low, dramatic angle.
         this.controls.minPolarAngle = 0.05;
         this.controls.maxPolarAngle = 1.2;
@@ -384,8 +384,8 @@ export class BoardView {
         const side = this.orientation === 'w' ? 1 : -1;
 
         return {
-            position: new Vector3(0, 11.5, 8.5 * side),
-            target: new Vector3(0, 0, 0.5 * side),
+            position: new Vector3(0, 13.2, 10.6 * side),
+            target: new Vector3(0, -0.4, 0.7 * side),
         };
     }
 
