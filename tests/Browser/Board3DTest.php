@@ -51,7 +51,9 @@ it('plays a 3D battle on a capture that can be skipped', function () {
         ->keys('[data-square-3d="e4"]', ['ArrowUp', 'ArrowLeft'])
         ->keys('[data-square-3d="d5"]', ['Enter'])
         ->assertPresent('@battle-overlay-3d')
-        ->click('@battle-overlay-3d')
+        // Skip with the keyboard: a mouse click waits for the page to stop
+        // animating, which the software renderer in CI makes very slow.
+        ->keys('@battle-overlay-3d', ['Enter'])
         ->assertMissing('@battle-overlay-3d')
         ->assertSeeIn('@move-list', 'exd5')
         ->assertNoJavaScriptErrors();
