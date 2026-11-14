@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Snow Bear</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#dde9f2" stroke="#0e2238" stroke-width="3"/>
+  <path d="M30 60 L34 50 L38 58 L43 42 L49 56 L55 44 L60 58" fill="#9cd3f2" stroke="#0e2238" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M26 86 V70 M38 86 V72 M58 86 V72 M68 86 V70" stroke="#0e2238" stroke-width="11" stroke-linecap="round"/>
+  <path d="M26 86 V70 M38 86 V72 M58 86 V72 M68 86 V70" stroke="#f1f5f8" stroke-width="6" stroke-linecap="round"/>
+  <path d="M18 68 Q16 56 30 56 Q50 52 66 56 Q74 58 76 66 Q74 76 60 76 H30 Q18 76 18 68 Z" fill="#f1f5f8" stroke="#0e2238" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M66 54 Q72 46 82 48 Q92 52 92 60 Q90 66 82 66 Q72 66 68 62 Z" fill="#f1f5f8" stroke="#0e2238" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="74" cy="46" r="4" fill="#f1f5f8" stroke="#0e2238" stroke-width="2.5"/>
+  <circle cx="91" cy="58" r="2.5" fill="#0e2238"/>
+  <circle cx="81" cy="54" r="2.4" fill="#7fe8ff" stroke="#0e2238" stroke-width="1"/>
+  <path d="M82 62 Q86 64 89 62" fill="none" stroke="#0e2238" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

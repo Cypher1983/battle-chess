@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The Glacier King</title>
+  <ellipse cx="50" cy="88" rx="27" ry="6" fill="#dde9f2" stroke="#0e2238" stroke-width="3"/>
+  <path d="M26 84 L30 46 H70 L74 84 Z" fill="#24406e" stroke="#0e2238" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M40 86 V76 M60 86 V76" stroke="#8aa4ba" stroke-width="9" stroke-linecap="round"/>
+  <path d="M34 80 Q30 60 36 48 H64 Q70 60 66 80 Q50 84 34 80 Z" fill="#f1f5f8" stroke="#0e2238" stroke-width="3" stroke-linejoin="round"/>
+  <ellipse cx="50" cy="64" rx="9" ry="12" fill="#8aa4ba"/>
+  <path d="M26 50 Q50 38 74 50 Q74 56 66 54 Q50 48 34 54 Q26 56 26 50 Z" fill="#f1f5f8" stroke="#0e2238" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="50" cy="35" r="11" fill="#f1f5f8" stroke="#0e2238" stroke-width="3"/>
+  <rect x="42" y="33" width="16" height="10" rx="3" fill="#8aa4ba"/>
+  <path d="M44 35 h12" stroke="#7fe8ff" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M45 42 L46 46 M55 42 L54 46" stroke="#9cd3f2" stroke-width="2" stroke-linecap="round"/>
+  <path d="M38 26 L37 12 L42 20 L45 6 L48 20 L50 2 L52 20 L55 6 L58 20 L63 12 L62 26 Z" fill="#9cd3f2" stroke="#0e2238" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M38 26 H62" stroke="#d2dce6" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M83 86 V30" stroke="#d2dce6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M83 12 L89 24 L83 34 L77 24 Z" fill="#7fe8ff" stroke="#0e2238" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M70 56 L80 50" stroke="#f1f5f8" stroke-width="6" stroke-linecap="round"/>
+</svg>
