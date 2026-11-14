@@ -82,6 +82,6 @@ npm run types:check     # TypeScript type check
 2. ✅ Players and invites: challenge by username or email, accept, decline, cancel
 3. ✅ Core game: board, legal moves, server-side move validation, resign and draws
 4. ✅ Real-time play with Reverb: live moves, opponent online status, challenge toasts
-5. Scoreboard with Elo ratings
+5. ✅ Scoreboard with Elo ratings (start 1200, K=32), records and dashboard stats
 6. Battle animations for Clockwork Legion vs. Wildwood Court
 7. Polish: sounds, clocks, rematches
