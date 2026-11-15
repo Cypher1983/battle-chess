@@ -5,6 +5,7 @@ import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import {
     Card,
+    CardAction,
     CardContent,
     CardDescription,
     CardHeader,
@@ -94,6 +95,13 @@ const games = computed(
             <Card>
                 <CardHeader>
                     <CardDescription>Rating</CardDescription>
+                    <CardAction>
+                        <span
+                            class="flex size-9 items-center justify-center rounded-full bg-primary/15 text-primary ring-1 ring-primary/30"
+                        >
+                            <Trophy class="size-4" />
+                        </span>
+                    </CardAction>
                     <CardTitle
                         class="text-3xl tabular-nums"
                         data-test="stat-rating"
@@ -110,6 +118,13 @@ const games = computed(
             <Card>
                 <CardHeader>
                     <CardDescription>Your move</CardDescription>
+                    <CardAction>
+                        <span
+                            class="flex size-9 items-center justify-center rounded-full bg-primary/15 text-primary ring-1 ring-primary/30"
+                        >
+                            <Swords class="size-4" />
+                        </span>
+                    </CardAction>
                     <CardTitle
                         class="text-3xl tabular-nums"
                         data-test="stat-your-turn"
@@ -125,6 +140,13 @@ const games = computed(
             <Card>
                 <CardHeader>
                     <CardDescription>Open challenges</CardDescription>
+                    <CardAction>
+                        <span
+                            class="flex size-9 items-center justify-center rounded-full bg-primary/15 text-primary ring-1 ring-primary/30"
+                        >
+                            <Mail class="size-4" />
+                        </span>
+                    </CardAction>
                     <CardTitle class="text-3xl tabular-nums">
                         {{ pendingInvitations }}
                     </CardTitle>
