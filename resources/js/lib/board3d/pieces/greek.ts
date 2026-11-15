@@ -34,7 +34,6 @@ const darkBronze = material({
     roughness: 0.45,
     flatShading: true,
 });
-const marble = material({ color: 0xece6da, roughness: 0.55 });
 const linen = material({ color: 0xf3eee2, roughness: 0.85, flatShading: true });
 const veil = material({
     color: 0x2f6fa8,
@@ -73,21 +72,6 @@ const builders: Record<PieceType, () => Group> = {
 
 export function buildGreek(type: PieceType): Group {
     return builders[type]();
-}
-
-/** Every Greek character stands on a marble disc banded in Aegean blue. */
-function base(): Group {
-    const group = new Group();
-    group.add(
-        part(new CylinderGeometry(0.28, 0.3, 0.05, 24), marble, 0, 0.025),
-    );
-    group.add(
-        part(new TorusGeometry(0.29, 0.012, 6, 28), aegean, 0, 0.035).rotateX(
-            Math.PI / 2,
-        ),
-    );
-
-    return group;
 }
 
 function eyes(
@@ -188,7 +172,7 @@ function spear(group: Group, from: number, to: number): void {
 
 /** Hoplite (pawn): a citizen soldier with crested helm, shield and spear. */
 function hoplite(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -251,7 +235,7 @@ function hoplite(): Group {
 
 /** Centaur (knight): a horse body carrying the torso of a spearman. */
 function centaur(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.065, 0.11],
@@ -331,7 +315,7 @@ function centaur(): Group {
 
 /** Oracle (bishop): a veiled seer with a smoking tripod-staff. */
 function oracle(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -443,7 +427,7 @@ function oracle(): Group {
 
 /** Bronze Colossus (rook): a giant walking statue with glowing eyes. */
 function bronzeColossus(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -558,7 +542,7 @@ function bronzeColossus(): Group {
 
 /** The Huntress (queen): an archer queen with a bow and crescent diadem. */
 function huntress(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -665,7 +649,7 @@ function huntress(): Group {
  * and a thunderbolt sceptre.
  */
 function archon(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
