@@ -10,6 +10,7 @@ import { buildSky } from '@/lib/board3d/pieces/sky';
 import { buildSun } from '@/lib/board3d/pieces/sun';
 import { buildShadow } from '@/lib/board3d/pieces/shadow';
 import { buildMechs } from '@/lib/board3d/pieces/mechs';
+import { buildGreek } from '@/lib/board3d/pieces/greek';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
@@ -180,5 +181,12 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
         debris: 'scrap',
         debrisGlow: 0.5,
         spell: { kind: 'beam', core: 0xffe6ea, glow: 0xff3048 },
+    },
+    greek: {
+        build: buildGreek,
+        magic: 0x8fdcff,
+        debris: 'shards',
+        debrisGlow: 0.3,
+        spell: { kind: 'bolt', core: 0xfff6c8, glow: 0xffd24a },
     },
 };

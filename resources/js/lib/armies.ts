@@ -13,7 +13,8 @@ export type ArmyId =
     | 'sky'
     | 'sun'
     | 'shadow'
-    | 'mechs';
+    | 'mechs'
+    | 'greek';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -185,6 +186,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Drone Trooper',
         },
         palette: [0xe9edf2, 0x4a5260, 0x39e6ff, 0xff3048],
+    },
+    greek: {
+        id: 'greek',
+        name: 'Greek Polis',
+        tagline: 'Bronze and marble march out from the shining city.',
+        pieces: {
+            k: 'The Archon',
+            q: 'The Huntress',
+            r: 'Bronze Colossus',
+            b: 'Oracle',
+            n: 'Centaur',
+            p: 'Hoplite',
+        },
+        palette: [0xb8803a, 0xe0b54a, 0x2f6fa8, 0xc0582f],
     },
 };
 
