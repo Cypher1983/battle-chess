@@ -11,7 +11,7 @@ const name = usePage().props.name;
     </div>
     <div class="ml-1 grid flex-1 text-left">
         <span
-            class="truncate text-sm leading-tight font-semibold tracking-[0.18em] uppercase"
+            class="truncate font-display text-sm leading-tight font-bold tracking-[0.14em] uppercase"
             >{{ name }}</span
         >
     </div>

@@ -22,7 +22,7 @@ defineProps<{
                     >
                         <AppLogoIcon class="size-16 text-primary" />
                         <span
-                            class="text-sm font-semibold tracking-[0.25em] uppercase"
+                            class="font-display text-base font-bold tracking-[0.2em] uppercase"
                             >{{ $page.props.name }}</span
                         >
                     </Link>
