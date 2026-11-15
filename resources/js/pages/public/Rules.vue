@@ -39,6 +39,21 @@ const pieces: { type: PieceType; role: string; moves: string }[] = [
         moves: 'One square forward, or two from its starting square. It captures one square diagonally forward (the rings).',
     },
 ];
+
+const specialMoves = [
+    {
+        name: 'Castling',
+        text: 'Move the king two squares towards a rook, and the rook jumps to the other side of it. Allowed only if neither piece has moved, the squares between are empty, and the king is not in check, crossing an attacked square or landing in check.',
+    },
+    {
+        name: 'En passant',
+        text: 'When a pawn moves two squares and lands beside one of your pawns, your pawn may capture it as if it had moved only one square. You must do it straight away, on your next move.',
+    },
+    {
+        name: 'Promotion',
+        text: 'A pawn that reaches the far side of the board becomes a queen, rook, bishop or knight of your choice. The game asks which one.',
+    },
+];
 </script>
 
 <template>
@@ -84,6 +99,24 @@ const pieces: { type: PieceType; role: string; moves: string }[] = [
                     </div>
                 </article>
             </div>
+        </section>
+
+        <section id="special-moves" class="space-y-6">
+            <h2 class="text-2xl font-semibold">Special moves</h2>
+            <dl class="grid gap-5 md:grid-cols-3">
+                <div
+                    v-for="move in specialMoves"
+                    :key="move.name"
+                    class="rounded-xl border bg-card/90 p-5"
+                >
+                    <dt class="mb-2 font-display text-lg font-semibold">
+                        {{ move.name }}
+                    </dt>
+                    <dd class="text-sm text-muted-foreground">
+                        {{ move.text }}
+                    </dd>
+                </div>
+            </dl>
         </section>
     </div>
 </template>
