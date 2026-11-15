@@ -39,7 +39,6 @@ const deepIce = material({
     flatShading: true,
 });
 const fur = material({ color: 0xf1f5f8, roughness: 1, flatShading: true });
-const snow = material({ color: 0xdde9f2, roughness: 0.9, flatShading: true });
 const robe = material({ color: 0x24406e, roughness: 0.85, flatShading: true });
 const gown = material({ color: 0x7bb6e0, roughness: 0.5, flatShading: true });
 const silver = material({ color: 0xd2dce6, metalness: 0.85, roughness: 0.3 });
@@ -59,26 +58,6 @@ const builders: Record<PieceType, () => Group> = {
 
 export function buildFrost(type: PieceType): Group {
     return builders[type]();
-}
-
-/** Every Frost character stands on a drift of packed snow with ice shards. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 9), snow, 0, 0.025));
-
-    for (let i = 0; i < 3; i++) {
-        const angle = (i / 3) * Math.PI * 2 + 0.9;
-        const shard = crystal(0.025, 0.08, ice);
-        shard.position.set(
-            Math.sin(angle) * 0.24,
-            0.06,
-            Math.cos(angle) * 0.24,
-        );
-        shard.rotation.z = 0.3;
-        group.add(shard);
-    }
-
-    return group;
 }
 
 /** A long pointed crystal: a stretched octahedron. */
@@ -127,7 +106,7 @@ function spikes(
 
 /** Frostling (pawn): a small ice imp with a jagged crown of frost and an icicle spear. */
 function frostling(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -207,7 +186,7 @@ function frostling(): Group {
 
 /** Snow Bear (knight): a great white bear with ice crystals along its back. */
 function snowBear(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.09, 0.11],
@@ -268,7 +247,7 @@ function snowBear(): Group {
 
 /** Crystal Mage (bishop): a robed mage with a fur collar and a crystal staff. */
 function crystalMage(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -346,7 +325,7 @@ function crystalMage(): Group {
 
 /** Ice Golem (rook): a hulking giant stacked from blocks of glacier ice. */
 function iceGolem(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -434,7 +413,7 @@ function iceGolem(): Group {
  * crystal crown and a fan of ice rising behind her shoulders.
  */
 function rimeMatriarch(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -505,7 +484,7 @@ function rimeMatriarch(): Group {
  * a fur mantle and an ice sceptre.
  */
 function glacierKing(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
