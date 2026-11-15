@@ -25,4 +25,19 @@ class PublicPagesTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page->component('public/Armies'));
     }
+
+    public function test_guests_can_view_the_rules_page()
+    {
+        $this->get(route('rules'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page->component('public/Rules'));
+    }
+
+    public function test_players_can_view_the_rules_page()
+    {
+        $this->actingAs(User::factory()->create())
+            ->get(route('rules'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page->component('public/Rules'));
+    }
 }
