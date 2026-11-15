@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Barricade Bruiser</title>
+  <ellipse cx="50" cy="88" rx="27" ry="6" fill="#b89a6a" stroke="#2a1e14" stroke-width="3"/>
+  <path d="M38 86 V74 M62 86 V74" stroke="#2a1e14" stroke-width="14" stroke-linecap="round"/>
+  <path d="M38 86 V74 M62 86 V74" stroke="#3e5a80" stroke-width="9" stroke-linecap="round"/>
+  <path d="M26 44 Q16 48 16 60 L17 66" fill="none" stroke="#2a1e14" stroke-width="13" stroke-linecap="round"/>
+  <path d="M26 44 Q16 48 16 60 L17 66" fill="none" stroke="#d9a27a" stroke-width="8" stroke-linecap="round"/>
+  <path d="M74 44 Q84 48 84 60 L83 66" fill="none" stroke="#2a1e14" stroke-width="13" stroke-linecap="round"/>
+  <path d="M74 44 Q84 48 84 60 L83 66" fill="none" stroke="#d9a27a" stroke-width="8" stroke-linecap="round"/>
+  <rect x="11" y="64" width="12" height="11" rx="2" fill="#7a5030" stroke="#2a1e14" stroke-width="2.5"/>
+  <rect x="77" y="64" width="12" height="11" rx="2" fill="#7a5030" stroke="#2a1e14" stroke-width="2.5"/>
+  <rect x="30" y="34" width="40" height="34" rx="6" fill="#7a5030" stroke="#2a1e14" stroke-width="3"/>
+  <rect x="24" y="62" width="52" height="9" rx="4.5" fill="#232323" stroke="#2a1e14" stroke-width="2.5"/>
+  <rect x="24" y="70" width="52" height="9" rx="4.5" fill="#232323" stroke="#2a1e14" stroke-width="2.5"/>
+  <path d="M30 66 H70 M30 74 H70" stroke="#3a3a3a" stroke-width="1.5"/>
+  <rect x="27" y="48" width="46" height="11" rx="1.5" fill="#e8e2d0" stroke="#2a1e14" stroke-width="2.5"/>
+  <path d="M31 59 L37 48 M39 59 L45 48 M47 59 L53 48 M55 59 L61 48 M63 59 L69 48" stroke="#f08a1c" stroke-width="3.5"/>
+  <path d="M50 34 L57 41 L50 48 L43 41 Z" fill="#f2c230" stroke="#2a1e14" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="48" y="39" width="4" height="4" fill="#2a1e14"/>
+  <ellipse cx="22" cy="40" rx="8" ry="4" fill="#232323" stroke="#2a1e14" stroke-width="2"/>
+  <ellipse cx="78" cy="40" rx="8" ry="4" fill="#232323" stroke="#2a1e14" stroke-width="2"/>
+  <circle cx="50" cy="26" r="10" fill="#d9a27a" stroke="#2a1e14" stroke-width="3"/>
+  <circle cx="46" cy="27" r="3.4" fill="#7fe0ff" stroke="#7a5030" stroke-width="2"/>
+  <circle cx="54" cy="27" r="3.4" fill="#7fe0ff" stroke="#7a5030" stroke-width="2"/>
+  <path d="M36 20 H64 L62 23 H38 Z" fill="#f08a1c" stroke="#2a1e14" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M42 20 L50 4 L58 20 Z" fill="#f08a1c" stroke="#2a1e14" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M45.5 13 H54.5" stroke="#e8e2d0" stroke-width="3"/>
+</svg>

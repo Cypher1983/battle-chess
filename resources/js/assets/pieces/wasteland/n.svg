@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>War Hound</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#b89a6a" stroke="#2a1e14" stroke-width="3"/>
+  <path d="M30 86 L32 66 M42 86 L42 68 M60 86 L60 68 M72 86 L70 66" stroke="#2a1e14" stroke-width="10" stroke-linecap="round"/>
+  <path d="M30 86 L32 66 M42 86 L42 68 M60 86 L60 68 M72 86 L70 66" stroke="#9a7048" stroke-width="6" stroke-linecap="round"/>
+  <path d="M26 58 Q16 50 18 40" fill="none" stroke="#2a1e14" stroke-width="8" stroke-linecap="round"/>
+  <path d="M26 58 Q16 50 18 40" fill="none" stroke="#9a7048" stroke-width="4" stroke-linecap="round"/>
+  <rect x="24" y="52" width="52" height="22" rx="11" fill="#9a7048" stroke="#2a1e14" stroke-width="3"/>
+  <path d="M30 54 L32 46 H64 L66 54 Z" fill="#9a4a22" stroke="#2a1e14" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M38 46 L36 54 M50 46 L48 54 M60 46 L58 54" stroke="#f2c230" stroke-width="3"/>
+  <path d="M40 46 L42 38 L44 46 M54 46 L56 38 L58 46" fill="#8a8f94" stroke="#2a1e14" stroke-width="1.8" stroke-linejoin="round"/>
+  <path d="M66 52 Q66 36 78 36 Q88 36 88 46 L94 50 Q94 56 86 56 L74 58 Z" fill="#9a7048" stroke="#2a1e14" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="93" cy="50" r="2.4" fill="#2a1e14"/>
+  <path d="M74 38 L70 26 L80 34 Z" fill="#7a5030" stroke="#2a1e14" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M82 38 Q90 36 90 44" fill="none" stroke="#7a5030" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="80" cy="44" r="4.2" fill="#7fe0ff" stroke="#7a5030" stroke-width="2.5"/>
+  <path d="M68 56 L76 50" stroke="#2a1e14" stroke-width="6" stroke-linecap="round"/>
+  <path d="M68 56 L76 50" stroke="#7a5030" stroke-width="3" stroke-linecap="round"/>
+  <path d="M70 58 l-3 3 M74 55 l0 4" stroke="#8a8f94" stroke-width="2" stroke-linecap="round"/>
+</svg>

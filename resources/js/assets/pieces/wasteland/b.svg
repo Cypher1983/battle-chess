@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Field Medic</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#b89a6a" stroke="#2a1e14" stroke-width="3"/>
+  <rect x="58" y="44" width="16" height="18" rx="2" fill="#e8e2d0" stroke="#2a1e14" stroke-width="2.5"/>
+  <path d="M66 48 V58 M61 53 H71" stroke="#f08a1c" stroke-width="3"/>
+  <path d="M33 86 L38 50 Q50 44 62 50 L67 86 Z" fill="#a89a6a" stroke="#2a1e14" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M38 66 H62" stroke="#7a5030" stroke-width="4" stroke-linecap="round"/>
+  <rect x="52" y="63" width="8" height="7" rx="1" fill="#7a5030" stroke="#2a1e14" stroke-width="2"/>
+  <path d="M50 50 V86" stroke="#2a1e14" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="50" cy="35" r="12" fill="#7a5030" stroke="#2a1e14" stroke-width="3"/>
+  <path d="M38 33 Q38 21 50 21 Q62 21 62 33 Z" fill="#a89a6a" stroke="#2a1e14" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="45" cy="35" r="4.2" fill="#9cff5a" stroke="#2a1e14" stroke-width="2"/>
+  <circle cx="55" cy="35" r="4.2" fill="#9cff5a" stroke="#2a1e14" stroke-width="2"/>
+  <rect x="45" y="41" width="10" height="9" rx="3" fill="#8a8f94" stroke="#2a1e14" stroke-width="2.5"/>
+  <path d="M47 45 h6" stroke="#f08a1c" stroke-width="2"/>
+  <path d="M27 86 V20" stroke="#2a1e14" stroke-width="5" stroke-linecap="round"/>
+  <path d="M27 86 V20" stroke="#8a8f94" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M19 20 H35" stroke="#2a1e14" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M19 20 H35" stroke="#8a8f94" stroke-width="2" stroke-linecap="round"/>
+  <rect x="15" y="23" width="9" height="12" rx="2.5" fill="#9cff5a" stroke="#2a1e14" stroke-width="2"/>
+  <path d="M19.5 35 Q20 46 26 50" fill="none" stroke="#e8e2d0" stroke-width="1.5"/>
+  <circle cx="23" cy="86" r="2.5" fill="#232323"/><circle cx="31" cy="86" r="2.5" fill="#232323"/>
+  <path d="M38 58 L30 54" stroke="#2a1e14" stroke-width="7" stroke-linecap="round"/>
+  <path d="M38 58 L30 54" stroke="#a89a6a" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
