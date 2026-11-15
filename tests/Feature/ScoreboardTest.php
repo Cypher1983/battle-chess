@@ -70,9 +70,20 @@ class ScoreboardTest extends TestCase
             );
     }
 
-    public function test_guests_cannot_view_the_scoreboard()
+    public function test_guests_see_the_public_scoreboard_with_usernames_only()
     {
-        $this->get(route('scoreboard'))->assertRedirect(route('login'));
+        $this->player('alpha', 1300, wins: 2);
+
+        $this->get(route('scoreboard'))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('public/Scoreboard')
+                ->missing('me')
+                ->where('players.data.0.username', 'alpha')
+                ->where('players.data.0.rank', 1)
+                ->missing('players.data.0.name')
+                ->missing('players.data.0.is_me')
+            );
     }
 
     private function player(string $username, int $rating, int $wins = 0, int $losses = 0, int $draws = 0): User
