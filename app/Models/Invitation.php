@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Army;
+use App\Enums\BoardTheme;
 use App\Enums\InvitationStatus;
 use Database\Factories\InvitationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -19,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $invitee_id
  * @property string|null $email
  * @property Army|null $inviter_army
+ * @property BoardTheme $board_theme
  * @property InvitationStatus $status
  * @property Carbon $expires_at
  * @property Carbon|null $responded_at
@@ -27,7 +29,7 @@ use Illuminate\Support\Carbon;
  * @property-read User $inviter
  * @property-read User|null $invitee
  */
-#[Fillable(['inviter_id', 'invitee_id', 'email', 'inviter_army', 'status', 'expires_at', 'responded_at'])]
+#[Fillable(['inviter_id', 'invitee_id', 'email', 'inviter_army', 'board_theme', 'status', 'expires_at', 'responded_at'])]
 class Invitation extends Model
 {
     /** @use HasFactory<InvitationFactory> */
@@ -39,6 +41,15 @@ class Invitation extends Model
     public const EXPIRES_AFTER_DAYS = 7;
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'board_theme' => 'classic',
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -47,6 +58,7 @@ class Invitation extends Model
     {
         return [
             'inviter_army' => Army::class,
+            'board_theme' => BoardTheme::class,
             'status' => InvitationStatus::class,
             'expires_at' => 'datetime',
             'responded_at' => 'datetime',
