@@ -2,7 +2,7 @@ export type PieceColor = 'w' | 'b';
 export type PieceType = 'k' | 'q' | 'r' | 'b' | 'n' | 'p';
 
 /** The armies players can command (matches the server's Army enum). */
-export type ArmyId = 'clockwork' | 'wildwood' | 'ember' | 'frost';
+export type ArmyId = 'clockwork' | 'wildwood' | 'ember' | 'frost' | 'tide';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -74,6 +74,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Frostling',
         },
         palette: [0x9cd3f2, 0xe8f6ff, 0x4f94c4, 0x7fe8ff],
+    },
+    tide: {
+        id: 'tide',
+        name: 'Sunken Fleet',
+        tagline: 'Drowned crews risen from the deep to claim the board.',
+        pieces: {
+            k: 'The Drowned Admiral',
+            q: 'The Sea Witch',
+            r: 'Shipwreck Hulk',
+            b: 'Tide Priest',
+            n: 'Coral Crab',
+            p: 'Barnacle Deckhand',
+        },
+        palette: [0x3fe0c8, 0xe0675a, 0xcfc6ae, 0x3f6b3a],
     },
 };
 

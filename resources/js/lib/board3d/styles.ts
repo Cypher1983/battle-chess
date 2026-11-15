@@ -3,6 +3,7 @@ import type { ArmyId, PieceType } from '@/lib/armies';
 import { buildClockwork } from '@/lib/board3d/pieces/clockwork';
 import { buildEmber } from '@/lib/board3d/pieces/ember';
 import { buildFrost } from '@/lib/board3d/pieces/frost';
+import { buildTide } from '@/lib/board3d/pieces/tide';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
@@ -112,5 +113,12 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
             trail: 0x7fe8ff,
             count: 3,
         },
+    },
+    tide: {
+        build: buildTide,
+        magic: 0x3fe0c8,
+        debris: 'droplets',
+        debrisGlow: 0.3,
+        spell: { kind: 'gust', colour: 0x3fe0c8 },
     },
 };
