@@ -73,19 +73,6 @@ export function buildShadow(type: PieceType): Group {
     return builders[type]();
 }
 
-/** Every Night Spirit hovers over a slab of grave slate ringed with mist. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 10), slate, 0, 0.025));
-    group.add(
-        part(new TorusGeometry(0.23, 0.012, 5, 28), spirit, 0, 0.05).rotateX(
-            Math.PI / 2,
-        ),
-    );
-
-    return group;
-}
-
 /** A lump of drifting black smoke. */
 function puff(radius: number, x: number, y: number, z: number, mat = smoke) {
     const mesh = part(new IcosahedronGeometry(radius, 0), mat, x, y, z);
@@ -143,7 +130,7 @@ function tatters(
 
 /** Lantern Wisp (pawn): a small hovering ghost holding up a lantern. */
 function lanternWisp(): Group {
-    const piece = base();
+    const piece = new Group();
     piece.add(puff(0.05, 0.02, 0.08, 0.02, soot));
 
     const body = joint(RIG.body, 0, 0.1, 0);
@@ -219,7 +206,7 @@ function lanternWisp(): Group {
 
 /** Shadow Hound (knight): a smoky black hound with burning green eyes. */
 function shadowHound(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.075, 0.12],
@@ -311,7 +298,7 @@ function shadowHound(): Group {
 
 /** Hollow Monk (bishop): an empty, glowing hood with a censer staff. */
 function hollowMonk(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -384,7 +371,7 @@ function hollowMonk(): Group {
  * with ghost light and whose bell still tolls.
  */
 function hauntedBelfry(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -512,7 +499,7 @@ function hauntedBelfry(): Group {
  * and a gown that dissolves into tatters.
  */
 function banshee(): Group {
-    const piece = base();
+    const piece = new Group();
     piece.add(puff(0.07, 0.05, 0.08, -0.03, soot));
     piece.add(puff(0.05, -0.08, 0.07, 0.05, soot));
 
@@ -621,7 +608,7 @@ function banshee(): Group {
  * bearing a sceptre that holds a captive spirit light.
  */
 function paleKing(): Group {
-    const piece = base();
+    const piece = new Group();
     piece.add(puff(0.06, 0.1, 0.08, 0.05, soot));
 
     const body = joint(RIG.body, 0, 0, 0);
