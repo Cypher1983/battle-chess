@@ -53,7 +53,7 @@ class InvitationController extends Controller
      */
     public function store(StoreInvitationRequest $request, SendInvitation $sendInvitation): RedirectResponse
     {
-        $sendInvitation($request->user(), $request->invitee(), $request->inviteEmail());
+        $sendInvitation($request->user(), $request->invitee(), $request->inviteEmail(), $request->army());
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Challenge sent.')]);
 

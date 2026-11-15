@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Invitations;
 
+use App\Enums\Army;
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\User;
@@ -169,5 +170,40 @@ class SendInvitationTest extends TestCase
         $this->actingAs(User::factory()->create())
             ->post(route('invitations.store'), ['recipient' => ''])
             ->assertSessionHasErrors('recipient');
+    }
+
+    public function test_challengers_choose_the_army_they_bring()
+    {
+        $alice = User::factory()->create(['army' => Army::Clockwork]);
+        User::factory()->create(['username' => 'bob']);
+
+        $this->actingAs($alice)
+            ->post(route('invitations.store'), ['recipient' => 'bob', 'army' => 'viking'])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(Army::Viking, Invitation::sole()->inviter_army);
+    }
+
+    public function test_challengers_bring_their_saved_army_by_default()
+    {
+        $alice = User::factory()->create(['army' => Army::Greek]);
+        User::factory()->create(['username' => 'bob']);
+
+        $this->actingAs($alice)
+            ->post(route('invitations.store'), ['recipient' => 'bob'])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(Army::Greek, Invitation::sole()->inviter_army);
+    }
+
+    public function test_unknown_armies_are_rejected()
+    {
+        User::factory()->create(['username' => 'bob']);
+
+        $this->actingAs(User::factory()->create())
+            ->post(route('invitations.store'), ['recipient' => 'bob', 'army' => 'pirates'])
+            ->assertSessionHasErrors('army');
+
+        $this->assertDatabaseCount('invitations', 0);
     }
 }
