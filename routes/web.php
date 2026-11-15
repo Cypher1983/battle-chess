@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::inertia('/', 'Welcome')->name('home');
 Route::inertia('armies', 'public/Armies')->name('armies');
 Route::inertia('rules', 'public/Rules')->name('rules');
+Route::get('scoreboard', [ScoreboardController::class, 'index'])->name('scoreboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
@@ -23,7 +24,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('invitations/{invitation}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');
     Route::post('invitations/{invitation}/decline', [InvitationController::class, 'decline'])->name('invitations.decline');
     Route::post('invitations/{invitation}/cancel', [InvitationController::class, 'cancel'])->name('invitations.cancel');
-    Route::get('scoreboard', [ScoreboardController::class, 'index'])->name('scoreboard');
 
     Route::get('games/{game}', [GameController::class, 'show'])->name('games.show');
     Route::post('games/{game}/moves', [GameMoveController::class, 'store'])

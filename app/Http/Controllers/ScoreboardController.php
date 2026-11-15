@@ -17,6 +17,8 @@ class ScoreboardController extends Controller
 
     /**
      * Show the ranked leaderboard of everyone who has finished a game.
+     *
+     * Guests get the public version, which shows usernames only.
      */
     public function index(Request $request): Response
     {
@@ -28,18 +30,31 @@ class ScoreboardController extends Controller
 
         $offset = ($players->currentPage() - 1) * $players->perPage();
 
+        $ranked = collect($players->items())->values()->map(fn (User $player, int $index) => $user === null
+            ? [
+                'rank' => $offset + $index + 1,
+                ...$this->presentPublicly($player),
+            ]
+            : [
+                'rank' => $offset + $index + 1,
+                ...$this->present($player),
+                'is_me' => $player->id === $user->id,
+            ]);
+
+        $page = [
+            'data' => $ranked,
+            'current_page' => $players->currentPage(),
+            'last_page' => $players->lastPage(),
+            'prev_page_url' => $players->previousPageUrl(),
+            'next_page_url' => $players->nextPageUrl(),
+        ];
+
+        if ($user === null) {
+            return Inertia::render('public/Scoreboard', ['players' => $page]);
+        }
+
         return Inertia::render('Scoreboard', [
-            'players' => [
-                'data' => collect($players->items())->values()->map(fn (User $player, int $index) => [
-                    'rank' => $offset + $index + 1,
-                    ...$this->present($player),
-                    'is_me' => $player->id === $user->id,
-                ]),
-                'current_page' => $players->currentPage(),
-                'last_page' => $players->lastPage(),
-                'prev_page_url' => $players->previousPageUrl(),
-                'next_page_url' => $players->nextPageUrl(),
-            ],
+            'players' => $page,
             'me' => [
                 'rank' => $this->rankOf($user),
                 ...$this->present($user),
@@ -95,6 +110,23 @@ class ScoreboardController extends Controller
     {
         return [
             'name' => $player->name,
+            'username' => $player->username,
+            'rating' => $player->rating,
+            'wins' => $player->wins,
+            'losses' => $player->losses,
+            'draws' => $player->draws,
+            'games' => $player->wins + $player->losses + $player->draws,
+        ];
+    }
+
+    /**
+     * Scoreboard details safe to show to guests: no real names.
+     *
+     * @return array{username: string, rating: int, wins: int, losses: int, draws: int, games: int}
+     */
+    private function presentPublicly(User $player): array
+    {
+        return [
             'username' => $player->username,
             'rating' => $player->rating,
             'wins' => $player->wins,
