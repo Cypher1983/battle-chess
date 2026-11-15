@@ -3,7 +3,7 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import { Mail, Shield, Swords, Trophy } from '@lucide/vue';
 import { Button } from '@/components/ui/button';
 import { armies, ARMY_IDS, pieceImage } from '@/lib/armies';
-import { login, play, register } from '@/routes';
+import { armies as armiesPage, login, play, register } from '@/routes';
 
 const page = usePage();
 
@@ -134,5 +134,40 @@ const features = [
                 </p>
             </div>
         </div>
+    </section>
+
+    <section class="mx-auto w-full max-w-6xl space-y-6 px-4 pb-16">
+        <div class="flex items-end justify-between gap-4">
+            <h2 class="text-2xl font-semibold">Pick your army</h2>
+            <Link
+                :href="armiesPage()"
+                class="text-sm text-primary underline-offset-4 hover:underline"
+            >
+                Meet all {{ ARMY_IDS.length }} armies →
+            </Link>
+        </div>
+        <ul
+            class="grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-[repeat(15,minmax(0,1fr))]"
+        >
+            <li v-for="id in ARMY_IDS" :key="id" data-test="army-preview">
+                <Link
+                    :href="`${armiesPage.url()}#${id}`"
+                    class="group flex flex-col items-center gap-1 rounded-lg border bg-card/80 p-2 transition-colors hover:border-primary/50"
+                    :title="armies[id].name"
+                >
+                    <img
+                        :src="pieceImage(id, 'k')"
+                        :alt="armies[id].name"
+                        class="size-12 transition-transform group-hover:-translate-y-0.5"
+                        loading="lazy"
+                    />
+                    <span
+                        class="w-full truncate text-center text-[0.65rem] text-muted-foreground lg:sr-only"
+                    >
+                        {{ armies[id].name }}
+                    </span>
+                </Link>
+            </li>
+        </ul>
     </section>
 </template>
