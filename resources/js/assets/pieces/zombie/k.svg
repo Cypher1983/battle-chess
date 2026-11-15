@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The Lich Lord</title>
+  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#3d342c" stroke="#1c1622" stroke-width="3"/>
+  <path d="M26 86 L32 46 H68 L74 86 Z" fill="#5b3a6e" stroke="#1c1622" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M32 86 L38 48 H62 L68 86 L63 81 L58 87 L53 81 L47 87 L42 81 L37 87 Z" fill="#2c2236" stroke="#1c1622" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M43 54 H57 M44 58 H56 M45 62 H55" stroke="#e8e0c8" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M50 66 L53 70 L50 74 L47 70 Z" fill="#7dff5a" stroke="#1c1622" stroke-width="1.5"/>
+  <path d="M36 72 H64" stroke="#8a7a3a" stroke-width="3"/>
+  <circle cx="31" cy="46" r="7" fill="#e8e0c8" stroke="#1c1622" stroke-width="2.5"/>
+  <circle cx="69" cy="46" r="7" fill="#e8e0c8" stroke="#1c1622" stroke-width="2.5"/>
+  <circle cx="29" cy="46" r="1.4" fill="#1c1622"/><circle cx="33" cy="46" r="1.4" fill="#1c1622"/>
+  <circle cx="67" cy="46" r="1.4" fill="#1c1622"/><circle cx="71" cy="46" r="1.4" fill="#1c1622"/>
+  <circle cx="50" cy="32" r="10" fill="#e8e0c8" stroke="#1c1622" stroke-width="3"/>
+  <rect x="45" y="38" width="10" height="6" rx="1.5" fill="#e8e0c8" stroke="#1c1622" stroke-width="2.5"/>
+  <path d="M48 38 V44 M52 38 V44" stroke="#1c1622" stroke-width="1.2"/>
+  <circle cx="46" cy="31" r="3.2" fill="#1c1622"/><circle cx="54" cy="31" r="3.2" fill="#1c1622"/>
+  <circle cx="46" cy="31" r="2" fill="#b6ff4a"/><circle cx="54" cy="31" r="2" fill="#b6ff4a"/>
+  <path d="M39 24 L37 12 L43 19 L46 6 L50 17 L54 6 L57 19 L63 12 L61 24 Z" fill="#8a7a3a" stroke="#1c1622" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="50" cy="21" r="2" fill="#7dff5a"/>
+  <path d="M80 86 V30" stroke="#1c1622" stroke-width="6" stroke-linecap="round"/>
+  <path d="M80 86 V30" stroke="#8a7a3a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="80" cy="22" r="11" fill="#9cff7a" opacity="0.35"/>
+  <circle cx="80" cy="22" r="6.5" fill="#7dff5a" stroke="#1c1622" stroke-width="2.5"/>
+  <path d="M68 52 L78 48" stroke="#1c1622" stroke-width="7" stroke-linecap="round"/>
+  <path d="M68 52 L78 48" stroke="#2c2236" stroke-width="4" stroke-linecap="round"/>
+</svg>

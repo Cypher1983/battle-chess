@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Bone Hound</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#3d342c" stroke="#1c1622" stroke-width="3"/>
+  <path d="M30 86 L32 62 M42 86 L40 64 M60 86 L62 62 M72 86 L70 62" stroke="#1c1622" stroke-width="7" stroke-linecap="round"/>
+  <path d="M30 86 L32 62 M42 86 L40 64 M60 86 L62 62 M72 86 L70 62" stroke="#e8e0c8" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M26 54 L74 52" stroke="#1c1622" stroke-width="8" stroke-linecap="round"/>
+  <path d="M26 54 L74 52" stroke="#e8e0c8" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M46 54 Q44 66 50 70 M54 54 Q52 66 58 70 M62 53 Q60 64 66 68 M38 54 Q36 64 42 68" fill="none" stroke="#1c1622" stroke-width="6" stroke-linecap="round"/>
+  <path d="M46 54 Q44 66 50 70 M54 54 Q52 66 58 70 M62 53 Q60 64 66 68 M38 54 Q36 64 42 68" fill="none" stroke="#e8e0c8" stroke-width="2.8" stroke-linecap="round"/>
+  <circle cx="54" cy="61" r="4" fill="#7dff5a" opacity="0.8"/>
+  <path d="M26 54 Q16 48 14 36" fill="none" stroke="#1c1622" stroke-width="6" stroke-linecap="round"/>
+  <path d="M26 54 Q16 48 14 36" fill="none" stroke="#e8e0c8" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M68 50 Q70 36 82 36 Q90 38 92 46 L92 50 L80 52 L74 56 Z" fill="#e8e0c8" stroke="#1c1622" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M80 52 L92 52 L90 56 L80 56 Z" fill="#e8e0c8" stroke="#1c1622" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M72 40 L70 26 L80 36 Z" fill="#e8e0c8" stroke="#1c1622" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="81" cy="43" r="3.4" fill="#1c1622"/>
+  <circle cx="81" cy="43" r="2" fill="#b6ff4a"/>
+  <path d="M84 52 l1 3 M88 52 l1 3" stroke="#1c1622" stroke-width="1.5"/>
+  <path d="M68 48 L74 56" stroke="#5b3a6e" stroke-width="4" stroke-linecap="round"/>
+</svg>

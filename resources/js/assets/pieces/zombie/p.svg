@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Shambler</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#3d342c" stroke="#1c1622" stroke-width="3"/>
+  <path d="M43 86 L45 70 M57 86 L54 70" stroke="#1c1622" stroke-width="9" stroke-linecap="round"/>
+  <path d="M43 86 L45 70 M57 86 L54 70" stroke="#6b4a32" stroke-width="5" stroke-linecap="round"/>
+  <path d="M36 72 L40 50 Q50 44 62 50 L64 72 L60 68 L56 74 L51 68 L46 74 L41 68 Z" fill="#5b3a6e" stroke="#1c1622" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M48 56 L54 60 L50 64" fill="none" stroke="#8fa888" stroke-width="3" stroke-linecap="round"/>
+  <path d="M60 52 L80 54 M58 58 L78 62" stroke="#1c1622" stroke-width="9" stroke-linecap="round"/>
+  <path d="M60 52 L80 54 M58 58 L78 62" stroke="#8fa888" stroke-width="5" stroke-linecap="round"/>
+  <path d="M60 50 L68 52 L67 58 L60 59 Z" fill="#5b3a6e" stroke="#1c1622" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="54" cy="38" r="12" fill="#8fa888" stroke="#1c1622" stroke-width="3"/>
+  <path d="M50 26 L48 20 M55 26 L58 19" stroke="#2c2236" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="51" cy="37" r="2.8" fill="#b6ff4a"/>
+  <circle cx="60" cy="37" r="2.2" fill="#b6ff4a"/>
+  <path d="M51 45 h7" stroke="#1c1622" stroke-width="2" stroke-linecap="round"/>
+  <path d="M43 32 l4 3 M44 35 l2 -2" stroke="#1c1622" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
