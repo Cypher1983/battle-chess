@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Command Core</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#4a5260" stroke="#141922" stroke-width="3"/>
-  <ellipse cx="50" cy="87" rx="19" ry="3" fill="none" stroke="#39e6ff" stroke-width="1.5"/>
   <path d="M26 44 L20 80 H80 L74 44 Z" fill="#1d222b" stroke="#141922" stroke-width="3" stroke-linejoin="round"/>
   <path d="M28 52 L24 76 M36 50 L34 78 M64 50 L66 78 M72 52 L76 76" stroke="#4a5260" stroke-width="3" stroke-linecap="round"/>
   <path d="M40 68 V80 M60 68 V80" stroke="#4a5260" stroke-width="8"/>

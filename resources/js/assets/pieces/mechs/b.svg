@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Signal Tech</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#4a5260" stroke="#141922" stroke-width="3"/>
-  <ellipse cx="50" cy="87" rx="17" ry="3" fill="none" stroke="#39e6ff" stroke-width="1.5"/>
   <path d="M45 62 L44 84 M55 62 L56 84" stroke="#4a5260" stroke-width="4" stroke-linecap="round"/>
   <circle cx="44" cy="73" r="3" fill="#e9edf2" stroke="#141922" stroke-width="1.5"/>
   <circle cx="56" cy="73" r="3" fill="#e9edf2" stroke="#141922" stroke-width="1.5"/>

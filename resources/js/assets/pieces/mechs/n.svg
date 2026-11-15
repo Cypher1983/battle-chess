@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Hover Strider</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#4a5260" stroke="#141922" stroke-width="3"/>
-  <ellipse cx="50" cy="87" rx="20" ry="3" fill="none" stroke="#39e6ff" stroke-width="1.5"/>
   <path d="M30 58 L22 72 L26 86 M40 60 L38 72 L40 86 M60 60 L62 72 L60 86 M70 58 L78 72 L74 86" fill="none" stroke="#4a5260" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M20 86 H32 M34 86 H46 M54 86 H66 M68 86 H80" stroke="#1d222b" stroke-width="3" stroke-linecap="round"/>
   <circle cx="22" cy="72" r="4" fill="#e9edf2" stroke="#141922" stroke-width="2"/>

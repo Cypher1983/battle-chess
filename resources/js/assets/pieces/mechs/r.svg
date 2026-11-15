@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Siege Walker</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#4a5260" stroke="#141922" stroke-width="3"/>
-  <ellipse cx="50" cy="87" rx="20" ry="3" fill="none" stroke="#39e6ff" stroke-width="1.5"/>
   <path d="M36 68 V80 M64 68 V80" stroke="#4a5260" stroke-width="8"/>
   <path d="M28 86 V80 H44 V86 Z M56 86 V80 H72 V86 Z" fill="#e9edf2" stroke="#141922" stroke-width="2.5" stroke-linejoin="round"/>
   <rect x="30" y="66" width="12" height="8" rx="2" fill="#e9edf2" stroke="#141922" stroke-width="2"/>
