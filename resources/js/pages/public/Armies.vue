@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Button } from '@/components/ui/button';
 import { armies, ARMY_IDS, pieceImage } from '@/lib/armies';
 import type { PieceType } from '@/lib/armies';
+import { register } from '@/routes';
+import { edit as editArmy } from '@/routes/army';
+
+const page = usePage();
 
 const roster: PieceType[] = ['k', 'q', 'r', 'b', 'n', 'p'];
 
@@ -81,5 +86,24 @@ const roles: Record<PieceType, string> = {
                 </ul>
             </article>
         </div>
+
+        <section
+            class="flex flex-col gap-4 rounded-xl border border-primary/40 bg-primary/10 p-6 md:flex-row md:items-center md:justify-between"
+        >
+            <div class="space-y-1">
+                <h2 class="text-xl font-semibold">How to choose</h2>
+                <p class="text-sm text-muted-foreground">
+                    Set your usual army under Settings → Army. When you send a
+                    challenge you can bring a different army and pick the board
+                    for that battle.
+                </p>
+            </div>
+            <Button v-if="page.props.auth.user" as-child>
+                <Link :href="editArmy()">Change your army</Link>
+            </Button>
+            <Button v-else as-child>
+                <Link :href="register()">Raise your army</Link>
+            </Button>
+        </section>
     </div>
 </template>
