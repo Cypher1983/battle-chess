@@ -250,6 +250,7 @@ watch(
     <div
         class="relative aspect-square w-full select-none"
         data-test="chess-board-3d"
+        :data-board-theme="boardTheme"
     >
         <div ref="host" class="absolute inset-0 touch-none" />
         <button

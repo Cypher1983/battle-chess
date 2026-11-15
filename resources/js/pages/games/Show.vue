@@ -29,6 +29,7 @@ import {
 } from '@/lib/sounds';
 import { armies } from '@/lib/armies';
 import type { ArmyId, GameArmies, PieceColor, PieceType } from '@/lib/armies';
+import type { BoardThemeId } from '@/lib/boardThemes';
 import { play } from '@/routes';
 
 type Player = {
@@ -43,6 +44,7 @@ type GameData = {
     fen: string;
     turn: PieceColor;
     armies: GameArmies;
+    board_theme: BoardThemeId;
     status: 'active' | 'finished';
     result: '1-0' | '0-1' | '1/2-1/2' | null;
     end_reason: string | null;
@@ -409,11 +411,12 @@ function askForRematch(army: ArmyId): void {
             <div class="relative">
                 <Board3D
                     v-if="show3d"
-                    :key="`${graphics}:${game.armies.w}:${game.armies.b}`"
+                    :key="`${graphics}:${game.armies.w}:${game.armies.b}:${game.board_theme}`"
                     :quality="graphics"
                     :fen="game.fen"
                     :orientation="orientation"
                     :armies="game.armies"
+                    :board-theme="game.board_theme"
                     :last-move="game.last_move"
                     :selected="selected"
                     :targets="targets"
@@ -428,6 +431,7 @@ function askForRematch(army: ArmyId): void {
                     :fen="game.fen"
                     :orientation="orientation"
                     :armies="game.armies"
+                    :board-theme="game.board_theme"
                     :last-move="game.last_move"
                     :selected="selected"
                     :targets="targets"
