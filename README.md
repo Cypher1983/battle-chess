@@ -100,10 +100,12 @@ gestures, effects and defeat animation.
 
 ## Armies
 
-Each player chooses an army under **Settings → Army**. Any army can play either
-colour; a soft glow at each piece's feet, ivory for white and dark for black,
-keeps mirror matches readable. The army is saved with each game when it starts,
-so changing it later only affects new games.
+Each player picks an army for every game: the challenger when sending the
+challenge (or asking for a rematch), the challenged player when accepting it.
+The challenger's army is taken, so both sides always lead different armies.
+The picker starts on the army saved under **Settings → Army**. Any army can
+play either colour; a soft glow at each piece's feet, ivory for white and dark
+for black, shows the side. Armies are saved with each game when it starts.
 
 | Army                | Spell (bishops and queens) |
 | ------------------- | -------------------------- |
@@ -128,6 +130,16 @@ To add an army: add a case to `App\Enums\Army`, an entry in
 in `resources/js/lib/board3d/pieces/<id>.ts` and an entry in
 `resources/js/lib/board3d/styles.ts` (magic colour, debris, spell), plus six
 SVGs in `resources/js/assets/pieces/<id>/`.
+
+## Board themes
+
+The challenger also picks the board, and both players see it, in 3D and 2D:
+Classic walnut, Marble, Tournament green, Lava, Ice, Ocean, Night, and Ebony &
+gold. A rematch starts on the same board.
+
+To add a board: add a case to `App\Enums\BoardTheme` and an entry in
+`resources/js/lib/boardThemes.ts` (square, frame, trim and label colours,
+grain and surface finish).
 
 ## Artwork
 
