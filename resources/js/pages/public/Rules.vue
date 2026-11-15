@@ -118,5 +118,76 @@ const specialMoves = [
                 </div>
             </dl>
         </section>
+
+        <section id="game-end" class="space-y-6">
+            <h2 class="text-2xl font-semibold">How a battle ends</h2>
+            <div class="grid gap-5 md:grid-cols-2">
+                <div class="rounded-xl border bg-card/90 p-5">
+                    <h3 class="mb-3 text-lg font-semibold text-primary">
+                        Victory
+                    </h3>
+                    <ul
+                        class="list-disc space-y-2 pl-5 text-sm text-muted-foreground"
+                    >
+                        <li>
+                            <strong class="text-foreground">Checkmate:</strong>
+                            the enemy king is attacked (in check) and has no way
+                            to escape.
+                        </li>
+                        <li>
+                            <strong class="text-foreground"
+                                >Resignation:</strong
+                            >
+                            your opponent gives up.
+                        </li>
+                        <li>
+                            <strong class="text-foreground"
+                                >Missed deadline:</strong
+                            >
+                            your opponent ran out of time to move and you
+                            claimed the win.
+                        </li>
+                    </ul>
+                </div>
+                <div class="rounded-xl border bg-card/90 p-5">
+                    <h3 class="mb-3 text-lg font-semibold">Draw</h3>
+                    <ul
+                        class="list-disc space-y-2 pl-5 text-sm text-muted-foreground"
+                    >
+                        <li>
+                            <strong class="text-foreground">Stalemate:</strong>
+                            the player to move has no legal move but is not in
+                            check.
+                        </li>
+                        <li>
+                            <strong class="text-foreground"
+                                >Insufficient material:</strong
+                            >
+                            neither side has enough pieces left to checkmate.
+                        </li>
+                        <li>
+                            <strong class="text-foreground"
+                                >Threefold repetition:</strong
+                            >
+                            the same position appears three times.
+                        </li>
+                        <li>
+                            <strong class="text-foreground"
+                                >Fifty-move rule:</strong
+                            >
+                            fifty moves each without a capture or a pawn move.
+                        </li>
+                        <li>
+                            <strong class="text-foreground">Agreement:</strong>
+                            one player offers a draw and the other accepts.
+                        </li>
+                    </ul>
+                    <p class="mt-3 text-xs text-muted-foreground">
+                        The game spots stalemate, insufficient material,
+                        repetition and the fifty-move rule for you.
+                    </p>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
