@@ -1,9 +1,10 @@
 # Battle Chess
 
 A web-based chess game where every capture plays out as an animated battle.
-Lead the brass automatons of the **Clockwork Legion** (white) against the living
-forest of the **Wildwood Court** (black). Challenge friends by username or email
-and climb the scoreboard.
+Pick one of fifteen original armies, from the brass automatons of the
+**Clockwork Legion** to the living forest of the **Wildwood Court**, and lead it
+on either side of the board. Challenge friends by username or email and climb
+the scoreboard.
 
 ## Tech stack
 
@@ -97,11 +98,42 @@ The 3D code lives in `resources/js/lib/board3d`: `BoardView.ts` runs the board,
 the idle animation, and `battle/` the battle timeline, attacks, spells,
 gestures, effects and defeat animation.
 
+## Armies
+
+Each player chooses an army under **Settings → Army**. Any army can play either
+colour; every piece wears an ivory (white) or onyx (black) rim on its base so
+mirror matches stay readable. The army is saved with each game when it starts,
+so changing it later only affects new games.
+
+| Army                | Spell (bishops and queens) |
+| ------------------- | -------------------------- |
+| Clockwork Legion    | forked lightning           |
+| Wildwood Court      | thorn vine                 |
+| Ember Dynasty       | fireball                   |
+| Frost Covenant      | ice shards                 |
+| Sunken Fleet        | water spout                |
+| Sky Armada          | wind gust                  |
+| Sun Pharaohs        | sunbeam                    |
+| Night Spirits       | spectral bolt              |
+| Star Mechs          | laser                      |
+| Void Swarm          | acid glob                  |
+| Human Kingdom       | arrow volley               |
+| Greek Polis         | thunderbolt                |
+| Viking Clans        | thrown axe                 |
+| Zombie Horde        | bile glob                  |
+| Wasteland Survivors | firebomb                   |
+
+To add an army: add a case to `App\Enums\Army`, an entry in
+`resources/js/lib/armies.ts` (names, tagline, effect palette), a model builder
+in `resources/js/lib/board3d/pieces/<id>.ts` and an entry in
+`resources/js/lib/board3d/styles.ts` (magic colour, debris, spell), plus six
+SVGs in `resources/js/assets/pieces/<id>/`.
+
 ## Artwork
 
-Piece art lives in `resources/js/assets/pieces` (`w/` Clockwork Legion,
-`b/` Wildwood Court). The included SVGs are original placeholders: replace any
-file to restyle a piece without code changes. See the README in that folder.
+Piece art lives in `resources/js/assets/pieces/<army>/`, one SVG per piece
+type. The included SVGs are original placeholders: replace any file to restyle
+a piece without code changes. See the README in that folder.
 The 3D characters are built from simple shapes in code
 (`resources/js/lib/board3d/pieces`), so restyling those means editing the
 model builders. Their movable parts (head, arms, legs) are named with `RIG`
@@ -142,3 +174,4 @@ controls.
 6. ✅ Battle animations: PixiJS capture scenes and original army artwork
 7. ✅ Polish: synthesized sound effects, 72-hour move deadline with timeout claims, rematches
 8. ✅ 3D: three.js board with zoom and animated moves, 3D capture battles
+9. ✅ Armies: fifteen original armies to choose from, each with its own characters, art and spell
