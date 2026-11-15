@@ -42,7 +42,6 @@ const leather = material({ color: 0x5a3a22, roughness: 0.85 });
 const skin = material({ color: 0xe6b38e, roughness: 0.8 });
 const hair = material({ color: 0x6b4423, roughness: 0.9 });
 const horse = material({ color: 0x8a5a35, roughness: 0.8 });
-const stone = material({ color: 0x9a968c, roughness: 0.95, flatShading: true });
 const shadow = material({ color: 0x1a1612, roughness: 1 });
 const holy = glow(0xffe08a, 0.7);
 const sapphire = glow(0x4a8cff, 0.6);
@@ -58,19 +57,6 @@ const builders: Record<PieceType, () => Group> = {
 
 export function buildKingdom(type: PieceType): Group {
     return builders[type]();
-}
-
-/** Every Kingdom character stands on a dressed stone plinth with gold trim. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 8), stone, 0, 0.025));
-    group.add(
-        part(new TorusGeometry(0.285, 0.008, 4, 32), gold, 0, 0.05).rotateX(
-            Math.PI / 2,
-        ),
-    );
-
-    return group;
 }
 
 function eyes(group: Group, y: number, z: number, spread: number): void {
@@ -176,7 +162,7 @@ function legs(
 
 /** Footman (pawn): a soldier in a kettle helm with sword and kite shield. */
 function footman(): Group {
-    const piece = base();
+    const piece = new Group();
     legs(piece, 0.19, 0.045, 0.12, 0.022);
 
     const body = joint(RIG.body, 0, 0.19, 0);
@@ -256,7 +242,7 @@ function footman(): Group {
 
 /** Mounted Knight (knight): an armoured rider on a barded warhorse. */
 function mountedKnight(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.06, 0.12],
@@ -369,7 +355,7 @@ function mountedKnight(): Group {
 
 /** Cleric (bishop): a robed cleric in a tall mitre with a holy mace. */
 function cleric(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -457,7 +443,7 @@ function cleric(): Group {
 
 /** Siege Tower (rook): a wooden siege tower that walks on stubby legs. */
 function siegeTower(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -581,7 +567,7 @@ function siegeTower(): Group {
 
 /** The Queen (queen): a crowned queen in a flowing gown with a sceptre. */
 function queen(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -649,7 +635,7 @@ function queen(): Group {
 
 /** The King (king): a crowned, bearded king in a cape with a raised sword. */
 function king(): Group {
-    const piece = base();
+    const piece = new Group();
     legs(piece, 0.24, 0.06, 0.17, 0.03, steel);
 
     const body = joint(RIG.body, 0, 0.24, 0);
