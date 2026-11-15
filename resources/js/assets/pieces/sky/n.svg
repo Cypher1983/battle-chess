@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Storm Hawk</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#8a5a32" stroke="#1b2a3d" stroke-width="3"/>
   <path d="M34 86 L36 70 M44 86 L44 72 M58 86 L58 72 M68 86 L66 70" stroke="#e0b23a" stroke-width="5" stroke-linecap="round"/>
   <path d="M30 86 h7 M40 86 h7 M54 86 h7 M64 86 h7" stroke="#1b2a3d" stroke-width="2.5" stroke-linecap="round"/>
   <path d="M30 60 L10 54 L14 62 L8 68 L30 69 Z" fill="#6f8aa3" stroke="#1b2a3d" stroke-width="2.5" stroke-linejoin="round"/>
