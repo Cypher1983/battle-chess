@@ -8,6 +8,7 @@ import { buildSwarm } from '@/lib/board3d/pieces/swarm';
 import { buildKingdom } from '@/lib/board3d/pieces/kingdom';
 import { buildSky } from '@/lib/board3d/pieces/sky';
 import { buildSun } from '@/lib/board3d/pieces/sun';
+import { buildShadow } from '@/lib/board3d/pieces/shadow';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
@@ -164,5 +165,12 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
         debris: 'sand',
         debrisGlow: 0.2,
         spell: { kind: 'beam', core: 0xfff6c8, glow: 0xffc23a },
+    },
+    shadow: {
+        build: buildShadow,
+        magic: 0x9effc8,
+        debris: 'ash',
+        debrisGlow: 0.3,
+        spell: { kind: 'bolt', core: 0xf0fff6, glow: 0x9effc8 },
     },
 };

@@ -11,7 +11,8 @@ export type ArmyId =
     | 'swarm'
     | 'kingdom'
     | 'sky'
-    | 'sun';
+    | 'sun'
+    | 'shadow';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -155,6 +156,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Sandstone Guard',
         },
         palette: [0xd9b47a, 0xe6b43c, 0x2a4fa8, 0x34bfae],
+    },
+    shadow: {
+        id: 'shadow',
+        name: 'Night Spirits',
+        tagline: 'Lanterns gutter, bells toll, and the dead march at midnight.',
+        pieces: {
+            k: 'The Pale King',
+            q: 'The Banshee',
+            r: 'Haunted Belfry',
+            b: 'Hollow Monk',
+            n: 'Shadow Hound',
+            p: 'Lantern Wisp',
+        },
+        palette: [0xe4def4, 0xb68cff, 0x45275f, 0x17141f],
     },
 };
 
