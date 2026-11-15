@@ -57,16 +57,6 @@ export function buildClockwork(type: PieceType): Group {
     return piece;
 }
 
-/** Every Clockwork character stands on a thin brass cog. */
-function base(): Group {
-    const group = new Group();
-    const cog = gear(0.3, 0.05, 14, brass);
-    cog.position.y = 0.025;
-    group.add(cog);
-
-    return group;
-}
-
 /** A wind-up key sticking out of a back, at height y and depth z. */
 function windUpKey(y: number, z: number): Group {
     const key = new Group();
@@ -108,7 +98,7 @@ function pistonLegs(piece: Group, hip: number, spread: number): void {
  * spear.
  */
 function tickSoldier(): Group {
-    const piece = base();
+    const piece = new Group();
     pistonLegs(piece, 0.26, 0.055);
 
     const body = joint(RIG.body, 0, 0.26, 0);
@@ -168,7 +158,7 @@ function tickSoldier(): Group {
 
 /** Cog Charger (knight): a four-legged clockwork war-horse. */
 function cogCharger(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.075, 0.14],
@@ -264,7 +254,7 @@ function cogCharger(): Group {
  * with a spinning cog halo and a great wrench.
  */
 function gearwright(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -355,7 +345,7 @@ function gearwright(): Group {
  * glowing furnace mouth, a cannon arm and a great fist.
  */
 function bulwarkEngine(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -439,7 +429,7 @@ function bulwarkEngine(): Group {
  * tesla-coil crown and a lightning sceptre.
  */
 function arcDuchess(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -527,7 +517,7 @@ function arcDuchess(): Group {
  * sceptre.
  */
 function regulator(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(part(new BoxGeometry(0.3, 0.6, 0.2), brass, 0, 0.35, 0));
