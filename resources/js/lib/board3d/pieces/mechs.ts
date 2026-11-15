@@ -60,22 +60,6 @@ export function buildMechs(type: PieceType): Group {
     return builders[type]();
 }
 
-/** Every Star Mech stands on a hexagonal landing pad with a cyan ring. */
-function base(): Group {
-    const group = new Group();
-    group.add(
-        part(new CylinderGeometry(0.28, 0.3, 0.05, 6), gunmetal, 0, 0.025),
-    );
-    group.add(part(new CylinderGeometry(0.21, 0.21, 0.012, 6), dark, 0, 0.055));
-    group.add(
-        part(new TorusGeometry(0.235, 0.01, 5, 6), cyan, 0, 0.052).rotateX(
-            Math.PI / 2,
-        ),
-    );
-
-    return group;
-}
-
 /** Two robot legs with flat armoured feet, hips at height y. */
 function legs(
     piece: Group,
@@ -125,7 +109,7 @@ function antenna(
 
 /** Drone Trooper (pawn): a small bipedal robot with a blaster arm. */
 function droneTrooper(): Group {
-    const piece = base();
+    const piece = new Group();
     legs(piece, 0.05, 0.19, 0.1, 0.022, [0.06, 0.03, 0.09]);
 
     const body = joint(RIG.body, 0, 0.19, 0);
@@ -163,7 +147,7 @@ function droneTrooper(): Group {
 
 /** Hover Strider (knight): a four-legged walker with a cockpit head. */
 function hoverStrider(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.1, 0.1],
@@ -249,7 +233,7 @@ function hoverStrider(): Group {
 
 /** Signal Tech (bishop): a lanky robot with a radar dish and a staff. */
 function signalTech(): Group {
-    const piece = base();
+    const piece = new Group();
     legs(piece, 0.05, 0.28, 0.2, 0.018, [0.05, 0.025, 0.08]);
 
     const body = joint(RIG.body, 0, 0.28, 0);
@@ -342,7 +326,7 @@ function signalTech(): Group {
 
 /** Siege Walker (rook): a heavy two-legged tank with a big cannon. */
 function siegeWalker(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -438,7 +422,7 @@ function siegeWalker(): Group {
 
 /** Laser Valkyrie (queen): a sleek winged mech with a laser lance. */
 function laserValkyrie(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -605,7 +589,7 @@ function laserValkyrie(): Group {
  * a holographic crown ring and a cape of heat-sink fins.
  */
 function commandCore(): Group {
-    const piece = base();
+    const piece = new Group();
     legs(piece, 0.1, 0.3, 0.18, 0.045, [0.1, 0.05, 0.15]);
 
     const body = joint(RIG.body, 0, 0.3, 0);
