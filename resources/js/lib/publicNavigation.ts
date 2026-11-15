@@ -1,4 +1,4 @@
-import { home } from '@/routes';
+import { armies, home } from '@/routes';
 import type { NavItem } from '@/types';
 
 /**
@@ -8,5 +8,9 @@ export const publicNavItems: NavItem[] = [
     {
         title: 'Home',
         href: home(),
+    },
+    {
+        title: 'Armies',
+        href: armies(),
     },
 ];
