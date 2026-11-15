@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Sphinx Hound</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#d9b47a" stroke="#3a2410" stroke-width="3"/>
+  <path d="M32 86 L34 70 M42 86 L42 72 M58 86 L58 72 M68 86 L66 70" stroke="#3a2410" stroke-width="9" stroke-linecap="round"/>
+  <path d="M32 86 L34 70 M42 86 L42 72 M58 86 L58 72 M68 86 L66 70" stroke="#d9b47a" stroke-width="5" stroke-linecap="round"/>
+  <path d="M30 80 h6 M39 80 h6 M55 80 h6 M64 80 h6" stroke="#e6b43c" stroke-width="2.5"/>
+  <path d="M26 62 Q14 56 16 44" fill="none" stroke="#3a2410" stroke-width="6" stroke-linecap="round"/>
+  <path d="M26 62 Q14 56 16 44" fill="none" stroke="#d9b47a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="16" cy="42" r="4" fill="#a8814a" stroke="#3a2410" stroke-width="2"/>
+  <ellipse cx="47" cy="64" rx="23" ry="12" fill="#d9b47a" stroke="#3a2410" stroke-width="3"/>
+  <path d="M34 54 Q46 50 58 54 L56 62 H36 Z" fill="#2a4fa8" stroke="#3a2410" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M36 61 H56" stroke="#e6b43c" stroke-width="2.5"/>
+  <path d="M60 62 L68 50" stroke="#3a2410" stroke-width="15" stroke-linecap="round"/>
+  <path d="M60 62 L68 50" stroke="#d9b47a" stroke-width="10" stroke-linecap="round"/>
+  <path d="M62 58 Q68 62 74 56" fill="none" stroke="#e6b43c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M64 44 L59 62 H67 L70 46 Z" fill="#2a4fa8" stroke="#3a2410" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M61 52 h7 M60 57 h7" stroke="#e6b43c" stroke-width="2"/>
+  <circle cx="73" cy="46" r="10" fill="#d9b47a" stroke="#3a2410" stroke-width="3"/>
+  <rect x="78" y="45" width="11" height="9" rx="3" fill="#d9b47a" stroke="#3a2410" stroke-width="2.5"/>
+  <circle cx="88" cy="47" r="1.8" fill="#1e1a24"/>
+  <path d="M62 44 Q62 33 73 33 Q83 33 83 42 Z" fill="#2a4fa8" stroke="#3a2410" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M65 37 H81" stroke="#e6b43c" stroke-width="2"/>
+  <circle cx="77" cy="45" r="2.4" fill="#5ef0e0" stroke="#3a2410" stroke-width="1.2"/>
+</svg>

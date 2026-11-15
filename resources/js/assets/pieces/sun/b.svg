@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Sun Priest</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#d9b47a" stroke="#3a2410" stroke-width="3"/>
+  <path d="M30 86 L38 52 H62 L70 86 Z" fill="#f4eedf" stroke="#3a2410" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M50 58 V85" stroke="#2a4fa8" stroke-width="5"/>
+  <path d="M32 81 H68" stroke="#2a4fa8" stroke-width="3"/>
+  <path d="M36 66 H64" stroke="#e6b43c" stroke-width="3"/>
+  <path d="M37 52 Q50 64 63 52 Z" fill="#e6b43c" stroke="#3a2410" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M41 54 Q50 60 59 54" fill="none" stroke="#34bfae" stroke-width="2"/>
+  <circle cx="40" cy="40" r="2.5" fill="#a8693e" stroke="#3a2410" stroke-width="1.5"/>
+  <circle cx="60" cy="40" r="2.5" fill="#a8693e" stroke="#3a2410" stroke-width="1.5"/>
+  <circle cx="50" cy="39" r="10" fill="#a8693e" stroke="#3a2410" stroke-width="3"/>
+  <path d="M43 38 h5 M52 38 h5" stroke="#1e1a24" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="46" cy="40" r="1.6" fill="#1e1a24"/>
+  <circle cx="54" cy="40" r="1.6" fill="#1e1a24"/>
+  <circle cx="50" cy="33" r="1.4" fill="#e6b43c"/>
+  <path d="M77 86 V28" stroke="#e6b43c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M77 34 L74 28 H80 Z" fill="#2a4fa8"/>
+  <path d="M77 2 V7 M77 29 V25 M64 15 H68 M90 15 H86 M68 6 L71 9 M86 6 L83 9 M68 24 L71 21 M86 24 L83 21" stroke="#e6b43c" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="77" cy="15" r="8" fill="#ffc23a" stroke="#e6b43c" stroke-width="3"/>
+  <circle cx="77" cy="15" r="9.5" fill="none" stroke="#3a2410" stroke-width="1"/>
+  <path d="M62 58 L75 52" stroke="#f4eedf" stroke-width="6" stroke-linecap="round"/>
+</svg>
