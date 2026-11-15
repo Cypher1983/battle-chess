@@ -45,7 +45,6 @@ const tentacle = material({
     flatShading: true,
 });
 const conch = material({ color: 0xf0d2b4, roughness: 0.5, flatShading: true });
-const rock = material({ color: 0x405250, roughness: 1, flatShading: true });
 const sea = glow(0x3fe0c8, 0.7);
 const eye = glow(0x7affe0, 0.6);
 
@@ -60,32 +59,6 @@ const builders: Record<PieceType, () => Group> = {
 
 export function buildTide(type: PieceType): Group {
     return builders[type]();
-}
-
-/** Every Tide character stands on a wet sea-stone crusted with barnacles. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 10), rock, 0, 0.025));
-    group.add(
-        part(new TorusGeometry(0.27, 0.01, 4, 24), sea, 0, 0.05).rotateX(
-            Math.PI / 2,
-        ),
-    );
-
-    for (let i = 0; i < 4; i++) {
-        const angle = (i / 4) * Math.PI * 2 + 0.5;
-        group.add(
-            part(
-                new ConeGeometry(0.025, 0.03, 6),
-                barnacle,
-                Math.sin(angle) * 0.22,
-                0.065,
-                Math.cos(angle) * 0.22,
-            ),
-        );
-    }
-
-    return group;
 }
 
 function eyes(
@@ -172,7 +145,7 @@ function claw(size: number, mat = shell): Group {
 
 /** Barnacle Deckhand (pawn): a drowned sailor with a crab claw and cutlass. */
 function barnacleDeckhand(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -243,7 +216,7 @@ function barnacleDeckhand(): Group {
 
 /** Coral Crab (knight): a huge crab with a reef growing on its shell. */
 function coralCrab(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.13, 0.06],
@@ -344,7 +317,7 @@ function coralCrab(): Group {
 
 /** Tide Priest (bishop): a hooded priest of the deep with a conch-shell staff. */
 function tidePriest(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -439,7 +412,7 @@ function tidePriest(): Group {
 
 /** Shipwreck Hulk (rook): a giant built from a barnacled barrel and ship's planks. */
 function shipwreckHulk(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -611,7 +584,7 @@ function shipwreckHulk(): Group {
  * tentacles, with kelp hair and a crown of coral.
  */
 function seaWitch(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     // The mantle where the tentacles meet.
@@ -741,7 +714,7 @@ function seaWitch(): Group {
  * tricorn hat, his beard a tangle of kelp, cutlass in hand.
  */
 function drownedAdmiral(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
