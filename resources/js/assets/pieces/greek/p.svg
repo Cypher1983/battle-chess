@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Hoplite</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#ece6da" stroke="#1e1712" stroke-width="3"/>
+  <path d="M30 70 Q50 76 70 70" fill="none" stroke="#2f6fa8" stroke-width="2"/>
+  <path d="M45 86 L46 72 M55 86 L54 72" stroke="#b8803a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M38 74 L42 62 H58 L62 74 Z" fill="#c0582f" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M40 63 L39 47 Q50 43 61 47 L60 63 Z" fill="#b8803a" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M30 86 V20" stroke="#6b4a2c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 9 L34 21 H26 Z" fill="#b8803a" stroke="#1e1712" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M41 51 L31 58" stroke="#d9a07a" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="50" cy="36" r="9" fill="#d9a07a" stroke="#1e1712" stroke-width="2.5"/>
+  <path d="M39 41 Q38 24 50 24 Q62 24 61 41 L56 41 L56 33 H44 L44 41 Z" fill="#b8803a" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="47" cy="36.5" r="1.6" fill="#1e1712"/>
+  <circle cx="53" cy="36.5" r="1.6" fill="#1e1712"/>
+  <path d="M36 26 Q50 4 64 26 Q50 18 36 26 Z" fill="#c0582f" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="64" cy="62" r="15" fill="#2f6fa8" stroke="#1e1712" stroke-width="3"/>
+  <circle cx="64" cy="62" r="12" fill="none" stroke="#b8803a" stroke-width="3"/>
+  <circle cx="64" cy="62" r="4.5" fill="#c0582f" stroke="#1e1712" stroke-width="2"/>
+</svg>

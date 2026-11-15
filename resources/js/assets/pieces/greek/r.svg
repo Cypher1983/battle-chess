@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Bronze Colossus</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#ece6da" stroke="#1e1712" stroke-width="3"/>
+  <path d="M37 86 L39 70 H48 L47 86 Z M53 86 L52 70 H61 L63 86 Z" fill="#b8803a" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M34 73 L36 62 H64 L66 73 Z" fill="#7a5228" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M42 63 V72 M50 63 V72 M58 63 V72" stroke="#1e1712" stroke-width="1.5"/>
+  <path d="M30 40 Q50 33 70 40 L66 64 H34 Z" fill="#b8803a" stroke="#1e1712" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M41 46 Q45.5 51 50 46 Q54.5 51 59 46 M50 51 V58" fill="none" stroke="#7a5228" stroke-width="2" stroke-linecap="round"/>
+  <path d="M34 62 H66" stroke="#e0b54a" stroke-width="3"/>
+  <path d="M27 46 L23 64 M73 46 L77 64" stroke="#b8803a" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="29" cy="41" r="7" fill="#7a5228" stroke="#1e1712" stroke-width="2.5"/>
+  <circle cx="71" cy="41" r="7" fill="#7a5228" stroke="#1e1712" stroke-width="2.5"/>
+  <circle cx="77" cy="66" r="5" fill="#7a5228" stroke="#1e1712" stroke-width="2.5"/>
+  <path d="M23 60 L20 30 L23 20 L26 30 Z" fill="#b8803a" stroke="#1e1712" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M17 60 H29" stroke="#e0b54a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="23" cy="65" r="5" fill="#7a5228" stroke="#1e1712" stroke-width="2.5"/>
+  <circle cx="50" cy="28" r="9" fill="#b8803a" stroke="#1e1712" stroke-width="2.5"/>
+  <path d="M40 30 Q40 17 50 17 Q60 17 60 30 L56 26 H44 Z" fill="#7a5228" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M44 29 h12" stroke="#6fd0ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M37 18 Q50 0 63 18 Q50 12 37 18 Z" fill="#2f6fa8" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+</svg>

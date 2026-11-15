@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The Archon</title>
+  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#ece6da" stroke="#1e1712" stroke-width="3"/>
+  <path d="M26 86 L31 46 H69 L74 86 Z" fill="#2f6fa8" stroke="#1e1712" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M33 86 L36 48 Q50 42 64 48 L67 86 Z" fill="#f3eee2" stroke="#1e1712" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M38 48 L46 46 L66 82 L58 86 Z" fill="#c0582f" stroke="#1e1712" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="39" cy="50" r="3" fill="#e0b54a" stroke="#1e1712" stroke-width="1.5"/>
+  <circle cx="61" cy="50" r="3" fill="#e0b54a" stroke="#1e1712" stroke-width="1.5"/>
+  <path d="M80 86 V28" stroke="#e0b54a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M85 6 L76 18 H82 L74 31 L88 16 H82 L88 6 Z" fill="#ffe27a" stroke="#1e1712" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M65 56 L78 50" stroke="#d9a07a" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="50" cy="33" r="9" fill="#d9a07a" stroke="#1e1712" stroke-width="2.5"/>
+  <path d="M41 34 Q40 24 50 24 Q60 24 59 34 Q56 28 50 28 Q44 28 41 34 Z" fill="#cfcac0" stroke="#1e1712" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M41 35 Q42 52 50 54 Q58 52 59 35 Q50 41 41 35 Z" fill="#cfcac0" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="46.5" cy="33" r="1.6" fill="#1e1712"/>
+  <circle cx="53.5" cy="33" r="1.6" fill="#1e1712"/>
+  <path d="M40 27 L37 16 L43 24 L44 12 L47.5 23 L50 9 L52.5 23 L56 12 L57 24 L63 16 L60 27 Z" fill="#e0b54a" stroke="#1e1712" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="50" cy="25" r="2" fill="#2f6fa8"/>
+</svg>
