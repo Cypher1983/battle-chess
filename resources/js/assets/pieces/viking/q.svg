@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The Shield-Maiden</title>
+  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#4e3420" stroke="#1b1612" stroke-width="3"/>
+  <path d="M31 86 L35 48 H65 L69 86 Z" fill="#a8322a" stroke="#1b1612" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M33 86 L40 50 Q50 44 60 50 L67 86 Z" fill="#2c4f86" stroke="#1b1612" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 82 H66" stroke="#e8e0cc" stroke-width="3"/>
+  <path d="M45 55 H55 L57 82 H43 Z" fill="#a8322a" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M41 62 H59" stroke="#5a3a22" stroke-width="3"/>
+  <circle cx="45" cy="53" r="2.8" fill="#d9a441" stroke="#1b1612" stroke-width="1.5"/>
+  <circle cx="55" cy="53" r="2.8" fill="#d9a441" stroke="#1b1612" stroke-width="1.5"/>
+  <ellipse cx="50" cy="48" rx="12" ry="3.5" fill="#8e8a84" stroke="#1b1612" stroke-width="2"/>
+  <path d="M26 86 V16" stroke="#8a5f36" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 4 Q30 10 26 18 Q22 10 26 4 Z" fill="#6c7075" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M41 54 L27 60" stroke="#e0a888" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="50" cy="35" r="9" fill="#e0a888" stroke="#1b1612" stroke-width="2.5"/>
+  <path d="M40.5 36 Q40 25 50 25 Q60 25 59.5 36 Q57 30 50 30 Q43 30 40.5 36 Z" fill="#d8a548" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M41.5 37 L40 56 M58.5 37 L60 56" stroke="#d8a548" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="40" cy="57" r="1.8" fill="#d9a441"/>
+  <circle cx="60" cy="57" r="1.8" fill="#d9a441"/>
+  <path d="M41 28 L44 23 L47 27 L50 19 L53 27 L56 23 L59 28 Z" fill="#d9a441" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="50" cy="27.5" r="1.6" fill="#4fd6c4"/>
+  <circle cx="46.5" cy="36" r="1.5" fill="#1b1612"/>
+  <circle cx="53.5" cy="36" r="1.5" fill="#1b1612"/>
+  <circle cx="68" cy="64" r="14" fill="#e8e0cc"/>
+  <path d="M68 64 V50 A14 14 0 0 1 82 64 Z M68 64 V78 A14 14 0 0 1 54 64 Z" fill="#2c4f86"/>
+  <circle cx="68" cy="64" r="14" fill="none" stroke="#1b1612" stroke-width="3"/>
+  <circle cx="68" cy="64" r="3.5" fill="#6c7075" stroke="#1b1612" stroke-width="1.5"/>
+</svg>

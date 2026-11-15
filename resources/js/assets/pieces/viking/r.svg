@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Shieldwall Brute</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#4e3420" stroke="#1b1612" stroke-width="3"/>
+  <path d="M41 86 L42 72 M57 86 L56 72" stroke="#5a3a22" stroke-width="9" stroke-linecap="round"/>
+  <path d="M34 74 L36 64 H64 L66 74 Z" fill="#a8322a" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M30 42 Q50 36 70 42 L66 66 H34 Z" fill="#83878b" stroke="#1b1612" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 64 H66" stroke="#5a3a22" stroke-width="3.5"/>
+  <path d="M26 44 Q50 32 74 44 Q50 52 26 44 Z" fill="#8e8a84" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M22 66 V18" stroke="#8a5f36" stroke-width="3.5" stroke-linecap="round"/>
+  <rect x="13" y="12" width="18" height="10" rx="1.5" fill="#6c7075" stroke="#1b1612" stroke-width="2.5"/>
+  <path d="M30 47 L22 60" stroke="#e0a888" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="22" cy="62" r="4.5" fill="#5a3a22" stroke="#1b1612" stroke-width="2"/>
+  <circle cx="44" cy="29" r="10" fill="#e0a888" stroke="#1b1612" stroke-width="2.5"/>
+  <path d="M34 28 Q34 15 44 15 Q54 15 54 28 Z" fill="#6c7075" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M44 15 V9" stroke="#6c7075" stroke-width="3" stroke-linecap="round"/>
+  <path d="M44 27 V33" stroke="#6c7075" stroke-width="3" stroke-linecap="round"/>
+  <path d="M35 33 Q36 48 44 50 Q52 48 53 33 Q44 38 35 33 Z" fill="#b0532a" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="40.5" cy="30" r="1.5" fill="#1b1612"/>
+  <circle cx="47.5" cy="30" r="1.5" fill="#1b1612"/>
+  <rect x="50" y="44" width="28" height="40" rx="2" fill="#2c4f86" stroke="#1b1612" stroke-width="3"/>
+  <rect x="61" y="45.5" width="6" height="37" fill="#e8e0cc"/>
+  <rect x="51.5" y="58" width="25" height="5" fill="#a8322a"/>
+  <path d="M50 46 H78 M50 82 H78" stroke="#6c7075" stroke-width="3"/>
+  <circle cx="64" cy="60.5" r="4.5" fill="#6c7075" stroke="#1b1612" stroke-width="2"/>
+</svg>

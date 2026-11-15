@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Raider</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#4e3420" stroke="#1b1612" stroke-width="3"/>
+  <path d="M45 86 L46 72 M55 86 L54 72" stroke="#5a3a22" stroke-width="6" stroke-linecap="round"/>
+  <path d="M41 86 h8 M51 86 h8" stroke="#6b5440" stroke-width="4" stroke-linecap="round"/>
+  <path d="M38 74 L41 62 H59 L62 74 Z" fill="#a8322a" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M40 63 L39 48 Q50 44 61 48 L60 63 Z" fill="#5a3a22" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M40 60 H60" stroke="#6c7075" stroke-width="3"/>
+  <ellipse cx="50" cy="47" rx="12" ry="3.5" fill="#8e8a84" stroke="#1b1612" stroke-width="2"/>
+  <path d="M30 64 L25 28" stroke="#8a5f36" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 29 Q14 28 15 42 Q20 37 27 38 Z" fill="#6c7075" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M41 52 L30 60" stroke="#e0a888" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="50" cy="37" r="9" fill="#e0a888" stroke="#1b1612" stroke-width="2.5"/>
+  <path d="M43 41 Q50 54 57 41 Q50 45 43 41 Z" fill="#d8a548" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M39.5 36 Q39 23 50 23 Q61 23 60.5 36 Z" fill="#6c7075" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M50 35 V41" stroke="#6c7075" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="46" cy="38.5" r="1.5" fill="#1b1612"/>
+  <circle cx="54" cy="38.5" r="1.5" fill="#1b1612"/>
+  <circle cx="64" cy="62" r="14" fill="#e8e0cc"/>
+  <path d="M64 62 V48 A14 14 0 0 1 78 62 Z M64 62 V76 A14 14 0 0 1 50 62 Z" fill="#a8322a"/>
+  <circle cx="64" cy="62" r="14" fill="none" stroke="#1b1612" stroke-width="3"/>
+  <circle cx="64" cy="62" r="3.5" fill="#6c7075" stroke="#1b1612" stroke-width="1.5"/>
+</svg>

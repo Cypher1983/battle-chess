@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The Jarl</title>
+  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#4e3420" stroke="#1b1612" stroke-width="3"/>
+  <path d="M24 86 L30 46 H70 L76 86 Z" fill="#6b5440" stroke="#1b1612" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 86 L38 50 H62 L66 86 Z" fill="#a8322a" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M35 82 H65" stroke="#2c4f86" stroke-width="3"/>
+  <path d="M37 64 H63" stroke="#5a3a22" stroke-width="4"/>
+  <rect x="47" y="61" width="6" height="6" fill="#d9a441" stroke="#1b1612" stroke-width="1.5"/>
+  <path d="M25 48 Q50 35 75 48 Q50 57 25 48 Z" fill="#8e8a84" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M80 86 V16" stroke="#8a5f36" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M80 15 Q96 14 96 34 Q88 29 80 33 Z" fill="#6c7075" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M80 15 L76 10" stroke="#6c7075" stroke-width="3" stroke-linecap="round"/>
+  <path d="M65 55 L78 50" stroke="#a8322a" stroke-width="5.5" stroke-linecap="round"/>
+  <circle cx="50" cy="32" r="9" fill="#e0a888" stroke="#1b1612" stroke-width="2.5"/>
+  <path d="M41 34 Q40 24 50 24 Q60 24 59 34 Q56 28 50 28 Q44 28 41 34 Z" fill="#b0532a" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M41 35 Q42 50 50 52 Q58 50 59 35 Q50 40 41 35 Z" fill="#b0532a" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M46 51 V58 M54 51 V58" stroke="#b0532a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="46" cy="59" r="1.8" fill="#d9a441"/>
+  <circle cx="54" cy="59" r="1.8" fill="#d9a441"/>
+  <circle cx="46.5" cy="32" r="1.6" fill="#1b1612"/>
+  <circle cx="53.5" cy="32" r="1.6" fill="#1b1612"/>
+  <path d="M40 27 V20 L43 23 L46 15 L50 20 L54 15 L57 23 L60 20 V27 Z" fill="#6c7075" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="50" cy="24.5" r="1.8" fill="#4fd6c4"/>
+</svg>

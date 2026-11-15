@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Skald</title>
+  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#4e3420" stroke="#1b1612" stroke-width="3"/>
+  <path d="M28 86 L36 46 Q50 40 64 46 L72 86 Z" fill="#6b5440" stroke="#1b1612" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M40 86 L44 50 H56 L60 86 Z" fill="#2c4f86" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M41 82 H59" stroke="#e8e0cc" stroke-width="3"/>
+  <path d="M43 62 H57" stroke="#5a3a22" stroke-width="3.5"/>
+  <ellipse cx="50" cy="46" rx="15" ry="5" fill="#8e8a84" stroke="#1b1612" stroke-width="2.5"/>
+  <path d="M24 86 V27" stroke="#4e3420" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M22 66 l4 -4 M22 54 l4 4 M24 42 v-5 l3 2" fill="none" stroke="#4fd6c4" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="24" cy="21" r="5.5" fill="none" stroke="#4e3420" stroke-width="3"/>
+  <circle cx="24" cy="21" r="2.6" fill="#4fd6c4"/>
+  <path d="M40 54 L27 60" stroke="#2c4f86" stroke-width="5" stroke-linecap="round"/>
+  <path d="M68 54 V72 L82 60 Z" fill="none" stroke="#8a5f36" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M71 57 V69 M74 58 V67 M77 59 V64" stroke="#d9a441" stroke-width="1.2"/>
+  <path d="M60 54 L68 62" stroke="#2c4f86" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="50" cy="33" r="9" fill="#e0a888" stroke="#1b1612" stroke-width="2.5"/>
+  <path d="M42 36 Q43 50 50 52 Q57 50 58 36 Q50 41 42 36 Z" fill="#d8a548" stroke="#1b1612" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M47 50 V57 M53 50 V57" stroke="#d8a548" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="47" cy="58" r="1.6" fill="#d9a441"/>
+  <circle cx="53" cy="58" r="1.6" fill="#d9a441"/>
+  <path d="M41 30 Q41 18 50 18 Q59 18 59 30 Z" fill="#6b5440" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="46.5" cy="33" r="1.5" fill="#1b1612"/>
+  <circle cx="53.5" cy="33" r="1.5" fill="#1b1612"/>
+</svg>
