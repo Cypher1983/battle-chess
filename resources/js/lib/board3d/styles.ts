@@ -4,6 +4,7 @@ import { buildClockwork } from '@/lib/board3d/pieces/clockwork';
 import { buildEmber } from '@/lib/board3d/pieces/ember';
 import { buildFrost } from '@/lib/board3d/pieces/frost';
 import { buildTide } from '@/lib/board3d/pieces/tide';
+import { buildSwarm } from '@/lib/board3d/pieces/swarm';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
@@ -120,5 +121,17 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
         debris: 'droplets',
         debrisGlow: 0.3,
         spell: { kind: 'gust', colour: 0x3fe0c8 },
+    },
+    swarm: {
+        build: buildSwarm,
+        magic: 0x7dff3a,
+        debris: 'droplets',
+        debrisGlow: 0.6,
+        spell: {
+            kind: 'missile',
+            shape: 'glob',
+            colour: 0x9dff3a,
+            trail: 0x5aff7a,
+        },
     },
 };

@@ -2,7 +2,13 @@ export type PieceColor = 'w' | 'b';
 export type PieceType = 'k' | 'q' | 'r' | 'b' | 'n' | 'p';
 
 /** The armies players can command (matches the server's Army enum). */
-export type ArmyId = 'clockwork' | 'wildwood' | 'ember' | 'frost' | 'tide';
+export type ArmyId =
+    | 'clockwork'
+    | 'wildwood'
+    | 'ember'
+    | 'frost'
+    | 'tide'
+    | 'swarm';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -88,6 +94,21 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Barnacle Deckhand',
         },
         palette: [0x3fe0c8, 0xe0675a, 0xcfc6ae, 0x3f6b3a],
+    },
+    swarm: {
+        id: 'swarm',
+        name: 'Void Swarm',
+        tagline:
+            'Chitin, acid and one vast mind: the hive hungers for the board.',
+        pieces: {
+            k: 'The Overmind',
+            q: 'The Hive Queen',
+            r: 'Carapace Hulk',
+            b: 'Psionic Brood',
+            n: 'Burrower',
+            p: 'Skitterling',
+        },
+        palette: [0x7dff3a, 0x4fd11f, 0x7a45a0, 0x3b1d52],
     },
 };
 

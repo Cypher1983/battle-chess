@@ -13,6 +13,7 @@ enum Army: string
     case Ember = 'ember';
     case Frost = 'frost';
     case Tide = 'tide';
+    case Swarm = 'swarm';
 
     /**
      * The army's display name.
@@ -25,6 +26,7 @@ enum Army: string
             self::Ember => 'Ember Dynasty',
             self::Frost => 'Frost Covenant',
             self::Tide => 'Sunken Fleet',
+            self::Swarm => 'Void Swarm',
         };
     }
 }
