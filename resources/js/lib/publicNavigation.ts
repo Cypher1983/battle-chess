@@ -1,4 +1,4 @@
-import { armies, home, rules } from '@/routes';
+import { armies, home, rules, scoreboard } from '@/routes';
 import type { NavItem } from '@/types';
 
 /**
@@ -16,5 +16,9 @@ export const publicNavItems: NavItem[] = [
     {
         title: 'Rules',
         href: rules(),
+    },
+    {
+        title: 'Scoreboard',
+        href: scoreboard(),
     },
 ];
