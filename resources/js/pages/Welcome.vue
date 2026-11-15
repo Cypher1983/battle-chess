@@ -1,11 +1,34 @@
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { Swords } from '@lucide/vue';
+import { Mail, Shield, Swords, Trophy } from '@lucide/vue';
 import { Button } from '@/components/ui/button';
 import { armies, ARMY_IDS, pieceImage } from '@/lib/armies';
 import { login, play, register } from '@/routes';
 
 const page = usePage();
+
+const features = [
+    {
+        icon: Swords,
+        title: 'Captures become battles',
+        text: 'Every capture plays out as a short 3D fight scene between the two pieces.',
+    },
+    {
+        icon: Shield,
+        title: `${ARMY_IDS.length} armies`,
+        text: 'From clockwork automatons to zombie hordes. Pick one, then pick again for any challenge.',
+    },
+    {
+        icon: Mail,
+        title: 'Challenge anyone',
+        text: 'Invite friends by username or email. Each player gets 72 hours per move.',
+    },
+    {
+        icon: Trophy,
+        title: 'Climb the ladder',
+        text: 'Every finished battle moves your Elo rating on the public scoreboard.',
+    },
+];
 </script>
 
 <template>
@@ -88,5 +111,28 @@ const page = usePage();
                 {{ armies.wildwood.pieces.k }}
             </figcaption>
         </figure>
+    </section>
+
+    <section class="mx-auto w-full max-w-6xl px-4 pb-16">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div
+                v-for="feature in features"
+                :key="feature.title"
+                class="rounded-xl border bg-card/80 p-5 shadow-[inset_0_1px_0_0_var(--card-edge)]"
+                data-test="feature"
+            >
+                <span
+                    class="mb-3 flex size-10 items-center justify-center rounded-full bg-primary/15 text-primary ring-1 ring-primary/30"
+                >
+                    <component :is="feature.icon" class="size-5" />
+                </span>
+                <h2 class="mb-1 text-base font-semibold">
+                    {{ feature.title }}
+                </h2>
+                <p class="text-sm text-muted-foreground">
+                    {{ feature.text }}
+                </p>
+            </div>
+        </div>
     </section>
 </template>
