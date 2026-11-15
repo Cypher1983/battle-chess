@@ -14,7 +14,8 @@ export type ArmyId =
     | 'sun'
     | 'shadow'
     | 'mechs'
-    | 'greek';
+    | 'greek'
+    | 'viking';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -200,6 +201,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Hoplite',
         },
         palette: [0xb8803a, 0xe0b54a, 0x2f6fa8, 0xc0582f],
+    },
+    viking: {
+        id: 'viking',
+        name: 'Viking Clans',
+        tagline: 'Shields locked, runes lit: the longships have landed.',
+        pieces: {
+            k: 'The Jarl',
+            q: 'The Shield-Maiden',
+            r: 'Shieldwall Brute',
+            b: 'Skald',
+            n: 'Wolf Rider',
+            p: 'Raider',
+        },
+        palette: [0xa8322a, 0xe8e0cc, 0x2c4f86, 0x6c7075],
     },
 };
 
