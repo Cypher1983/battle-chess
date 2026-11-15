@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Laser Valkyrie</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#4a5260" stroke="#141922" stroke-width="3"/>
+  <ellipse cx="50" cy="87" rx="17" ry="3" fill="none" stroke="#39e6ff" stroke-width="1.5"/>
+  <path d="M44 42 L14 20 L18 28 L42 48 Z M44 48 L18 40 L22 46 L42 54 Z" fill="#e9edf2" stroke="#141922" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M56 42 L86 20 L82 28 L58 48 Z M56 48 L82 40 L78 46 L58 54 Z" fill="#e9edf2" stroke="#141922" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M20 25 L40 40 M80 25 L60 40" stroke="#39e6ff" stroke-width="2" stroke-linecap="round"/>
+  <path d="M24 44 L40 50 M76 44 L60 50" stroke="#ff3048" stroke-width="2" stroke-linecap="round"/>
+  <path d="M46 66 L44 84 M54 66 L56 84" stroke="#4a5260" stroke-width="4" stroke-linecap="round"/>
+  <path d="M40 86 L44 80 L48 86 Z M52 86 L56 80 L60 86 Z" fill="#e9edf2" stroke="#141922" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M42 70 L44 58 H56 L58 70 Z" fill="#e9edf2" stroke="#141922" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M44 58 L46 52 H54 L56 58 Z" fill="#4a5260" stroke="#141922" stroke-width="2"/>
+  <path d="M42 38 H58 L55 52 H45 Z" fill="#e9edf2" stroke="#141922" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M50 42 L52 45 L50 48 L48 45 Z" fill="#39e6ff"/>
+  <ellipse cx="50" cy="28" rx="8" ry="9" fill="#e9edf2" stroke="#141922" stroke-width="3"/>
+  <path d="M43 28 Q50 24 57 28 Q50 31 43 28 Z" fill="#39e6ff" stroke="#141922" stroke-width="1.5"/>
+  <path d="M48 19 L46 8 L53 18 Z" fill="#e9edf2" stroke="#141922" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M42 24 L36 18 M58 24 L64 18" stroke="#c8323c" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M58 42 L70 50" stroke="#4a5260" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M72 70 V54" stroke="#4a5260" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M67 54 H77" stroke="#e9edf2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M72 52 L74 6 L70 52 Z" fill="#39e6ff" stroke="#141922" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
