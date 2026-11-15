@@ -68,29 +68,6 @@ export function buildWildwood(type: PieceType): Group {
     return piece;
 }
 
-/** Every Wildwood character is rooted on a mossy pad. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.31, 0.04, 9), bark, 0, 0.02));
-    group.add(part(new CylinderGeometry(0.26, 0.28, 0.025, 9), moss, 0, 0.05));
-
-    for (let i = 0; i < 4; i++) {
-        const angle = (i / 4) * Math.PI * 2 + 0.4;
-        group.add(
-            rod(
-                [Math.sin(angle) * 0.24, 0.04, Math.cos(angle) * 0.24],
-                [Math.sin(angle) * 0.36, 0.005, Math.cos(angle) * 0.36],
-                0.03,
-                bark,
-                0.01,
-                5,
-            ),
-        );
-    }
-
-    return group;
-}
-
 /** A leaf: a flattened, pointed blob. */
 function leafAt(
     x: number,
@@ -161,7 +138,7 @@ function rootLegs(
 
 /** Sproutling (pawn): a round seedling with big eyes and a leaf top. */
 function sproutling(): Group {
-    const piece = base();
+    const piece = new Group();
     rootLegs(piece, 0.16, 0.06, 0.025);
 
     const body = joint(RIG.body, 0, 0.16, 0);
@@ -195,7 +172,7 @@ function sproutling(): Group {
 
 /** Briar Wolf (knight): a four-legged bramble wolf with a thorn spine. */
 function briarWolf(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.07, 0.14],
@@ -255,7 +232,7 @@ function briarWolf(): Group {
  * shoulders and a staff tipped with a glowing seed.
  */
 function mossOracle(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -348,7 +325,7 @@ function mossOracle(): Group {
  * arms and a leafy crown.
  */
 function oldBark(): Group {
-    const piece = base();
+    const piece = new Group();
     rootLegs(piece, 0.17, 0.1, 0.045);
 
     const body = joint(RIG.body, 0, 0.15, 0);
@@ -440,7 +417,7 @@ function oldBark(): Group {
  * thorns and long vine arms.
  */
 function thornmother(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -555,7 +532,7 @@ function thornmother(): Group {
  * great antler crown and a rowan staff.
  */
 function elderStag(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
