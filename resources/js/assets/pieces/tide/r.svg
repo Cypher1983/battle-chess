@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Shipwreck Hulk</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#405250" stroke="#0f1c1c" stroke-width="3"/>
   <path d="M36 86 L38 72 H46 L46 86 Z M54 86 L54 72 H62 L64 86 Z" fill="#3d3026" stroke="#0f1c1c" stroke-width="3" stroke-linejoin="round"/>
   <path d="M28 20 L32 38 M72 20 L68 38" stroke="#3d3026" stroke-width="5" stroke-linecap="round"/>
   <path d="M34 74 Q24 54 34 34 H66 Q76 54 66 74 Z" fill="#6b5238" stroke="#0f1c1c" stroke-width="3" stroke-linejoin="round"/>

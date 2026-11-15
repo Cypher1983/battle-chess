@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Drowned Admiral</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#405250" stroke="#0f1c1c" stroke-width="3"/>
   <path d="M26 86 L32 46 H68 L74 86 Z" fill="#223c4c" stroke="#0f1c1c" stroke-width="3" stroke-linejoin="round"/>
   <path d="M44 48 H56 L58 86 H42 Z" fill="#d8d0bc" stroke="#0f1c1c" stroke-width="2" stroke-linejoin="round"/>
   <path d="M42 66 H58" stroke="#3d3026" stroke-width="4"/>
