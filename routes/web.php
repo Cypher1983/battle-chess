@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('home');
 Route::inertia('armies', 'public/Armies')->name('armies');
+Route::inertia('rules', 'public/Rules')->name('rules');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
