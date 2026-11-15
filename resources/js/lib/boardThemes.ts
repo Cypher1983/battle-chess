@@ -5,7 +5,8 @@ export type BoardThemeId =
     | 'tournament'
     | 'lava'
     | 'ice'
-    | 'ocean';
+    | 'ocean'
+    | 'night';
 
 export type BoardTheme = {
     id: BoardThemeId;
@@ -135,6 +136,23 @@ export const boardThemes: Record<BoardThemeId, BoardTheme> = {
             lines: 140,
         },
         finish: { roughness: 0.45, metalness: 0 },
+    },
+    night: {
+        id: 'night',
+        name: 'Night',
+        light: '#c9cde0',
+        dark: '#3b3f6b',
+        frame: '#171a33',
+        trim: '#d8dcef',
+        label: '#c9cde0',
+        plinth: '#0e1024',
+        grain: {
+            frame: 'rgba(255,255,255,0.05)',
+            light: 'rgba(60,70,120,0.08)',
+            dark: 'rgba(255,255,255,0.06)',
+            lines: 100,
+        },
+        finish: { roughness: 0.4, metalness: 0.1 },
     },
 };
 
