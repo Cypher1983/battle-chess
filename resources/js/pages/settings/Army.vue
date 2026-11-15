@@ -2,10 +2,11 @@
 import { Form, Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import ArmyController from '@/actions/App/Http/Controllers/Settings/ArmyController';
+import ArmyChoices from '@/components/chess/ArmyChoices.vue';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
-import { ARMY_IDS, armies, pieceImage } from '@/lib/armies';
+import { armies } from '@/lib/armies';
 import type { ArmyId } from '@/lib/armies';
 import { edit } from '@/routes/army';
 
@@ -44,36 +45,7 @@ const chosen = ref<ArmyId>(props.army);
             class="space-y-6"
             v-slot="{ errors, processing }"
         >
-            <fieldset class="grid gap-3 sm:grid-cols-2">
-                <legend class="sr-only">Army</legend>
-                <label
-                    v-for="id in ARMY_IDS"
-                    :key="id"
-                    class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50 has-[:checked]:border-primary has-[:checked]:bg-muted has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring"
-                    :data-test="`army-${id}`"
-                >
-                    <input
-                        v-model="chosen"
-                        type="radio"
-                        name="army"
-                        :value="id"
-                        class="sr-only"
-                    />
-                    <img
-                        :src="pieceImage(id, 'k')"
-                        :alt="''"
-                        class="size-14 shrink-0 rounded-md bg-[#eadfc8] p-1"
-                    />
-                    <span class="min-w-0">
-                        <span class="block font-medium">
-                            {{ armies[id].name }}
-                        </span>
-                        <span class="block text-sm text-muted-foreground">
-                            {{ armies[id].tagline }}
-                        </span>
-                    </span>
-                </label>
-            </fieldset>
+            <ArmyChoices v-model="chosen" />
 
             <InputError :message="errors.army" />
 
