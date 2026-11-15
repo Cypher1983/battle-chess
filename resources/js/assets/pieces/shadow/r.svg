@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Haunted Belfry</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#2a2535" stroke="#1a1226" stroke-width="3"/>
+  <path d="M36 86 V76 H46 V86 Z M54 86 V76 H64 V86 Z" fill="#77738a" stroke="#1a1226" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M30 44 L22 64 M70 44 L78 64" stroke="#77738a" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="22" cy="66" r="5" fill="#77738a" stroke="#1a1226" stroke-width="2.5"/>
+  <circle cx="78" cy="66" r="5" fill="#77738a" stroke="#1a1226" stroke-width="2.5"/>
+  <rect x="30" y="40" width="40" height="38" fill="#77738a" stroke="#1a1226" stroke-width="3"/>
+  <rect x="28" y="38" width="44" height="5" fill="#2a2535" stroke="#1a1226" stroke-width="2"/>
+  <path d="M37 58 V50 Q40 45 43 50 V58 Z M57 58 V50 Q60 45 63 50 V58 Z" fill="#c8ffd8" stroke="#1a1226" stroke-width="2"/>
+  <path d="M45 78 V70 Q50 63 55 70 V78 Z" fill="#17141f" stroke="#1a1226" stroke-width="2"/>
+  <path d="M47 72 H53" stroke="#9effc8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M33 38 V24 M67 38 V24" stroke="#77738a" stroke-width="5"/>
+  <rect x="36" y="24" width="28" height="14" fill="#2a2535"/>
+  <path d="M45 34 Q45 27 50 27 Q55 27 55 34 Z" fill="#5a5866" stroke="#1a1226" stroke-width="2"/>
+  <path d="M28 24 L50 6 L72 24 Z" fill="#45275f" stroke="#1a1226" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M50 6 V1" stroke="#5a5866" stroke-width="2"/>
+</svg>
