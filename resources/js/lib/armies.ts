@@ -15,7 +15,8 @@ export type ArmyId =
     | 'shadow'
     | 'mechs'
     | 'greek'
-    | 'viking';
+    | 'viking'
+    | 'zombie';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -215,6 +216,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Raider',
         },
         palette: [0xa8322a, 0xe8e0cc, 0x2c4f86, 0x6c7075],
+    },
+    zombie: {
+        id: 'zombie',
+        name: 'Zombie Horde',
+        tagline: "The dead don't rest, they march, and they never miss a move.",
+        pieces: {
+            k: 'The Lich Lord',
+            q: 'The Plague Matron',
+            r: 'Flesh Golem',
+            b: 'Necromancer',
+            n: 'Bone Hound',
+            p: 'Shambler',
+        },
+        palette: [0x7dff5a, 0xe8e0c8, 0x5b3a6e, 0x8fa888],
     },
 };
 

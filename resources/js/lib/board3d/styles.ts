@@ -12,6 +12,7 @@ import { buildShadow } from '@/lib/board3d/pieces/shadow';
 import { buildMechs } from '@/lib/board3d/pieces/mechs';
 import { buildGreek } from '@/lib/board3d/pieces/greek';
 import { buildViking } from '@/lib/board3d/pieces/viking';
+import { buildZombie } from '@/lib/board3d/pieces/zombie';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
@@ -201,6 +202,18 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
             colour: 0x9aa4ad,
             trail: 0xdfe8ff,
             glow: false,
+        },
+    },
+    zombie: {
+        build: buildZombie,
+        magic: 0x7dff5a,
+        debris: 'bones',
+        debrisGlow: 0.3,
+        spell: {
+            kind: 'missile',
+            shape: 'glob',
+            colour: 0x9acd32,
+            trail: 0x7dff5a,
         },
     },
 };
