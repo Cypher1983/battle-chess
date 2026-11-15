@@ -9,6 +9,7 @@ namespace App\Enums;
 enum BoardTheme: string
 {
     case Classic = 'classic';
+    case Marble = 'marble';
 
     /**
      * The board's display name.
@@ -17,6 +18,7 @@ enum BoardTheme: string
     {
         return match ($this) {
             self::Classic => 'Classic walnut',
+            self::Marble => 'Marble',
         };
     }
 }

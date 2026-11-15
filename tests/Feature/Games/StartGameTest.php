@@ -3,6 +3,7 @@
 namespace Tests\Feature\Games;
 
 use App\Enums\Army;
+use App\Enums\BoardTheme;
 use App\Enums\GameStatus;
 use App\Enums\InvitationStatus;
 use App\Models\Game;
@@ -92,6 +93,15 @@ class StartGameTest extends TestCase
             ->assertSessionHasErrors('army');
 
         $this->assertDatabaseCount('games', 0);
+    }
+
+    public function test_games_are_played_on_the_board_the_challenger_picked()
+    {
+        $invitation = Invitation::factory()->create(['board_theme' => BoardTheme::Marble]);
+
+        $this->actingAs($invitation->invitee)->post(route('invitations.accept', $invitation));
+
+        $this->assertSame(BoardTheme::Marble, Game::sole()->board_theme);
     }
 
     public function test_choosing_another_army_does_not_change_a_game_under_way()

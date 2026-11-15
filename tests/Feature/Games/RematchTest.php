@@ -3,6 +3,7 @@
 namespace Tests\Feature\Games;
 
 use App\Enums\Army;
+use App\Enums\BoardTheme;
 use App\Models\Game;
 use App\Models\Invitation;
 use App\Models\User;
@@ -116,5 +117,23 @@ class RematchTest extends TestCase
             ->assertSessionHasErrors('board_theme');
 
         $this->assertDatabaseCount('invitations', 0);
+    }
+
+    public function test_a_rematch_is_played_on_the_same_board_unless_another_is_picked()
+    {
+        $game = Game::factory()->finished()->create(['board_theme' => BoardTheme::Marble]);
+
+        $this->actingAs($game->black)->post(route('games.rematch', $game));
+
+        $this->assertSame(BoardTheme::Marble, Invitation::sole()->board_theme);
+    }
+
+    public function test_the_challenger_can_pick_another_board_for_the_rematch()
+    {
+        $game = Game::factory()->finished()->create(['board_theme' => BoardTheme::Marble]);
+
+        $this->actingAs($game->black)->post(route('games.rematch', $game), ['board_theme' => 'classic']);
+
+        $this->assertSame(BoardTheme::Classic, Invitation::sole()->board_theme);
     }
 }
