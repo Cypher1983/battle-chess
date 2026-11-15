@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Serpent Queen</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#d9b47a" stroke="#3a2410" stroke-width="3"/>
   <path d="M50 10 Q66 14 66 32 Q65 46 60 54 H40 Q35 46 34 32 Q34 14 50 10 Z" fill="#2a4fa8" stroke="#3a2410" stroke-width="3" stroke-linejoin="round"/>
   <path d="M50 15 Q61 18 61 32 Q60 43 57 50 H43 Q40 43 39 32 Q39 18 50 15 Z" fill="#34bfae"/>
   <path d="M50 12.5 Q63.5 16 63.5 32 Q62.5 45 58.5 52" fill="none" stroke="#e6b43c" stroke-width="1.8"/>

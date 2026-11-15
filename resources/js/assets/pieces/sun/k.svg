@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Sun Pharaoh</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#d9b47a" stroke="#3a2410" stroke-width="3"/>
   <path d="M27 86 L32 46 H68 L73 86 Z" fill="#2a4fa8" stroke="#3a2410" stroke-width="3" stroke-linejoin="round"/>
   <path d="M34 86 L38 50 H62 L66 86 Z" fill="#f4eedf" stroke="#3a2410" stroke-width="3" stroke-linejoin="round"/>
   <path d="M45 60 H55 L57 84 H43 Z" fill="#e6b43c" stroke="#3a2410" stroke-width="2" stroke-linejoin="round"/>
