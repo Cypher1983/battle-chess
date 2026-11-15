@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Sproutling</title>
-  <ellipse cx="50" cy="88" rx="26" ry="7" fill="#3e2a17" stroke="#14280f" stroke-width="3"/>
   <path d="M34 60 Q34 86 50 86 Q66 86 66 60 Z" fill="#8a5a2b" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
   <path d="M30 60 Q50 40 70 60 Z" fill="#5a3a1c" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
   <path d="M36 56 L40 52 M46 52 L48 48 M54 52 L56 48 M62 56 L60 52" stroke="#3e2a17" stroke-width="2" stroke-linecap="round"/>

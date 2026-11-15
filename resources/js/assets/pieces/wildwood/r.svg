@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Old Bark</title>
-  <ellipse cx="50" cy="88" rx="30" ry="7" fill="#3e2a17" stroke="#14280f" stroke-width="3"/>
   <path d="M24 88 Q30 82 32 74 L32 36 H68 L68 74 Q70 82 76 88 Z" fill="#6b4a2b" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
   <path d="M40 40 Q38 60 42 84 M58 40 Q62 58 58 84 M50 44 V58" fill="none" stroke="#3e2a17" stroke-width="2.5" stroke-linecap="round"/>
   <ellipse cx="50" cy="64" rx="6" ry="8" fill="#14280f"/>

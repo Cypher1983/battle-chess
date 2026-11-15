@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Thornmother</title>
-  <ellipse cx="50" cy="88" rx="28" ry="7" fill="#3e2a17" stroke="#14280f" stroke-width="3"/>
   <path d="M30 86 Q36 66 40 52 H60 Q64 66 70 86 Z" fill="#2f6b35" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
   <path d="M30 86 Q40 76 50 86 Q60 76 70 86" fill="none" stroke="#8fcf6a" stroke-width="2.5"/>
   <path d="M42 62 Q50 70 58 62" fill="none" stroke="#14280f" stroke-width="2.5" stroke-linecap="round"/>

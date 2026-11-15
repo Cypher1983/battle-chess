@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Elder Stag</title>
-  <ellipse cx="50" cy="88" rx="30" ry="7" fill="#3e2a17" stroke="#14280f" stroke-width="3"/>
   <path d="M30 86 Q34 64 38 54 H62 Q66 64 70 86 Z" fill="#6b4a2b" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
   <path d="M38 60 Q50 54 62 60" fill="none" stroke="#3f8f3a" stroke-width="4" stroke-linecap="round"/>
   <path d="M40 34 Q40 56 50 58 Q60 56 60 34 Q50 28 40 34 Z" fill="#8a5a2b" stroke="#14280f" stroke-width="3" stroke-linejoin="round"/>
