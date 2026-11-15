@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Magma Salamander</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
   <path d="M30 86 L34 70 M44 86 L44 72 M58 86 L58 72 M70 86 L66 70" stroke="#7a2614" stroke-width="6" stroke-linecap="round"/>
   <path d="M22 66 Q30 54 50 56 Q66 56 74 62 Q80 68 74 72 Q50 76 28 72 Q14 72 10 62" fill="#7a2614" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
   <path d="M10 62 Q6 56 10 50" fill="none" stroke="#7a2614" stroke-width="4" stroke-linecap="round"/>

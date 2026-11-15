@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Obsidian Golem</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
   <path d="M36 86 L38 70 H46 L46 86 Z M54 86 L54 70 H62 L64 86 Z" fill="#1f1b22" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
   <path d="M28 70 L24 44 L34 30 H66 L76 44 L72 70 Z" fill="#1f1b22" stroke="#120c0c" stroke-width="3" stroke-linejoin="round"/>
   <path d="M42 40 L50 48 L46 56 M58 44 L54 52 L62 60 M36 58 L44 62" fill="none" stroke="#ff5a1a" stroke-width="2.5" stroke-linecap="round"/>

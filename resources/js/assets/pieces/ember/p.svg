@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Cinder Imp</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#3a3230" stroke="#120c0c" stroke-width="3"/>
   <path d="M44 86 L46 72 M56 86 L54 72" stroke="#1f1b22" stroke-width="6" stroke-linecap="round"/>
   <ellipse cx="50" cy="64" rx="14" ry="13" fill="#1f1b22" stroke="#120c0c" stroke-width="3"/>
   <path d="M44 62 L52 66 L47 70" fill="none" stroke="#ff5a1a" stroke-width="2.5" stroke-linecap="round"/>
