@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Army;
+use App\Enums\BoardTheme;
 use App\Enums\GameEndReason;
 use App\Enums\GameResult;
 use App\Enums\GameStatus;
@@ -25,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @property int $black_id
  * @property Army $white_army
  * @property Army $black_army
+ * @property BoardTheme $board_theme
  * @property int|null $invitation_id
  * @property string $fen
  * @property GameStatus $status
@@ -45,7 +47,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Move> $moves
  */
 #[Fillable([
-    'white_id', 'black_id', 'white_army', 'black_army', 'invitation_id', 'fen', 'status', 'result',
+    'white_id', 'black_id', 'white_army', 'black_army', 'board_theme', 'invitation_id', 'fen', 'status', 'result',
     'end_reason', 'draw_offered_by_id', 'last_move_at', 'finished_at',
     'white_rating_before', 'black_rating_before', 'white_rating_change', 'black_rating_change',
 ])]
@@ -72,6 +74,7 @@ class Game extends Model
     protected $attributes = [
         'white_army' => 'clockwork',
         'black_army' => 'wildwood',
+        'board_theme' => 'classic',
     ];
 
     /**
@@ -84,6 +87,7 @@ class Game extends Model
         return [
             'white_army' => Army::class,
             'black_army' => Army::class,
+            'board_theme' => BoardTheme::class,
             'status' => GameStatus::class,
             'result' => GameResult::class,
             'end_reason' => GameEndReason::class,
