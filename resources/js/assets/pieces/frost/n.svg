@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Snow Bear</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#dde9f2" stroke="#0e2238" stroke-width="3"/>
   <path d="M30 60 L34 50 L38 58 L43 42 L49 56 L55 44 L60 58" fill="#9cd3f2" stroke="#0e2238" stroke-width="2.5" stroke-linejoin="round"/>
   <path d="M26 86 V70 M38 86 V72 M58 86 V72 M68 86 V70" stroke="#0e2238" stroke-width="11" stroke-linecap="round"/>
   <path d="M26 86 V70 M38 86 V72 M58 86 V72 M68 86 V70" stroke="#f1f5f8" stroke-width="6" stroke-linecap="round"/>

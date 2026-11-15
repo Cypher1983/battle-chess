@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Rime Matriarch</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#dde9f2" stroke="#0e2238" stroke-width="3"/>
   <path d="M40 46 L26 30 L34 32 L30 16 L40 30 L42 12 L46 30 L50 8 L54 30 L58 12 L60 30 L70 16 L66 32 L74 30 L60 46 Z" fill="#9cd3f2" stroke="#0e2238" stroke-width="2.5" stroke-linejoin="round"/>
   <path d="M30 86 L43 46 H57 L70 86 Z" fill="#7bb6e0" stroke="#0e2238" stroke-width="3" stroke-linejoin="round"/>
   <path d="M30 86 Q50 80 70 86" fill="none" stroke="#f1f5f8" stroke-width="4" stroke-linecap="round"/>

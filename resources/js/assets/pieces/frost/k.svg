@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Glacier King</title>
-  <ellipse cx="50" cy="88" rx="27" ry="6" fill="#dde9f2" stroke="#0e2238" stroke-width="3"/>
   <path d="M26 84 L30 46 H70 L74 84 Z" fill="#24406e" stroke="#0e2238" stroke-width="3" stroke-linejoin="round"/>
   <path d="M40 86 V76 M60 86 V76" stroke="#8aa4ba" stroke-width="9" stroke-linecap="round"/>
   <path d="M34 80 Q30 60 36 48 H64 Q70 60 66 80 Q50 84 34 80 Z" fill="#f1f5f8" stroke="#0e2238" stroke-width="3" stroke-linejoin="round"/>
