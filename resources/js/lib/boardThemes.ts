@@ -1,5 +1,5 @@
 /** The boards a game can be played on (matches the server's BoardTheme enum). */
-export type BoardThemeId = 'classic' | 'marble';
+export type BoardThemeId = 'classic' | 'marble' | 'tournament';
 
 export type BoardTheme = {
     id: BoardThemeId;
@@ -61,6 +61,23 @@ export const boardThemes: Record<BoardThemeId, BoardTheme> = {
             lines: 120,
         },
         finish: { roughness: 0.25, metalness: 0 },
+    },
+    tournament: {
+        id: 'tournament',
+        name: 'Tournament green',
+        light: '#eeeed2',
+        dark: '#769656',
+        frame: '#3b2a1e',
+        trim: '#d8c38a',
+        label: '#eeeed2',
+        plinth: '#2a1d14',
+        grain: {
+            frame: 'rgba(0,0,0,0.14)',
+            light: 'rgba(0,0,0,0.03)',
+            dark: 'rgba(0,0,0,0.05)',
+            lines: 220,
+        },
+        finish: { roughness: 0.6, metalness: 0 },
     },
 };
 

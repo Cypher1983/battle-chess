@@ -10,6 +10,7 @@ enum BoardTheme: string
 {
     case Classic = 'classic';
     case Marble = 'marble';
+    case Tournament = 'tournament';
 
     /**
      * The board's display name.
@@ -19,6 +20,7 @@ enum BoardTheme: string
         return match ($this) {
             self::Classic => 'Classic walnut',
             self::Marble => 'Marble',
+            self::Tournament => 'Tournament green',
         };
     }
 }
