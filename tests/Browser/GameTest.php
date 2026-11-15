@@ -1,6 +1,7 @@
 <?php
 
 use App\Actions\Games\MakeMove;
+use App\Enums\Army;
 use App\Enums\GameEndReason;
 use App\Enums\GameResult;
 use App\Models\Game;
@@ -37,7 +38,7 @@ function visitIn2d(string $url): AwaitableWebpage
     return $page->refresh();
 }
 
-it('starts a game from an accepted challenge', function () {
+it('starts a game from an accepted challenge with the armies both players pick', function () {
     $alice = User::factory()->create(['name' => 'Alice', 'username' => 'alice']);
     $bob = User::factory()->create(['name' => 'Bob', 'username' => 'bob']);
 
@@ -46,20 +47,32 @@ it('starts a game from an accepted challenge', function () {
     visit('/invites')
         ->fill('recipient', 'bob')
         ->click('@send-challenge-button')
+        ->assertSee('Choose your army')
+        ->click('@army-viking')
+        ->click('@confirm-army-button')
         ->assertSee('Challenge sent')
         ->assertSee('@bob');
+
+    expect(Invitation::sole()->inviter_army)->toBe(Army::Viking);
 
     $this->actingAs($bob);
 
     visitIn2d('/invites')
         ->assertSee('Alice')
+        ->assertSee('Leads the Viking Clans')
         ->click('@accept-invitation-button')
+        ->assertSee("Your opponent's army")
+        ->assertPresent('[data-test="army-viking"][data-unavailable]')
+        ->click('@army-zombie')
+        ->click('@confirm-army-button')
         ->assertPathBeginsWith('/games/')
         ->assertPresent('@chess-board')
         ->assertSee('Alice')
         ->assertNoJavaScriptErrors();
 
-    expect(Game::sole()->invitation_id)->toBe(Invitation::sole()->id);
+    $game = Game::sole();
+    expect($game->invitation_id)->toBe(Invitation::sole()->id)
+        ->and([$game->white_army, $game->black_army])->toEqualCanonicalizing([Army::Viking, Army::Zombie]);
 });
 
 it('moves a piece by clicking squares', function () {
@@ -125,13 +138,16 @@ it('ends the game on checkmate and offers a rematch', function () {
         ->assertSee('Checkmate')
         ->assertSee('1216')
         ->click('@rematch-button')
+        ->assertSee('Choose your army')
+        ->click('@confirm-army-button')
         ->assertSee('Rematch challenge sent')
         ->assertNoJavaScriptErrors();
 
     $game->refresh();
     expect($game->result)->toBe(GameResult::BlackWins)
         ->and($game->end_reason)->toBe(GameEndReason::Checkmate)
-        ->and(Invitation::sole()->inviter_id)->toBe($game->black_id);
+        ->and(Invitation::sole()->inviter_id)->toBe($game->black_id)
+        ->and(Invitation::sole()->inviter_army)->toBe($game->black_army);
 });
 
 it('resigns after confirming', function () {
