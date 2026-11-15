@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>The King</title>
+  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#9a968c" stroke="#1c1a24" stroke-width="3"/>
+  <path d="M32 44 L22 86 H78 L68 44 Z" fill="#a31f24" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M42 86 V72 M58 86 V72" stroke="#b9c0cb" stroke-width="7" stroke-linecap="round"/>
+  <path d="M36 74 L38 48 H62 L64 74 Z" fill="#b9c0cb" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M38 58 L37 76 H63 L62 58 Z" fill="#1f3f95" stroke="#1c1a24" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M50 62 L54 67 L50 72 L46 67 Z" fill="#e0b040" stroke="#1c1a24" stroke-width="1"/>
+  <path d="M37 58 H63" stroke="#5a3a22" stroke-width="3"/>
+  <path d="M34 48 Q50 54 66 48 Q62 42 50 42 Q38 42 34 48 Z" fill="#f6f3ea" stroke="#1c1a24" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="50" cy="32" r="10" fill="#e6b38e" stroke="#1c1a24" stroke-width="2.5"/>
+  <path d="M41 34 Q42 46 50 47 Q58 46 59 34 Q54 38 50 37 Q46 38 41 34 Z" fill="#6b4423" stroke="#1c1a24" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="46.5" cy="31" r="1.5" fill="#1c1a24"/>
+  <circle cx="53.5" cy="31" r="1.5" fill="#1c1a24"/>
+  <path d="M39 24 L38 12 L44 18 L50 8 L56 18 L62 12 L61 24 Z" fill="#e0b040" stroke="#1c1a24" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="50" cy="20" r="2.2" fill="#4a8cff"/>
+  <path d="M30 50 Q22 54 20 46" fill="none" stroke="#b9c0cb" stroke-width="6" stroke-linecap="round"/>
+  <path d="M20 46 V6" stroke="#b9c0cb" stroke-width="4" stroke-linecap="round"/>
+  <path d="M20 46 V8" stroke="#1c1a24" stroke-width="1"/>
+  <path d="M13 44 H27" stroke="#e0b040" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="20" cy="50" r="2.4" fill="#e0b040" stroke="#1c1a24" stroke-width="1"/>
+  <path d="M66 50 L74 60" stroke="#b9c0cb" stroke-width="6" stroke-linecap="round"/>
+</svg>

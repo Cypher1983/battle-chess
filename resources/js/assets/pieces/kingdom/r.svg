@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Siege Tower</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#9a968c" stroke="#1c1a24" stroke-width="3"/>
+  <path d="M36 86 V76 H46 V86 Z M54 86 V76 H64 V86 Z" fill="#7a5230" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M28 78 L32 30 H68 L72 78 Z" fill="#7a5230" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M31 44 H69 M30 62 H70" stroke="#4d535e" stroke-width="3"/>
+  <path d="M40 34 V76 M50 34 V76 M60 34 V76" stroke="#5a3a22" stroke-width="1.2"/>
+  <rect x="42" y="48" width="3" height="10" fill="#1c1a24"/>
+  <rect x="55" y="48" width="3" height="10" fill="#1c1a24"/>
+  <rect x="48.5" y="66" width="3" height="9" fill="#1c1a24"/>
+  <path d="M28 30 V20 H36 V26 H44 V20 H56 V26 H64 V20 H72 V30 Z" fill="#7a5230" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M44 26 Q44 18 50 18 Q56 18 56 26" fill="#b9c0cb" stroke="#1c1a24" stroke-width="2"/>
+  <path d="M68 20 V4" stroke="#5a3a22" stroke-width="2" stroke-linecap="round"/>
+  <path d="M69 5 H84 L80 10 L84 15 H69 Z" fill="#1f3f95" stroke="#1c1a24" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="75" cy="10" r="2" fill="#e0b040"/>
+  <path d="M26 40 L20 58 M74 40 L80 58" stroke="#7a5230" stroke-width="6" stroke-linecap="round"/>
+  <rect x="14" y="56" width="11" height="10" rx="1.5" fill="#4d535e" stroke="#1c1a24" stroke-width="2.5"/>
+  <rect x="75" y="56" width="11" height="10" rx="1.5" fill="#4d535e" stroke="#1c1a24" stroke-width="2.5"/>
+</svg>

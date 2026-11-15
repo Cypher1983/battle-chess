@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Mounted Knight</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#9a968c" stroke="#1c1a24" stroke-width="3"/>
+  <path d="M30 86 V70 M40 86 V72 M60 86 V72 M70 86 V70" stroke="#8a5a35" stroke-width="5" stroke-linecap="round"/>
+  <path d="M20 58 Q14 66 18 76" fill="none" stroke="#6b4423" stroke-width="4" stroke-linecap="round"/>
+  <path d="M70 58 L78 40 Q84 34 92 42 L90 48 Q84 46 80 50 L76 62 Z" fill="#8a5a35" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M80 38 L86 44 L92 42" fill="#b9c0cb" stroke="#1c1a24" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M76 42 L72 52" stroke="#6b4423" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 58 Q22 52 34 52 H68 Q76 54 76 62 L74 76 L66 72 L58 76 L50 72 L42 76 L34 72 L26 76 L22 70 Z" fill="#1f3f95" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M24 70 L26 76 L34 72 L42 76 L50 72 L58 76 L66 72 L74 76" fill="none" stroke="#e0b040" stroke-width="2"/>
+  <path d="M42 54 L42 62 L48 66" fill="none" stroke="#b9c0cb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M40 54 L42 34 H56 L56 54 Z" fill="#b9c0cb" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M44 38 H54 V50 H44 Z" fill="#1f3f95"/>
+  <path d="M49 39 V49" stroke="#e0b040" stroke-width="2"/>
+  <rect x="42" y="18" width="14" height="16" rx="3" fill="#b9c0cb" stroke="#1c1a24" stroke-width="3"/>
+  <path d="M45 25 H54" stroke="#1c1a24" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M46 18 Q48 8 42 6 Q52 6 52 18" fill="#1f3f95" stroke="#1c1a24" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M62 64 L62 6" stroke="#7a5230" stroke-width="3" stroke-linecap="round"/>
+  <path d="M62 6 L60 12 H64 Z" fill="#b9c0cb" stroke="#1c1a24" stroke-width="1.5"/>
+  <path d="M63 14 L74 17 L63 20 Z" fill="#1f3f95" stroke="#1c1a24" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M56 40 L62 44" stroke="#b9c0cb" stroke-width="4" stroke-linecap="round"/>
+</svg>
