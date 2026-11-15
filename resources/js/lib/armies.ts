@@ -8,7 +8,8 @@ export type ArmyId =
     | 'ember'
     | 'frost'
     | 'tide'
-    | 'swarm';
+    | 'swarm'
+    | 'kingdom';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -109,6 +110,21 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Skitterling',
         },
         palette: [0x7dff3a, 0x4fd11f, 0x7a45a0, 0x3b1d52],
+    },
+    kingdom: {
+        id: 'kingdom',
+        name: 'Human Kingdom',
+        tagline:
+            'Steel, banners and oaths sworn to the crown of blue and gold.',
+        pieces: {
+            k: 'The King',
+            q: 'The Queen',
+            r: 'Siege Tower',
+            b: 'Cleric',
+            n: 'Mounted Knight',
+            p: 'Footman',
+        },
+        palette: [0xe0b040, 0xb9c0cb, 0x1f3f95, 0xa31f24],
     },
 };
 

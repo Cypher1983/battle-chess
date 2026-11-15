@@ -5,6 +5,7 @@ import { buildEmber } from '@/lib/board3d/pieces/ember';
 import { buildFrost } from '@/lib/board3d/pieces/frost';
 import { buildTide } from '@/lib/board3d/pieces/tide';
 import { buildSwarm } from '@/lib/board3d/pieces/swarm';
+import { buildKingdom } from '@/lib/board3d/pieces/kingdom';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
@@ -132,6 +133,20 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
             shape: 'glob',
             colour: 0x9dff3a,
             trail: 0x5aff7a,
+        },
+    },
+    kingdom: {
+        build: buildKingdom,
+        magic: 0xffe08a,
+        debris: 'scrap',
+        debrisGlow: 0.1,
+        spell: {
+            kind: 'missile',
+            shape: 'arrow',
+            colour: 0x8a6a3a,
+            trail: 0xfff1b8,
+            count: 5,
+            glow: false,
         },
     },
 };
