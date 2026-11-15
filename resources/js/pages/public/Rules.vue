@@ -54,6 +54,25 @@ const specialMoves = [
         text: 'A pawn that reaches the far side of the board becomes a queen, rook, bishop or knight of your choice. The game asks which one.',
     },
 ];
+
+const playing = [
+    {
+        title: 'Send a challenge',
+        text: 'Invite a player by username, or anyone by email. Choose the army you bring and the board you fight on. Challenges stay open for 7 days.',
+    },
+    {
+        title: 'Sides are drawn by lot',
+        text: 'When a challenge is accepted the game starts and white and black are assigned at random. Each player keeps the army they chose.',
+    },
+    {
+        title: '72 hours per move',
+        text: 'Battles are played at your own pace, but you have 72 hours to make each move. If your opponent misses the deadline you can claim the win.',
+    },
+    {
+        title: 'Draws, resignations and rematches',
+        text: 'Offer a draw at any time; your opponent can accept or decline. You may resign instead of playing on. When a battle ends either player can ask for a rematch.',
+    },
+];
 </script>
 
 <template>
@@ -188,6 +207,29 @@ const specialMoves = [
                     </p>
                 </div>
             </div>
+        </section>
+
+        <section id="playing" class="space-y-6">
+            <h2 class="text-2xl font-semibold">Playing on Battle Chess</h2>
+            <ol class="grid gap-5 md:grid-cols-2">
+                <li
+                    v-for="(step, index) in playing"
+                    :key="step.title"
+                    class="flex gap-4 rounded-xl border bg-card/90 p-5"
+                >
+                    <span
+                        class="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/15 font-display font-bold text-primary ring-1 ring-primary/30"
+                    >
+                        {{ index + 1 }}
+                    </span>
+                    <div>
+                        <h3 class="mb-1 font-semibold">{{ step.title }}</h3>
+                        <p class="text-sm text-muted-foreground">
+                            {{ step.text }}
+                        </p>
+                    </div>
+                </li>
+            </ol>
         </section>
     </div>
 </template>
