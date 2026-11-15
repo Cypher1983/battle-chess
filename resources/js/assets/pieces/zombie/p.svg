@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Shambler</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#3d342c" stroke="#1c1622" stroke-width="3"/>
   <path d="M43 86 L45 70 M57 86 L54 70" stroke="#1c1622" stroke-width="9" stroke-linecap="round"/>
   <path d="M43 86 L45 70 M57 86 L54 70" stroke="#6b4a32" stroke-width="5" stroke-linecap="round"/>
   <path d="M36 72 L40 50 Q50 44 62 50 L64 72 L60 68 L56 74 L51 68 L46 74 L41 68 Z" fill="#5b3a6e" stroke="#1c1622" stroke-width="3" stroke-linejoin="round"/>

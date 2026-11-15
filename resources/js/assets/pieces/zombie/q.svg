@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Plague Matron</title>
-  <ellipse cx="50" cy="88" rx="27" ry="6" fill="#3d342c" stroke="#1c1622" stroke-width="3"/>
   <path d="M34 26 Q50 14 66 26 L72 62 L28 62 Z" fill="#3a2a48" opacity="0.85" stroke="#1c1622" stroke-width="2.5" stroke-linejoin="round"/>
   <path d="M28 86 L42 46 H58 L72 86 L66 81 L61 87 L56 81 L50 87 L44 81 L39 87 L34 81 Z" fill="#5b3a6e" stroke="#1c1622" stroke-width="3" stroke-linejoin="round"/>
   <path d="M42 46 H58 L56 60 H44 Z" fill="#2c2236" stroke="#1c1622" stroke-width="2.5" stroke-linejoin="round"/>

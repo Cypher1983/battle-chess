@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Necromancer</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#3d342c" stroke="#1c1622" stroke-width="3"/>
   <path d="M32 86 L38 50 Q50 44 62 50 L68 86 L63 82 L58 87 L53 82 L48 87 L43 82 L38 87 Z" fill="#2c2236" stroke="#1c1622" stroke-width="3" stroke-linejoin="round"/>
   <path d="M48 52 L47 84 H53 L52 52 Z" fill="#5b3a6e" stroke="#1c1622" stroke-width="2"/>
   <path d="M38 64 H62" stroke="#6b4a32" stroke-width="4" stroke-linecap="round"/>
