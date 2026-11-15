@@ -1,7 +1,6 @@
 import {
     BoxGeometry,
     ConeGeometry,
-    CylinderGeometry,
     DoubleSide,
     Group,
     IcosahedronGeometry,
@@ -40,7 +39,6 @@ const plate = material({
     flatShading: true,
 });
 const bone = material({ color: 0xcfc6a4, roughness: 0.6, flatShading: true });
-const hive = material({ color: 0x1c1422, roughness: 0.9, flatShading: true });
 const membrane = material({
     color: 0xa8e6d0,
     roughness: 0.2,
@@ -53,7 +51,6 @@ const membrane = material({
 const acid = glow(0x7dff3a, 0.55);
 const eye = glow(0xc6ff4a, 0.65);
 const sac = glow(0x4fd11f, 0.35);
-const ooze = glow(0x3f9a1c, 0.25);
 sac.transparent = true;
 sac.opacity = 0.9;
 
@@ -68,24 +65,6 @@ const builders: Record<PieceType, () => Group> = {
 
 export function buildSwarm(type: PieceType): Group {
     return builders[type]();
-}
-
-/** Every Swarm character crouches on a slab of hive resin with acid pools. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 9), hive, 0, 0.025));
-
-    for (const [x, z, r] of [
-        [0.15, 0.13, 0.035],
-        [-0.17, 0.07, 0.025],
-        [0.03, -0.19, 0.03],
-    ]) {
-        group.add(
-            part(new CylinderGeometry(r, r, 0.012, 8), ooze, x, 0.052, z),
-        );
-    }
-
-    return group;
 }
 
 /** An egg-shaped mesh. */
@@ -184,7 +163,7 @@ function staticLeg(
 
 /** Skitterling (pawn): a small two-legged bug soldier with blade forelimbs. */
 function skitterling(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -246,7 +225,7 @@ function skitterling(): Group {
 
 /** Burrower (knight): a big six-legged digging beetle with a horn. */
 function burrower(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.11, 0.12],
@@ -306,7 +285,7 @@ function burrower(): Group {
 
 /** Psionic Brood (bishop): a bug with a huge glowing brain and a spine staff. */
 function psionicBrood(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -416,7 +395,7 @@ function psionicBrood(): Group {
 
 /** Carapace Hulk (rook): a heavily armoured beetle brute with crushing claws. */
 function carapaceHulk(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -555,7 +534,7 @@ function carapaceHulk(): Group {
 
 /** The Hive Queen (queen): a tall regal insect queen with a crest and wings. */
 function hiveQueen(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -656,7 +635,7 @@ function hiveQueen(): Group {
  * spider legs and wielding a stinger sceptre.
  */
 function overmind(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.12, 0.08],
