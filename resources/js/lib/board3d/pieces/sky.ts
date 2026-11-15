@@ -67,19 +67,6 @@ export function buildSky(type: PieceType): Group {
     return builders[type]();
 }
 
-/** Every Sky character stands on a round wooden deck with a brass rim. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 16), wood, 0, 0.025));
-    group.add(
-        part(new TorusGeometry(0.285, 0.012, 6, 24), brass, 0, 0.05).rotateX(
-            Math.PI / 2,
-        ),
-    );
-
-    return group;
-}
-
 /** Brass aviator goggles with glass lenses, centred at (0, y, z). */
 function goggles(group: Group, y: number, z: number, spread: number): void {
     for (const side of [-1, 1]) {
@@ -157,7 +144,7 @@ function puff(size: number): Group {
 
 /** Aeronaut Cadet (pawn): a goggled cadet with a propeller pack and pike. */
 function aeronautCadet(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -229,7 +216,7 @@ function aeronautCadet(): Group {
 
 /** Storm Hawk (knight): a great saddled hawk that runs on four legs. */
 function stormHawk(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.09, 0.12],
@@ -350,7 +337,7 @@ function stormHawk(): Group {
 
 /** Storm Caller (bishop): a weather mage with a kite and lightning rod. */
 function stormCaller(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -457,7 +444,7 @@ function stormCaller(): Group {
  * striped balloon with a rotor turning on top.
  */
 function balloonGolem(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -579,7 +566,7 @@ function balloonGolem(): Group {
  * hat, with a rapier crackling with static.
  */
 function stormCaptain(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -714,7 +701,7 @@ function stormCaptain(): Group {
  * cloud-plumed bicorne, holding a brass telescope sceptre.
  */
 function cloudAdmiral(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
