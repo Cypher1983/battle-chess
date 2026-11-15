@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Cleric</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#9a968c" stroke="#1c1a24" stroke-width="3"/>
   <path d="M32 86 L40 46 H60 L68 86 Z" fill="#ece4d0" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
   <path d="M46 48 L44 86 M54 48 L56 86" stroke="#1f3f95" stroke-width="4"/>
   <path d="M37 62 H63" stroke="#e0b040" stroke-width="2.5"/>

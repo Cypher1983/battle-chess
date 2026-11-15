@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Footman</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#9a968c" stroke="#1c1a24" stroke-width="3"/>
   <path d="M44 86 V72 M56 86 V72" stroke="#5a3a22" stroke-width="6" stroke-linecap="round"/>
   <path d="M38 74 L40 52 H60 L62 74 Z" fill="#1f3f95" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
   <path d="M50 54 V72" stroke="#e0b040" stroke-width="3"/>

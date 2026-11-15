@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The King</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#9a968c" stroke="#1c1a24" stroke-width="3"/>
   <path d="M32 44 L22 86 H78 L68 44 Z" fill="#a31f24" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
   <path d="M42 86 V72 M58 86 V72" stroke="#b9c0cb" stroke-width="7" stroke-linecap="round"/>
   <path d="M36 74 L38 48 H62 L64 74 Z" fill="#b9c0cb" stroke="#1c1a24" stroke-width="3" stroke-linejoin="round"/>
