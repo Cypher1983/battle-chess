@@ -2,6 +2,7 @@
 
 use App\Actions\Games\MakeMove;
 use App\Enums\Army;
+use App\Enums\BoardTheme;
 use App\Enums\GameEndReason;
 use App\Enums\GameResult;
 use App\Models\Game;
@@ -175,4 +176,32 @@ it('keeps playing when resignation is cancelled', function () {
         ->assertPresent('@resign-button');
 
     expect($game->refresh()->isActive())->toBeTrue();
+});
+
+it('plays on the board the challenger picked', function () {
+    $alice = User::factory()->create(['name' => 'Alice', 'username' => 'alice']);
+    $bob = User::factory()->create(['name' => 'Bob', 'username' => 'bob']);
+
+    $this->actingAs($alice);
+
+    visit('/invites')
+        ->fill('recipient', 'bob')
+        ->click('@send-challenge-button')
+        ->click('@board-theme-marble')
+        ->click('@confirm-army-button')
+        ->assertSee('Challenge sent');
+
+    expect(Invitation::sole()->board_theme)->toBe(BoardTheme::Marble);
+
+    $this->actingAs($bob);
+
+    visitIn2d('/invites')
+        ->click('@accept-invitation-button')
+        ->assertSee('on the Marble board')
+        ->click('@confirm-army-button')
+        ->assertPathBeginsWith('/games/')
+        ->assertPresent('[data-test="chess-board"][data-board-theme="marble"]')
+        ->assertNoJavaScriptErrors();
+
+    expect(Game::sole()->board_theme)->toBe(BoardTheme::Marble);
 });
