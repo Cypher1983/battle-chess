@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Aeronaut Cadet</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#8a5a32" stroke="#1b2a3d" stroke-width="3"/>
+  <path d="M63 50 V30" stroke="#d2a23c" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="63" cy="29" rx="15" ry="3" fill="#8a5a32" stroke="#1b2a3d" stroke-width="2"/>
+  <circle cx="63" cy="29" r="2.5" fill="#d2a23c" stroke="#1b2a3d" stroke-width="1.5"/>
+  <rect x="55" y="50" width="15" height="18" rx="3" fill="#5e3b22" stroke="#1b2a3d" stroke-width="2.5"/>
+  <path d="M45 85 V72 M55 85 V72" stroke="#1b2a3d" stroke-width="9" stroke-linecap="round"/>
+  <path d="M45 85 V72 M55 85 V72" stroke="#23426b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M42 86 h6 M52 86 h6" stroke="#5e3b22" stroke-width="4" stroke-linecap="round"/>
+  <rect x="38" y="50" width="24" height="24" rx="8" fill="#4f9ad8" stroke="#1b2a3d" stroke-width="3"/>
+  <path d="M39 66 H61" stroke="#d2a23c" stroke-width="3"/>
+  <path d="M42 51 Q50 56 58 51" fill="none" stroke="#f2ece0" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="50" cy="40" r="11" fill="#e8b48e" stroke="#1b2a3d" stroke-width="3"/>
+  <path d="M39 39 Q39 27 50 27 Q61 27 61 39 Z" fill="#5e3b22" stroke="#1b2a3d" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="45" cy="35" r="4" fill="#8fc8e8" stroke="#d2a23c" stroke-width="2"/>
+  <circle cx="55" cy="35" r="4" fill="#8fc8e8" stroke="#d2a23c" stroke-width="2"/>
+  <circle cx="46" cy="43" r="1.8" fill="#1b2a3d"/>
+  <circle cx="54" cy="43" r="1.8" fill="#1b2a3d"/>
+  <path d="M30 86 V24" stroke="#8a5a32" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 13 L34 24 H26 Z" fill="#c3ccd6" stroke="#1b2a3d" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M39 57 L31 60" stroke="#4f9ad8" stroke-width="5" stroke-linecap="round"/>
+</svg>

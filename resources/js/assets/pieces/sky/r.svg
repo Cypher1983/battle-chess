@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Balloon Golem</title>
+  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#8a5a32" stroke="#1b2a3d" stroke-width="3"/>
+  <path d="M50 12 V6" stroke="#d2a23c" stroke-width="2.5"/>
+  <ellipse cx="50" cy="5" rx="15" ry="2.5" fill="#8a5a32" stroke="#1b2a3d" stroke-width="2"/>
+  <ellipse cx="50" cy="30" rx="22" ry="19" fill="#f2ece0"/>
+  <path d="M50 11 Q40 30 50 49 Q60 30 50 11 Z" fill="#4f9ad8"/>
+  <path d="M36 15.5 Q29 30 36 44.5 Q31 40 29 30 Q30 20 36 15.5 Z M64 15.5 Q71 30 64 44.5 Q69 40 71 30 Q70 20 64 15.5 Z" fill="#4f9ad8"/>
+  <ellipse cx="50" cy="30" rx="22" ry="19" fill="none" stroke="#1b2a3d" stroke-width="3"/>
+  <path d="M38 45 L33 55 M62 45 L67 55" stroke="#5e3b22" stroke-width="2" stroke-linecap="round"/>
+  <path d="M43 56 Q43 46 50 46 Q57 46 57 56 Z" fill="#d2a23c" stroke="#1b2a3d" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="45" y="49" width="10" height="3" rx="1" fill="#9fe6ff"/>
+  <path d="M38 76 V82 M62 76 V82" stroke="#1b2a3d" stroke-width="10"/>
+  <path d="M38 76 V82 M62 76 V82" stroke="#d2a23c" stroke-width="6"/>
+  <rect x="32" y="81" width="12" height="6" rx="2" fill="#1d2430"/>
+  <rect x="56" y="81" width="12" height="6" rx="2" fill="#1d2430"/>
+  <path d="M29 62 L20 70 M71 62 L80 70" stroke="#1b2a3d" stroke-width="9" stroke-linecap="round"/>
+  <path d="M29 62 L20 70 M71 62 L80 70" stroke="#d2a23c" stroke-width="5" stroke-linecap="round"/>
+  <rect x="13" y="68" width="12" height="11" rx="2" fill="#1d2430" stroke="#1b2a3d" stroke-width="2"/>
+  <rect x="75" y="68" width="12" height="11" rx="2" fill="#1d2430" stroke="#1b2a3d" stroke-width="2"/>
+  <rect x="28" y="56" width="44" height="21" rx="2" fill="#8a5a32" stroke="#1b2a3d" stroke-width="3"/>
+  <path d="M30 66 H70" stroke="#5e3b22" stroke-width="2"/>
+  <rect x="26" y="54" width="48" height="5" rx="1" fill="#d2a23c" stroke="#1b2a3d" stroke-width="2"/>
+  <circle cx="50" cy="67" r="5" fill="#9fe6ff" stroke="#d2a23c" stroke-width="2.5"/>
+</svg>
