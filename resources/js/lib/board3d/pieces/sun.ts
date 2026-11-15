@@ -55,21 +55,6 @@ export function buildSun(type: PieceType): Group {
     return builders[type]();
 }
 
-/** Every Sun character stands on an octagonal sandstone dais. */
-function base(): Group {
-    const group = new Group();
-    group.add(
-        part(new CylinderGeometry(0.28, 0.3, 0.05, 8), sandstone, 0, 0.025),
-    );
-    group.add(
-        part(new TorusGeometry(0.27, 0.01, 4, 8), gold, 0, 0.05).rotateX(
-            Math.PI / 2,
-        ),
-    );
-
-    return group;
-}
-
 /** A glowing sun disc in a gold rim, facing forward. */
 function sunDisc(radius: number): Group {
     const group = new Group();
@@ -176,7 +161,7 @@ function eyes(
 
 /** Sandstone Guard (pawn): a headclothed spearman with a round shield. */
 function sandstoneGuard(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -250,7 +235,7 @@ function sandstoneGuard(): Group {
 
 /** Sphinx Hound (knight): a lion-bodied hound in a striped headdress. */
 function sphinxHound(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.08, 0.12],
@@ -313,7 +298,7 @@ function sphinxHound(): Group {
 
 /** Sun Priest (bishop): a shaved-headed priest with a sun-disc staff. */
 function sunPriest(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -409,7 +394,7 @@ function sunPriest(): Group {
  * glowing eyes and great sandstone fists.
  */
 function obeliskColossus(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -527,7 +512,7 @@ function obeliskColossus(): Group {
  * cobra-hood headdress and a coiled serpent staff.
  */
 function serpentQueen(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -656,7 +641,7 @@ function serpentQueen(): Group {
  * a blazing sun disc, holding a crooked sceptre.
  */
 function sunPharaoh(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
