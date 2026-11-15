@@ -22,6 +22,7 @@ enum Army: string
     case Greek = 'greek';
     case Viking = 'viking';
     case Zombie = 'zombie';
+    case Wasteland = 'wasteland';
 
     /**
      * The army's display name.
@@ -43,6 +44,7 @@ enum Army: string
             self::Greek => 'Greek Polis',
             self::Viking => 'Viking Clans',
             self::Zombie => 'Zombie Horde',
+            self::Wasteland => 'Wasteland Survivors',
         };
     }
 }

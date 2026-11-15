@@ -16,7 +16,8 @@ export type ArmyId =
     | 'mechs'
     | 'greek'
     | 'viking'
-    | 'zombie';
+    | 'zombie'
+    | 'wasteland';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -230,6 +231,21 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Shambler',
         },
         palette: [0x7dff5a, 0xe8e0c8, 0x5b3a6e, 0x8fa888],
+    },
+    wasteland: {
+        id: 'wasteland',
+        name: 'Wasteland Survivors',
+        tagline:
+            'Scrap, grit and duct tape: the end of the world is just a warm-up.',
+        pieces: {
+            k: 'The Warlord',
+            q: 'The Mechanic',
+            r: 'Barricade Bruiser',
+            b: 'Field Medic',
+            n: 'War Hound',
+            p: 'Scavenger',
+        },
+        palette: [0xf08a1c, 0xf2c230, 0x9a4a22, 0x8a8f94],
     },
 };
 
