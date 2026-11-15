@@ -4,6 +4,7 @@ import { Check, Clock, Mail, Swords, X } from '@lucide/vue';
 import { computed, ref } from 'vue';
 import InvitationController from '@/actions/App/Http/Controllers/InvitationController';
 import ArmyPickerDialog from '@/components/chess/ArmyPickerDialog.vue';
+import BoardThemeChoices from '@/components/chess/BoardThemeChoices.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,6 +18,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { armies } from '@/lib/armies';
 import type { ArmyId } from '@/lib/armies';
+import { boardThemes } from '@/lib/boardThemes';
+import type { BoardThemeId } from '@/lib/boardThemes';
 import { invites } from '@/routes';
 
 type Player = {
@@ -28,6 +31,8 @@ type ReceivedInvitation = {
     id: number;
     /** The army the challenger brings. */
     army: ArmyId;
+    /** The board the challenger picked. */
+    board_theme: BoardThemeId;
     player: Player;
     sent_at: string;
     expires_at: string;
@@ -56,7 +61,11 @@ defineOptions({
     },
 });
 
-const challenge = useForm({ recipient: '', army: props.my_army });
+const challenge = useForm({
+    recipient: '',
+    army: props.my_army,
+    board_theme: 'classic' as BoardThemeId,
+});
 const pickingChallengeArmy = ref(false);
 
 /** Ask which army to bring before sending the challenge. */
@@ -162,9 +171,13 @@ function acceptChallenge(army: ArmyId): void {
                     :initial="my_army"
                     confirm-label="Challenge"
                     :processing="challenge.processing"
-                    :error="challenge.errors.army"
+                    :error="
+                        challenge.errors.army ?? challenge.errors.board_theme
+                    "
                     @confirm="sendChallenge"
-                />
+                >
+                    <BoardThemeChoices v-model="challenge.board_theme" />
+                </ArmyPickerDialog>
             </CardContent>
         </Card>
 
@@ -243,7 +256,7 @@ function acceptChallenge(army: ArmyId): void {
                     title="Choose your army"
                     :description="
                         accepting
-                            ? `${accepting.player.name} leads the ${armies[accepting.army].name}. Pick the army you bring against them.`
+                            ? `${accepting.player.name} leads the ${armies[accepting.army].name} on the ${boardThemes[accepting.board_theme].name} board. Pick the army you bring against them.`
                             : ''
                     "
                     :initial="my_army"

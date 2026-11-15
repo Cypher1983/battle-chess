@@ -7,6 +7,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import GameMoveController from '@/actions/App/Http/Controllers/GameMoveController';
 import RematchController from '@/actions/App/Http/Controllers/RematchController';
 import ArmyPickerDialog from '@/components/chess/ArmyPickerDialog.vue';
+import BoardThemeChoices from '@/components/chess/BoardThemeChoices.vue';
 import Board3D from '@/components/chess/Board3D.vue';
 import ChessBoard from '@/components/chess/ChessBoard.vue';
 import GameControls from '@/components/chess/GameControls.vue';
@@ -363,7 +364,10 @@ watch(
     },
 );
 
-const rematch = useForm<{ army: ArmyId | null }>({ army: null });
+const rematch = useForm<{ army: ArmyId | null; board_theme: BoardThemeId }>({
+    army: null,
+    board_theme: props.game.board_theme,
+});
 const pickingRematchArmy = ref(false);
 
 function askForRematch(army: ArmyId): void {
@@ -570,9 +574,13 @@ function askForRematch(army: ArmyId): void {
                         :initial="game.armies[myColor]"
                         confirm-label="Challenge"
                         :processing="rematch.processing"
-                        :error="rematch.errors.army"
+                        :error="
+                            rematch.errors.army ?? rematch.errors.board_theme
+                        "
                         @confirm="askForRematch"
-                    />
+                    >
+                        <BoardThemeChoices v-model="rematch.board_theme" />
+                    </ArmyPickerDialog>
                 </CardContent>
             </Card>
 
