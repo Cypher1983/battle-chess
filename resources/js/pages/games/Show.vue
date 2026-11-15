@@ -28,7 +28,7 @@ import {
     playImpactSound,
     playMoveSound,
 } from '@/lib/sounds';
-import { armies } from '@/lib/armies';
+import { armies, pieceImage } from '@/lib/armies';
 import type { ArmyId, GameArmies, PieceColor, PieceType } from '@/lib/armies';
 import type { BoardThemeId } from '@/lib/boardThemes';
 import { play } from '@/routes';
@@ -387,9 +387,11 @@ function askForRematch(army: ArmyId): void {
     >
         <!-- As wide as fits, and never taller than the window. -->
         <div
-            class="mx-auto flex w-full max-w-[min(100%,calc(100dvh_-_10.5rem))] flex-col gap-3"
+            class="mx-auto flex w-full max-w-[min(100%,calc(100dvh_-_12.25rem))] flex-col gap-3"
         >
-            <div class="flex items-center justify-between text-sm">
+            <div
+                class="flex items-center justify-between gap-3 rounded-lg border bg-card/80 px-3 py-1 text-sm"
+            >
                 <span class="font-medium">
                     <span
                         v-if="showPresence"
@@ -407,8 +409,18 @@ function askForRematch(army: ArmyId): void {
                         :change="player(opponentColor).rating_change"
                     />
                 </span>
-                <span class="text-muted-foreground">
-                    {{ armies[game.armies[opponentColor]].name }}
+                <span
+                    class="flex shrink-0 items-center gap-2 text-muted-foreground"
+                >
+                    <span class="hidden sm:inline">{{
+                        armies[game.armies[opponentColor]].name
+                    }}</span>
+                    <img
+                        :src="pieceImage(game.armies[opponentColor], 'k')"
+                        :alt="armies[game.armies[opponentColor]].name"
+                        :title="armies[game.armies[opponentColor]].name"
+                        class="size-6"
+                    />
                 </span>
             </div>
 
@@ -458,7 +470,9 @@ function askForRematch(army: ArmyId): void {
                 />
             </div>
 
-            <div class="flex items-center justify-between text-sm">
+            <div
+                class="flex items-center justify-between gap-3 rounded-lg border bg-card/80 px-3 py-1 text-sm"
+            >
                 <span class="font-medium">
                     {{ player(orientation).name }}
                     <span class="text-muted-foreground">
@@ -469,8 +483,18 @@ function askForRematch(army: ArmyId): void {
                         :change="player(orientation).rating_change"
                     />
                 </span>
-                <span class="text-muted-foreground">
-                    {{ armies[game.armies[orientation]].name }}
+                <span
+                    class="flex shrink-0 items-center gap-2 text-muted-foreground"
+                >
+                    <span class="hidden sm:inline">{{
+                        armies[game.armies[orientation]].name
+                    }}</span>
+                    <img
+                        :src="pieceImage(game.armies[orientation], 'k')"
+                        :alt="armies[game.armies[orientation]].name"
+                        :title="armies[game.armies[orientation]].name"
+                        class="size-6"
+                    />
                 </span>
             </div>
         </div>
@@ -483,7 +507,10 @@ function askForRematch(army: ArmyId): void {
                     </CardTitle>
                 </CardHeader>
                 <CardContent v-if="moveError">
-                    <p class="text-sm text-red-600" data-test="move-error">
+                    <p
+                        class="text-sm text-destructive-foreground"
+                        data-test="move-error"
+                    >
                         {{ moveError }}
                     </p>
                 </CardContent>
