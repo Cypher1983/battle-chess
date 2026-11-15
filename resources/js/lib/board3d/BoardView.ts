@@ -561,7 +561,7 @@ export class BoardView {
         const side = this.orientation === 'w' ? 1 : -1;
 
         return {
-            position: new Vector3(0, 13.2, 10.6 * side),
+            position: new Vector3(0, 11.85, 9.6 * side),
             target: new Vector3(0, -0.4, 0.7 * side),
         };
     }
