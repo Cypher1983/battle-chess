@@ -6,7 +6,8 @@ export type BoardThemeId =
     | 'lava'
     | 'ice'
     | 'ocean'
-    | 'night';
+    | 'night'
+    | 'ebony';
 
 export type BoardTheme = {
     id: BoardThemeId;
@@ -153,6 +154,23 @@ export const boardThemes: Record<BoardThemeId, BoardTheme> = {
             lines: 100,
         },
         finish: { roughness: 0.4, metalness: 0.1 },
+    },
+    ebony: {
+        id: 'ebony',
+        name: 'Ebony & gold',
+        light: '#efe6d2',
+        dark: '#2b2422',
+        frame: '#16110f',
+        trim: '#d4a73c',
+        label: '#e3c374',
+        plinth: '#0c0908',
+        grain: {
+            frame: 'rgba(255,255,255,0.05)',
+            light: 'rgba(120,100,60,0.06)',
+            dark: 'rgba(255,255,255,0.05)',
+            lines: 200,
+        },
+        finish: { roughness: 0.3, metalness: 0.05 },
     },
 };
 
