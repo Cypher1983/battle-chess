@@ -10,7 +10,10 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { armies, pieceImage } from '@/lib/armies';
+import type { ArmyId, PieceType } from '@/lib/armies';
 import { dashboard, invites, play, scoreboard } from '@/routes';
+import { edit as editArmy } from '@/routes/army';
 
 const props = defineProps<{
     stats: {
@@ -30,6 +33,14 @@ defineOptions({
 });
 
 const page = usePage();
+
+const army = computed(
+    () => armies[page.props.auth.user.army as ArmyId] ?? armies.clockwork,
+);
+
+/** The pieces shown in the army banner, royals in the middle. */
+const rank: PieceType[] = ['p', 'n', 'b', 'k', 'q', 'r'];
+
 const pendingInvitations = computed(() => page.props.pendingInvitations);
 const games = computed(
     () => props.stats.wins + props.stats.losses + props.stats.draws,
@@ -40,14 +51,44 @@ const games = computed(
     <Head title="Dashboard" />
 
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4">
-        <div>
-            <h1 class="text-2xl font-semibold">
-                Welcome back, {{ page.props.auth.user.name }}
-            </h1>
-            <p class="text-sm text-muted-foreground">
-                Your army awaits your orders.
-            </p>
-        </div>
+        <Card class="overflow-hidden py-0" data-test="army-banner">
+            <div
+                class="flex flex-col gap-6 bg-linear-to-br from-primary/15 via-transparent to-transparent p-6 md:flex-row md:items-center md:justify-between"
+            >
+                <div class="space-y-1">
+                    <h1 class="text-2xl font-semibold">
+                        Welcome back, {{ page.props.auth.user.name }}
+                    </h1>
+                    <p class="text-sm text-muted-foreground">
+                        The
+                        <span class="font-semibold text-primary">{{
+                            army.name
+                        }}</span>
+                        awaits your orders.
+                    </p>
+                    <p class="text-sm text-muted-foreground italic">
+                        {{ army.tagline }}
+                    </p>
+                    <Link
+                        :href="editArmy()"
+                        class="inline-block pt-1 text-sm text-primary underline-offset-4 hover:underline"
+                    >
+                        Change army
+                    </Link>
+                </div>
+                <div class="flex items-end gap-1 sm:gap-2">
+                    <img
+                        v-for="type in rank"
+                        :key="type"
+                        :src="pieceImage(army.id, type)"
+                        :alt="army.pieces[type]"
+                        :title="army.pieces[type]"
+                        class="drop-shadow-md"
+                        :class="type === 'k' ? 'size-16' : 'size-12'"
+                    />
+                </div>
+            </div>
+        </Card>
 
         <div class="grid gap-4 sm:grid-cols-3">
             <Card>
