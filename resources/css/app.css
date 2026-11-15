@@ -97,6 +97,7 @@
     --sidebar-ring: oklch(0.7 0.12 75);
     --board-tile: oklch(0.55 0.115 68 / 0.045);
     --board-glow: oklch(0.8 0.12 82 / 0.18);
+    --card-edge: oklch(0.8 0.12 82 / 0.35);
 }
 
 .dark {
@@ -134,6 +135,7 @@
     --sidebar-ring: oklch(0.7 0.12 80);
     --board-tile: oklch(0.8 0.125 82 / 0.03);
     --board-glow: oklch(0.8 0.125 82 / 0.07);
+    --card-edge: oklch(0.8 0.125 82 / 0.22);
 }
 
 /* A faint chessboard with a gold glow from the top, behind page content. */
