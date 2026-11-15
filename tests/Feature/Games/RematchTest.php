@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Games;
 
+use App\Enums\Army;
 use App\Models\Game;
 use App\Models\Invitation;
 use App\Models\User;
@@ -82,5 +83,27 @@ class RematchTest extends TestCase
         $this->actingAs(User::factory()->create())
             ->post(route('games.rematch', $game))
             ->assertForbidden();
+    }
+
+    public function test_the_challenger_picks_the_army_for_the_rematch()
+    {
+        $game = Game::factory()->finished()->create();
+
+        $this->actingAs($game->black)
+            ->post(route('games.rematch', $game), ['army' => 'sun'])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(Army::Sun, Invitation::sole()->inviter_army);
+    }
+
+    public function test_unknown_armies_are_rejected_for_a_rematch()
+    {
+        $game = Game::factory()->finished()->create();
+
+        $this->actingAs($game->black)
+            ->post(route('games.rematch', $game), ['army' => 'pirates'])
+            ->assertSessionHasErrors('army');
+
+        $this->assertDatabaseCount('invitations', 0);
     }
 }

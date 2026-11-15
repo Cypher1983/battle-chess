@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Head, Link, router, usePage, usePoll } from '@inertiajs/vue3';
+import { Head, router, useForm, usePage, usePoll } from '@inertiajs/vue3';
 import { RotateCcw } from '@lucide/vue';
 import { Chess } from 'chess.js';
 import type { Square } from 'chess.js';
 import { computed, onMounted, ref, watch } from 'vue';
 import GameMoveController from '@/actions/App/Http/Controllers/GameMoveController';
 import RematchController from '@/actions/App/Http/Controllers/RematchController';
+import ArmyPickerDialog from '@/components/chess/ArmyPickerDialog.vue';
 import Board3D from '@/components/chess/Board3D.vue';
 import ChessBoard from '@/components/chess/ChessBoard.vue';
 import GameControls from '@/components/chess/GameControls.vue';
@@ -27,7 +28,7 @@ import {
     playMoveSound,
 } from '@/lib/sounds';
 import { armies } from '@/lib/armies';
-import type { GameArmies, PieceColor, PieceType } from '@/lib/armies';
+import type { ArmyId, GameArmies, PieceColor, PieceType } from '@/lib/armies';
 import { play } from '@/routes';
 
 type Player = {
@@ -359,6 +360,17 @@ watch(
         pendingPromotion.value = null;
     },
 );
+
+const rematch = useForm<{ army: ArmyId | null }>({ army: null });
+const pickingRematchArmy = ref(false);
+
+function askForRematch(army: ArmyId): void {
+    rematch.army = army;
+    rematch.post(RematchController.store.url(props.game.id), {
+        preserveScroll: true,
+        onSuccess: () => (pickingRematchArmy.value = false),
+    });
+}
 </script>
 
 <template>
@@ -538,17 +550,25 @@ watch(
 
             <Card v-if="game.status === 'finished' && myColor">
                 <CardContent>
-                    <Button class="w-full" as-child>
-                        <Link
-                            :href="RematchController.store(game.id)"
-                            as="button"
-                            preserve-scroll
-                            data-test="rematch-button"
-                        >
-                            <RotateCcw />
-                            Rematch
-                        </Link>
+                    <Button
+                        class="w-full"
+                        data-test="rematch-button"
+                        @click="pickingRematchArmy = true"
+                    >
+                        <RotateCcw />
+                        Rematch
                     </Button>
+
+                    <ArmyPickerDialog
+                        v-model:open="pickingRematchArmy"
+                        title="Choose your army"
+                        :description="`The army you lead in the rematch against ${opponentColor === 'w' ? game.white.name : game.black.name}. They pick theirs when they accept.`"
+                        :initial="game.armies[myColor]"
+                        confirm-label="Challenge"
+                        :processing="rematch.processing"
+                        :error="rematch.errors.army"
+                        @confirm="askForRematch"
+                    />
                 </CardContent>
             </Card>
 

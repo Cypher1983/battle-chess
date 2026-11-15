@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Invitations\SendInvitation;
+use App\Http\Requests\StoreRematchRequest;
 use App\Models\Game;
 use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class RematchController extends Controller
 {
     /**
-     * Challenge the opponent of a finished game to another battle.
+     * Challenge the opponent of a finished game to another battle, bringing
+     * the army picked for it.
      */
-    public function store(Request $request, Game $game, SendInvitation $sendInvitation): RedirectResponse
+    public function store(StoreRematchRequest $request, Game $game, SendInvitation $sendInvitation): RedirectResponse
     {
         Gate::authorize('view', $game);
 
@@ -38,7 +39,7 @@ class RematchController extends Controller
             return to_route('invites');
         }
 
-        $sendInvitation($user, $opponent);
+        $sendInvitation($user, $opponent, army: $request->army());
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Rematch challenge sent to :name.', ['name' => $opponent->name])]);
 
