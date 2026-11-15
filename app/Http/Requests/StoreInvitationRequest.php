@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\Army;
+use App\Enums\BoardTheme;
 use App\Models\Invitation;
 use App\Models\User;
 use Closure;
@@ -39,6 +40,7 @@ class StoreInvitationRequest extends FormRequest
         return [
             'recipient' => ['required', 'string', 'max:255'],
             'army' => ['nullable', Rule::enum(Army::class)],
+            'board_theme' => ['nullable', Rule::enum(BoardTheme::class)],
         ];
     }
 
@@ -74,6 +76,14 @@ class StoreInvitationRequest extends FormRequest
     public function army(): Army
     {
         return $this->enum('army', Army::class) ?? $this->user()->army;
+    }
+
+    /**
+     * The board both players will see: the one picked, or the classic board.
+     */
+    public function boardTheme(): BoardTheme
+    {
+        return $this->enum('board_theme', BoardTheme::class) ?? BoardTheme::Classic;
     }
 
     /**

@@ -75,6 +75,7 @@ class GameController extends Controller
                     'w' => $game->white_army->value,
                     'b' => $game->black_army->value,
                 ],
+                'board_theme' => $game->board_theme->value,
                 'status' => $game->status->value,
                 'result' => $game->result?->value,
                 'end_reason' => $game->end_reason?->label(),

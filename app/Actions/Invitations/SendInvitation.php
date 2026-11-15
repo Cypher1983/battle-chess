@@ -3,6 +3,7 @@
 namespace App\Actions\Invitations;
 
 use App\Enums\Army;
+use App\Enums\BoardTheme;
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\User;
@@ -13,14 +14,21 @@ class SendInvitation
 {
     /**
      * Challenge a registered player, or invite an email address to join.
-     * The challenger brings the given army, or their saved one.
+     * The challenger brings the given army, or their saved one, and picks
+     * the board both players will see.
      */
-    public function __invoke(User $inviter, ?User $invitee, ?string $email = null, ?Army $army = null): Invitation
-    {
+    public function __invoke(
+        User $inviter,
+        ?User $invitee,
+        ?string $email = null,
+        ?Army $army = null,
+        BoardTheme $boardTheme = BoardTheme::Classic,
+    ): Invitation {
         $invitation = $inviter->sentInvitations()->create([
             'invitee_id' => $invitee?->id,
             'email' => $invitee === null ? $email : null,
             'inviter_army' => $army ?? $inviter->army,
+            'board_theme' => $boardTheme,
             'status' => InvitationStatus::Pending,
             'expires_at' => now()->addDays(Invitation::EXPIRES_AFTER_DAYS),
         ]);

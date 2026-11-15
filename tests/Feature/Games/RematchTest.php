@@ -106,4 +106,15 @@ class RematchTest extends TestCase
 
         $this->assertDatabaseCount('invitations', 0);
     }
+
+    public function test_unknown_board_themes_are_rejected_for_a_rematch()
+    {
+        $game = Game::factory()->finished()->create();
+
+        $this->actingAs($game->black)
+            ->post(route('games.rematch', $game), ['board_theme' => 'plaid'])
+            ->assertSessionHasErrors('board_theme');
+
+        $this->assertDatabaseCount('invitations', 0);
+    }
 }

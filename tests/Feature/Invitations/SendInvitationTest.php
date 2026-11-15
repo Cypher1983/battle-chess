@@ -3,6 +3,7 @@
 namespace Tests\Feature\Invitations;
 
 use App\Enums\Army;
+use App\Enums\BoardTheme;
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\User;
@@ -203,6 +204,28 @@ class SendInvitationTest extends TestCase
         $this->actingAs(User::factory()->create())
             ->post(route('invitations.store'), ['recipient' => 'bob', 'army' => 'pirates'])
             ->assertSessionHasErrors('army');
+
+        $this->assertDatabaseCount('invitations', 0);
+    }
+
+    public function test_challengers_pick_the_board_theme()
+    {
+        User::factory()->create(['username' => 'bob']);
+
+        $this->actingAs(User::factory()->create())
+            ->post(route('invitations.store'), ['recipient' => 'bob', 'board_theme' => 'classic'])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(BoardTheme::Classic, Invitation::sole()->board_theme);
+    }
+
+    public function test_unknown_board_themes_are_rejected()
+    {
+        User::factory()->create(['username' => 'bob']);
+
+        $this->actingAs(User::factory()->create())
+            ->post(route('invitations.store'), ['recipient' => 'bob', 'board_theme' => 'plaid'])
+            ->assertSessionHasErrors('board_theme');
 
         $this->assertDatabaseCount('invitations', 0);
     }

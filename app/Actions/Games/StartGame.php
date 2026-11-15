@@ -38,6 +38,7 @@ class StartGame
             'black_id' => $black['user']->id,
             'white_army' => $white['army'],
             'black_army' => $black['army'],
+            'board_theme' => $invitation->board_theme,
             'invitation_id' => $invitation->id,
             'fen' => Game::START_FEN,
             'status' => GameStatus::Active,

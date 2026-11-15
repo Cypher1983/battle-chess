@@ -55,7 +55,13 @@ class InvitationController extends Controller
      */
     public function store(StoreInvitationRequest $request, SendInvitation $sendInvitation): RedirectResponse
     {
-        $sendInvitation($request->user(), $request->invitee(), $request->inviteEmail(), $request->army());
+        $sendInvitation(
+            $request->user(),
+            $request->invitee(),
+            $request->inviteEmail(),
+            $request->army(),
+            $request->boardTheme(),
+        );
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Challenge sent.')]);
 
@@ -139,13 +145,14 @@ class InvitationController extends Controller
     /**
      * The fields shared by received and sent invitations.
      *
-     * @return array{id: int, army: string, sent_at: string, expires_at: string, expires_in: string}
+     * @return array{id: int, army: string, board_theme: string, sent_at: string, expires_at: string, expires_in: string}
      */
     private function present(Invitation $invitation): array
     {
         return [
             'id' => $invitation->id,
             'army' => $invitation->challengerArmy()->value,
+            'board_theme' => $invitation->board_theme->value,
             'sent_at' => $invitation->created_at?->diffForHumans() ?? '',
             'expires_at' => $invitation->expires_at->toIso8601String(),
             'expires_in' => $invitation->expires_at->diffForHumans(),

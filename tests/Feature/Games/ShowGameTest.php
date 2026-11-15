@@ -31,6 +31,7 @@ class ShowGameTest extends TestCase
                 ->where('game.fen', Game::START_FEN)
                 ->where('game.turn', 'w')
                 ->where('game.armies', ['w' => 'clockwork', 'b' => 'wildwood'])
+                ->where('game.board_theme', 'classic')
                 ->where('game.status', 'active')
                 ->where('game.move_deadline', $game->moveDeadline()->toIso8601String())
                 ->where('game.white', ['name' => 'Wendy', 'username' => 'wendy', 'rating' => 1200, 'rating_change' => null])

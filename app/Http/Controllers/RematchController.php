@@ -15,7 +15,7 @@ class RematchController extends Controller
 {
     /**
      * Challenge the opponent of a finished game to another battle, bringing
-     * the army picked for it.
+     * the army picked for it, on the board picked (or the same board).
      */
     public function store(StoreRematchRequest $request, Game $game, SendInvitation $sendInvitation): RedirectResponse
     {
@@ -39,7 +39,12 @@ class RematchController extends Controller
             return to_route('invites');
         }
 
-        $sendInvitation($user, $opponent, army: $request->army());
+        $sendInvitation(
+            $user,
+            $opponent,
+            army: $request->army(),
+            boardTheme: $request->boardTheme() ?? $game->board_theme,
+        );
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Rematch challenge sent to :name.', ['name' => $opponent->name])]);
 
