@@ -4,18 +4,23 @@ import type { Square } from 'chess.js';
 import { computed } from 'vue';
 import { pieceImage, pieceLabel } from '@/lib/armies';
 import type { GameArmies, PieceColor } from '@/lib/armies';
+import { boardThemes } from '@/lib/boardThemes';
+import type { BoardThemeId } from '@/lib/boardThemes';
 
 type Props = {
     fen: string;
     orientation: PieceColor;
     /** Which army plays each colour. */
     armies: GameArmies;
+    /** The board to play on. */
+    boardTheme?: BoardThemeId;
     lastMove?: { from: string; to: string } | null;
     selected?: string | null;
     targets?: string[];
 };
 
 const props = withDefaults(defineProps<Props>(), {
+    boardTheme: 'classic',
     lastMove: null,
     selected: null,
     targets: () => [],
@@ -24,6 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
     squareClick: [square: Square];
 }>();
+
+const theme = computed(() => boardThemes[props.boardTheme]);
 
 const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const RANKS = ['8', '7', '6', '5', '4', '3', '2', '1'];
@@ -77,8 +84,10 @@ function isLastMove(square: string): boolean {
 
 <template>
     <div
-        class="grid aspect-square w-full grid-cols-8 grid-rows-8 overflow-hidden rounded-lg border-4 border-[#5b4632] shadow-lg select-none"
+        class="grid aspect-square w-full grid-cols-8 grid-rows-8 overflow-hidden rounded-lg border-4 shadow-lg select-none"
+        :style="{ borderColor: theme.frame }"
         data-test="chess-board"
+        :data-board-theme="boardTheme"
     >
         <button
             v-for="cell in squares"
@@ -86,7 +95,6 @@ function isLastMove(square: string): boolean {
             type="button"
             class="relative flex items-center justify-center"
             :class="[
-                cell.isLight ? 'bg-[#eadfc8]' : 'bg-[#9c7b54]',
                 isLastMove(cell.square) &&
                     cell.square !== selected &&
                     'after:absolute after:inset-0 after:bg-yellow-300/45',
@@ -94,6 +102,9 @@ function isLastMove(square: string): boolean {
                     'after:absolute after:inset-0 after:border-4 after:border-green-700 after:bg-green-500/50',
                 checkedKing === cell.square && 'bg-red-500!',
             ]"
+            :style="{
+                backgroundColor: cell.isLight ? theme.light : theme.dark,
+            }"
             :data-square="cell.square"
             :aria-label="
                 cell.piece
@@ -105,14 +116,14 @@ function isLastMove(square: string): boolean {
             <span
                 v-if="cell.showRank"
                 class="absolute top-0.5 left-1 text-[10px] font-semibold opacity-70"
-                :class="cell.isLight ? 'text-[#9c7b54]' : 'text-[#eadfc8]'"
+                :style="{ color: cell.isLight ? theme.dark : theme.light }"
             >
                 {{ cell.showRank }}
             </span>
             <span
                 v-if="cell.showFile"
                 class="absolute right-1 bottom-0.5 text-[10px] font-semibold opacity-70"
-                :class="cell.isLight ? 'text-[#9c7b54]' : 'text-[#eadfc8]'"
+                :style="{ color: cell.isLight ? theme.dark : theme.light }"
             >
                 {{ cell.showFile }}
             </span>
