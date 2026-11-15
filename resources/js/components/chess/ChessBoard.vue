@@ -70,12 +70,8 @@ const squares = computed(() => {
     );
 });
 
-function isHighlighted(square: string): boolean {
-    return (
-        square === props.lastMove?.from ||
-        square === props.lastMove?.to ||
-        square === props.selected
-    );
+function isLastMove(square: string): boolean {
+    return square === props.lastMove?.from || square === props.lastMove?.to;
 }
 </script>
 
@@ -91,8 +87,11 @@ function isHighlighted(square: string): boolean {
             class="relative flex items-center justify-center"
             :class="[
                 cell.isLight ? 'bg-[#eadfc8]' : 'bg-[#9c7b54]',
-                isHighlighted(cell.square) &&
+                isLastMove(cell.square) &&
+                    cell.square !== selected &&
                     'after:absolute after:inset-0 after:bg-yellow-300/45',
+                cell.square === selected &&
+                    'after:absolute after:inset-0 after:border-4 after:border-green-700 after:bg-green-500/50',
                 checkedKing === cell.square && 'bg-red-500!',
             ]"
             :data-square="cell.square"
