@@ -18,6 +18,7 @@ enum Army: string
     case Sky = 'sky';
     case Sun = 'sun';
     case Shadow = 'shadow';
+    case Mechs = 'mechs';
 
     /**
      * The army's display name.
@@ -35,6 +36,7 @@ enum Army: string
             self::Sky => 'Sky Armada',
             self::Sun => 'Sun Pharaohs',
             self::Shadow => 'Night Spirits',
+            self::Mechs => 'Star Mechs',
         };
     }
 }

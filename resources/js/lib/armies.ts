@@ -12,7 +12,8 @@ export type ArmyId =
     | 'kingdom'
     | 'sky'
     | 'sun'
-    | 'shadow';
+    | 'shadow'
+    | 'mechs';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -170,6 +171,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Lantern Wisp',
         },
         palette: [0xe4def4, 0xb68cff, 0x45275f, 0x17141f],
+    },
+    mechs: {
+        id: 'mechs',
+        name: 'Star Mechs',
+        tagline: 'Visors lit, thrusters hot: the Star Mechs roll out.',
+        pieces: {
+            k: 'Command Core',
+            q: 'Laser Valkyrie',
+            r: 'Siege Walker',
+            b: 'Signal Tech',
+            n: 'Hover Strider',
+            p: 'Drone Trooper',
+        },
+        palette: [0xe9edf2, 0x4a5260, 0x39e6ff, 0xff3048],
     },
 };
 
