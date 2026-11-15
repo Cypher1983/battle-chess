@@ -23,6 +23,7 @@ class InvitationFactory extends Factory
             'inviter_id' => User::factory(),
             'invitee_id' => User::factory(),
             'email' => null,
+            'inviter_army' => null,
             'status' => InvitationStatus::Pending,
             'expires_at' => now()->addDays(Invitation::EXPIRES_AFTER_DAYS),
             'responded_at' => null,

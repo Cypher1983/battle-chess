@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Army;
 use App\Enums\InvitationStatus;
 use Database\Factories\InvitationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -17,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property int $inviter_id
  * @property int|null $invitee_id
  * @property string|null $email
+ * @property Army|null $inviter_army
  * @property InvitationStatus $status
  * @property Carbon $expires_at
  * @property Carbon|null $responded_at
@@ -25,7 +27,7 @@ use Illuminate\Support\Carbon;
  * @property-read User $inviter
  * @property-read User|null $invitee
  */
-#[Fillable(['inviter_id', 'invitee_id', 'email', 'status', 'expires_at', 'responded_at'])]
+#[Fillable(['inviter_id', 'invitee_id', 'email', 'inviter_army', 'status', 'expires_at', 'responded_at'])]
 class Invitation extends Model
 {
     /** @use HasFactory<InvitationFactory> */
@@ -44,6 +46,7 @@ class Invitation extends Model
     protected function casts(): array
     {
         return [
+            'inviter_army' => Army::class,
             'status' => InvitationStatus::class,
             'expires_at' => 'datetime',
             'responded_at' => 'datetime',
@@ -96,6 +99,15 @@ class Invitation extends Model
     public function isOpen(): bool
     {
         return $this->status->isOpen() && ! $this->isExpired();
+    }
+
+    /**
+     * The army the challenger brings: the one chosen for this challenge, or
+     * their saved army for challenges sent before armies were chosen here.
+     */
+    public function challengerArmy(): Army
+    {
+        return $this->inviter_army ?? $this->inviter->army;
     }
 
     /**

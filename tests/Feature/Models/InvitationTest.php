@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Models;
 
+use App\Enums\Army;
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\User;
@@ -63,5 +64,21 @@ class InvitationTest extends TestCase
 
         $this->assertNull($invitation->invitee);
         $this->assertSame('friend@example.com', $invitation->email);
+    }
+
+    public function test_the_challenger_brings_the_army_chosen_for_the_challenge()
+    {
+        $inviter = User::factory()->create(['army' => Army::Clockwork]);
+        $invitation = Invitation::factory()->for($inviter, 'inviter')->create(['inviter_army' => Army::Viking]);
+
+        $this->assertSame(Army::Viking, $invitation->fresh()->challengerArmy());
+    }
+
+    public function test_older_challenges_fall_back_to_the_challengers_saved_army()
+    {
+        $inviter = User::factory()->create(['army' => Army::Greek]);
+        $invitation = Invitation::factory()->for($inviter, 'inviter')->create();
+
+        $this->assertSame(Army::Greek, $invitation->fresh()->challengerArmy());
     }
 }
