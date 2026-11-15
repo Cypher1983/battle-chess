@@ -18,8 +18,11 @@ const TRIM = '#c9a46a';
 /** Pixels per board unit in the board texture. */
 const UNIT = 128;
 
-/** The board plus its 1-unit frame, in units. */
-const SIZE = 10;
+/** The width of the frame round the squares, in units (squares). */
+const BORDER = 0.5;
+
+/** The board plus its frame, in units. */
+const SIZE = 8 + BORDER * 2;
 
 /**
  * The chessboard: a wooden block whose top is painted with the squares and,
@@ -76,8 +79,8 @@ function paintBoard(orientation: PieceColor): HTMLCanvasElement {
     // Squares. Canvas row 0 is rank 8 (the far side for white).
     for (let file = 0; file < 8; file++) {
         for (let rank = 0; rank < 8; rank++) {
-            const x = (1 + file) * UNIT;
-            const y = (8 - rank) * UNIT;
+            const x = (BORDER + file) * UNIT;
+            const y = (BORDER + 7 - rank) * UNIT;
             const light = (file + rank) % 2 === 1;
             ctx.fillStyle = light ? LIGHT : DARK;
             ctx.fillRect(x, y, UNIT, UNIT);
@@ -96,27 +99,38 @@ function paintBoard(orientation: PieceColor): HTMLCanvasElement {
     // Gold trim between the squares and the frame.
     ctx.strokeStyle = TRIM;
     ctx.lineWidth = 6;
-    ctx.strokeRect(UNIT - 3, UNIT - 3, 8 * UNIT + 6, 8 * UNIT + 6);
+    const edge = BORDER * UNIT;
+    ctx.strokeRect(edge - 3, edge - 3, 8 * UNIT + 6, 8 * UNIT + 6);
     ctx.lineWidth = 2;
-    ctx.strokeRect(UNIT * 0.35, UNIT * 0.35, UNIT * 9.3, UNIT * 9.3);
+    const inset = UNIT * 0.08;
+    ctx.strokeRect(
+        inset,
+        inset,
+        SIZE * UNIT - inset * 2,
+        SIZE * UNIT - inset * 2,
+    );
 
     // Coordinates on the frame, turned to read from the player's side.
     ctx.fillStyle = LIGHT;
-    ctx.font = `600 ${UNIT * 0.36}px Georgia, serif`;
+    ctx.font = `600 ${UNIT * 0.26}px Georgia, serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const turn = orientation === 'b' ? Math.PI : 0;
 
+    // Centred in the frame, nudged in a little past the outer line.
+    const near = (BORDER / 2 + 0.03) * UNIT;
+    const far = SIZE * UNIT - near;
+
     FILES.forEach((letter, file) => {
-        const x = (1.5 + file) * UNIT;
-        label(ctx, letter, x, UNIT * 0.62, turn);
-        label(ctx, letter, x, UNIT * 9.38, turn);
+        const x = (BORDER + 0.5 + file) * UNIT;
+        label(ctx, letter, x, near, turn);
+        label(ctx, letter, x, far, turn);
     });
 
     for (let rank = 0; rank < 8; rank++) {
-        const y = (8.5 - rank) * UNIT;
-        label(ctx, String(rank + 1), UNIT * 0.62, y, turn);
-        label(ctx, String(rank + 1), UNIT * 9.38, y, turn);
+        const y = (BORDER + 7.5 - rank) * UNIT;
+        label(ctx, String(rank + 1), near, y, turn);
+        label(ctx, String(rank + 1), far, y, turn);
     }
 
     return canvas;
