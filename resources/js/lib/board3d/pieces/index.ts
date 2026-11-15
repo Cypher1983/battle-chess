@@ -1,3 +1,4 @@
+import { Box3 } from 'three';
 import type { Group } from 'three';
 import type { ArmyId, PieceColor, PieceType } from '@/lib/armies';
 import { disposeObject } from '@/lib/board3d/stage';
@@ -7,6 +8,25 @@ const templates = new Map<string, Group>();
 
 /** Characters are modelled small; this makes them fill their squares. */
 const MODEL_SCALE = 1.3;
+
+/** How far a model may sink: the height of the bases pieces once stood on. */
+const MAX_DROP = 0.07;
+
+/**
+ * Lower a model until its lowest part touches the board. Models that hover
+ * on purpose (floating spirits, balloons) sink by at most `MAX_DROP`.
+ */
+function ground(model: Group): void {
+    const drop = Math.min(new Box3().setFromObject(model).min.y, MAX_DROP);
+
+    if (drop <= 0) {
+        return;
+    }
+
+    for (const part of model.children) {
+        part.position.y -= drop;
+    }
+}
 
 /**
  * Scale a model by scaling its parts, so the piece itself keeps a scale of
@@ -33,6 +53,7 @@ export function createPiece(
 
     if (!template) {
         template = armyStyles[army].build(type);
+        ground(template);
         enlarge(template, MODEL_SCALE);
         templates.set(key, template);
     }
