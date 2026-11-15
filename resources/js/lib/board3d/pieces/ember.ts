@@ -60,27 +60,6 @@ export function buildEmber(type: PieceType): Group {
     return builders[type]();
 }
 
-/** Every Ember character stands on a cracked basalt slab. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 7), basalt, 0, 0.025));
-
-    for (let i = 0; i < 3; i++) {
-        const angle = (i / 3) * Math.PI * 2 + 0.3;
-        const seam = part(
-            new BoxGeometry(0.2, 0.012, 0.02),
-            lava,
-            Math.sin(angle) * 0.13,
-            0.051,
-            Math.cos(angle) * 0.13,
-        );
-        seam.rotation.y = angle;
-        group.add(seam);
-    }
-
-    return group;
-}
-
 /** A flickering flame: two stacked glowing cones. */
 function fire(size: number): Group {
     const group = new Group();
@@ -136,7 +115,7 @@ function horns(group: Group, y: number, spread: number, length: number): void {
 
 /** Cinder Imp (pawn): a small horned imp with a trident. */
 function cinderImp(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -219,7 +198,7 @@ function cinderImp(): Group {
 
 /** Magma Salamander (knight): a four-legged lizard with a ridge of fire. */
 function magmaSalamander(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.1, 0.12],
@@ -266,7 +245,7 @@ function magmaSalamander(): Group {
 
 /** Flame Priest (bishop): a hooded fire-priest with a brazier staff. */
 function flamePriest(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -324,7 +303,7 @@ function flamePriest(): Group {
 
 /** Obsidian Golem (rook): a hulking stone golem with a molten core. */
 function obsidianGolem(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -406,7 +385,7 @@ function obsidianGolem(): Group {
  * a crown of flame.
  */
 function phoenixEmpress(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -497,7 +476,7 @@ function phoenixEmpress(): Group {
  * crown, a mantle of embers and a molten sceptre.
  */
 function cinderKing(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
