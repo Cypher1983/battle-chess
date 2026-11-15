@@ -55,6 +55,15 @@ const specialMoves = [
     },
 ];
 
+/** Worked with K = 32, matching app/Chess/EloCalculator.php. */
+const eloExamples = [
+    { you: 1200, opponent: 1200, label: 'Win', change: 16 },
+    { you: 1200, opponent: 1400, label: 'Win', change: 24 },
+    { you: 1400, opponent: 1200, label: 'Win', change: 8 },
+    { you: 1200, opponent: 1400, label: 'Draw', change: 8 },
+    { you: 1200, opponent: 1200, label: 'Loss', change: -16 },
+];
+
 const playing = [
     {
         title: 'Send a challenge',
@@ -230,6 +239,76 @@ const playing = [
                     </div>
                 </li>
             </ol>
+        </section>
+
+        <section id="rating" class="space-y-6">
+            <h2 class="text-2xl font-semibold">Ratings and the scoreboard</h2>
+            <div class="grid gap-5 md:grid-cols-[3fr_2fr]">
+                <div class="space-y-3 text-sm text-muted-foreground">
+                    <p>
+                        Every player has an
+                        <strong class="text-foreground">Elo rating</strong>
+                        that starts at 1200. When a battle ends, the winner
+                        takes rating points from the loser. Beating a stronger
+                        player earns more than beating a weaker one, and a draw
+                        against a stronger player still gains you points.
+                    </p>
+                    <p>
+                        Changes are worked out with the standard Elo formula and
+                        a K-factor of 32, so a single battle moves a rating by
+                        at most 32 points. Ratings never fall below 100.
+                    </p>
+                    <p>
+                        Players appear on the scoreboard once they have finished
+                        a battle, ranked by rating.
+                    </p>
+                </div>
+                <div class="overflow-hidden rounded-xl border bg-card/90">
+                    <table class="w-full text-sm">
+                        <caption
+                            class="border-b px-4 py-3 text-left font-display font-semibold"
+                        >
+                            Examples
+                        </caption>
+                        <thead>
+                            <tr
+                                class="border-b text-left text-xs text-muted-foreground"
+                            >
+                                <th class="px-4 py-2 font-medium">You</th>
+                                <th class="px-4 py-2 font-medium">Opponent</th>
+                                <th class="px-4 py-2 font-medium">Result</th>
+                                <th class="px-4 py-2 text-right font-medium">
+                                    Change
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="tabular-nums">
+                            <tr
+                                v-for="example in eloExamples"
+                                :key="example.label"
+                                class="border-b last:border-0"
+                            >
+                                <td class="px-4 py-2">{{ example.you }}</td>
+                                <td class="px-4 py-2">
+                                    {{ example.opponent }}
+                                </td>
+                                <td class="px-4 py-2">{{ example.label }}</td>
+                                <td
+                                    class="px-4 py-2 text-right font-semibold"
+                                    :class="
+                                        example.change > 0
+                                            ? 'text-primary'
+                                            : 'text-destructive-foreground'
+                                    "
+                                >
+                                    {{ example.change > 0 ? '+' : ''
+                                    }}{{ example.change }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
     </div>
 </template>
