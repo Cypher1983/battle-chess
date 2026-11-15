@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Hive Queen</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#1c1422" stroke="#140a1c" stroke-width="3"/>
   <path d="M44 44 Q24 30 12 10 Q30 18 46 38 Z M56 44 Q76 30 88 10 Q70 18 54 38 Z" fill="#a8e6d0" fill-opacity="0.6" stroke="#140a1c" stroke-width="2" stroke-linejoin="round"/>
   <path d="M44 50 Q28 46 16 32 Q32 38 46 46 Z M56 50 Q72 46 84 32 Q68 38 54 46 Z" fill="#a8e6d0" fill-opacity="0.6" stroke="#140a1c" stroke-width="2" stroke-linejoin="round"/>
   <path d="M30 86 Q28 76 34 72 Q30 66 38 60 Q36 54 44 48 H56 Q64 54 62 60 Q70 66 66 72 Q72 76 70 86 Z" fill="#3b1d52" stroke="#140a1c" stroke-width="3" stroke-linejoin="round"/>

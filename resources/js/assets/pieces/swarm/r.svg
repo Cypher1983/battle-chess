@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Carapace Hulk</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#1c1422" stroke="#140a1c" stroke-width="3"/>
   <path d="M36 86 L38 72 H46 L46 86 Z M54 86 L54 72 H62 L64 86 Z" fill="#3b1d52" stroke="#140a1c" stroke-width="3" stroke-linejoin="round"/>
   <path d="M26 72 Q20 46 34 32 H66 Q80 46 74 72 Z" fill="#3b1d52" stroke="#140a1c" stroke-width="3" stroke-linejoin="round"/>
   <path d="M36 48 H64 M38 57 H62 M40 66 H60" stroke="#7a45a0" stroke-width="5" stroke-linecap="round"/>

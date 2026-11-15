@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Burrower</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#1c1422" stroke="#140a1c" stroke-width="3"/>
   <path d="M28 70 L20 76 L24 86 M40 72 L36 86 M58 72 L60 86 M70 70 L78 76 L76 86" fill="none" stroke="#3b1d52" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M18 70 Q18 46 46 44 Q70 44 74 66 Q60 74 44 74 Q26 74 18 70 Z" fill="#3b1d52" stroke="#140a1c" stroke-width="3" stroke-linejoin="round"/>
   <path d="M46 45 Q48 60 46 73" fill="none" stroke="#7dff3a" stroke-width="2"/>
