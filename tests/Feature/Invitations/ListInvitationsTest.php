@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Invitations;
 
+use App\Enums\Army;
 use App\Enums\InvitationStatus;
 use App\Models\Invitation;
 use App\Models\User;
@@ -66,6 +67,23 @@ class ListInvitationsTest extends TestCase
             ->assertInertia(fn (Assert $page) => $page
                 ->has('received', 0)
                 ->has('sent', 0)
+            );
+    }
+
+    public function test_invites_show_the_challengers_army_and_your_own()
+    {
+        $me = User::factory()->create(['army' => Army::Frost]);
+        $alice = User::factory()->create(['army' => Army::Greek]);
+
+        Invitation::factory()->for($alice, 'inviter')->for($me, 'invitee')->create(['inviter_army' => Army::Viking]);
+        Invitation::factory()->for($me, 'inviter')->create();
+
+        $this->actingAs($me)
+            ->get(route('invites'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('my_army', 'frost')
+                ->where('received.0.army', 'viking')
+                ->where('sent.0.army', 'frost')
             );
     }
 }

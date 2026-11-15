@@ -27,6 +27,7 @@ class InvitationController extends Controller
         $user = $request->user();
 
         return Inertia::render('Invites', [
+            'my_army' => $user->army->value,
             'received' => $user->receivedInvitations()
                 ->open()
                 ->with('inviter')
@@ -38,7 +39,7 @@ class InvitationController extends Controller
                 ]),
             'sent' => $user->sentInvitations()
                 ->open()
-                ->with('invitee')
+                ->with(['inviter', 'invitee'])
                 ->latest('id')
                 ->get()
                 ->map(fn (Invitation $invitation) => [
@@ -138,12 +139,13 @@ class InvitationController extends Controller
     /**
      * The fields shared by received and sent invitations.
      *
-     * @return array{id: int, sent_at: string, expires_at: string, expires_in: string}
+     * @return array{id: int, army: string, sent_at: string, expires_at: string, expires_in: string}
      */
     private function present(Invitation $invitation): array
     {
         return [
             'id' => $invitation->id,
+            'army' => $invitation->challengerArmy()->value,
             'sent_at' => $invitation->created_at?->diffForHumans() ?? '',
             'expires_at' => $invitation->expires_at->toIso8601String(),
             'expires_in' => $invitation->expires_at->diffForHumans(),
