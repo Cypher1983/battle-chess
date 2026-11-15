@@ -181,9 +181,22 @@ function acceptChallenge(army: ArmyId): void {
             </CardContent>
         </Card>
 
-        <Card>
+        <Card
+            :class="
+                received.length > 0 &&
+                'border-primary/50 shadow-[0_0_24px_-12px_var(--primary)]'
+            "
+        >
             <CardHeader>
-                <CardTitle>Challenges for you</CardTitle>
+                <CardTitle class="flex items-center gap-2">
+                    Challenges for you
+                    <span
+                        v-if="received.length > 0"
+                        class="rounded-full bg-primary px-2 py-0.5 font-sans text-xs font-semibold text-primary-foreground"
+                    >
+                        {{ received.length }}
+                    </span>
+                </CardTitle>
                 <CardDescription>
                     Players who want to face you on the battlefield.
                 </CardDescription>
