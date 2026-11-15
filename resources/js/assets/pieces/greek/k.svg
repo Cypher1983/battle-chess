@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Archon</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#ece6da" stroke="#1e1712" stroke-width="3"/>
   <path d="M26 86 L31 46 H69 L74 86 Z" fill="#2f6fa8" stroke="#1e1712" stroke-width="3" stroke-linejoin="round"/>
   <path d="M33 86 L36 48 Q50 42 64 48 L67 86 Z" fill="#f3eee2" stroke="#1e1712" stroke-width="3" stroke-linejoin="round"/>
   <path d="M38 48 L46 46 L66 82 L58 86 Z" fill="#c0582f" stroke="#1e1712" stroke-width="2" stroke-linejoin="round"/>

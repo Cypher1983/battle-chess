@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Oracle</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#ece6da" stroke="#1e1712" stroke-width="3"/>
   <path d="M30 86 L38 48 Q50 42 62 48 L70 86 Z" fill="#f3eee2" stroke="#1e1712" stroke-width="3" stroke-linejoin="round"/>
   <path d="M31 81 H69" stroke="#2f6fa8" stroke-width="3"/>
   <path d="M47 50 L46 86 H54 L53 50 Z" fill="#2f6fa8" stroke="#1e1712" stroke-width="2" stroke-linejoin="round"/>

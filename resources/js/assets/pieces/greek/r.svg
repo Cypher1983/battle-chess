@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Bronze Colossus</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#ece6da" stroke="#1e1712" stroke-width="3"/>
   <path d="M37 86 L39 70 H48 L47 86 Z M53 86 L52 70 H61 L63 86 Z" fill="#b8803a" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
   <path d="M34 73 L36 62 H64 L66 73 Z" fill="#7a5228" stroke="#1e1712" stroke-width="2.5" stroke-linejoin="round"/>
   <path d="M42 63 V72 M50 63 V72 M58 63 V72" stroke="#1e1712" stroke-width="1.5"/>

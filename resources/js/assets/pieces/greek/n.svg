@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Centaur</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#ece6da" stroke="#1e1712" stroke-width="3"/>
   <path d="M28 66 L25 85 M36 68 L37 85 M55 68 L53 85 M62 66 L65 85" stroke="#8a5a34" stroke-width="5" stroke-linecap="round"/>
   <path d="M22 86 h6 M34 86 h6 M50 86 h6 M62 86 h6" stroke="#1e1712" stroke-width="3" stroke-linecap="round"/>
   <path d="M24 56 Q12 58 15 76" fill="none" stroke="#3e2a1c" stroke-width="5" stroke-linecap="round"/>
