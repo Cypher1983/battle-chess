@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Haunted Belfry</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#2a2535" stroke="#1a1226" stroke-width="3"/>
   <path d="M36 86 V76 H46 V86 Z M54 86 V76 H64 V86 Z" fill="#77738a" stroke="#1a1226" stroke-width="3" stroke-linejoin="round"/>
   <path d="M30 44 L22 64 M70 44 L78 64" stroke="#77738a" stroke-width="8" stroke-linecap="round"/>
   <circle cx="22" cy="66" r="5" fill="#77738a" stroke="#1a1226" stroke-width="2.5"/>

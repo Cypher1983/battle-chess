@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Banshee</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#2a2535" stroke="#1a1226" stroke-width="3"/>
   <path d="M40 30 Q30 50 26 76 Q30 70 34 74 Q36 56 42 40 Z M60 30 Q70 50 74 76 Q70 70 66 74 Q64 56 58 40 Z" fill="#b9a8dc" stroke="#1a1226" stroke-width="2.5" stroke-linejoin="round"/>
   <path d="M42 44 H58 L66 78 L62 74 L58 82 L54 74 L50 84 L46 74 L42 82 L38 74 L34 78 Z" fill="#e4def4" stroke="#1a1226" stroke-width="3" stroke-linejoin="round"/>
   <path d="M43 54 H57" stroke="#45275f" stroke-width="3"/>

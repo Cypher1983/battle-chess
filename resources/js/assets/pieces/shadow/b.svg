@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Hollow Monk</title>
-  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#2a2535" stroke="#1a1226" stroke-width="3"/>
   <path d="M32 86 L36 80 L40 86 L44 80 L48 86 L52 80 L56 86 L60 80 L64 86 L68 86 L60 44 H40 L32 86 Z" fill="#45275f" stroke="#1a1226" stroke-width="3" stroke-linejoin="round"/>
   <path d="M38 64 H62" stroke="#ece4d2" stroke-width="3"/>
   <path d="M56 64 L58 74" stroke="#ece4d2" stroke-width="2.5" stroke-linecap="round"/>
