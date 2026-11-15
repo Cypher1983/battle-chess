@@ -37,7 +37,6 @@ const darkRag = material({ color: 0x2c2236, roughness: 1, flatShading: true });
 const brown = material({ color: 0x6b4a32, roughness: 1, flatShading: true });
 const bone = material({ color: 0xe8e0c8, roughness: 0.7, flatShading: true });
 const stitch = material({ color: 0x2a201c, roughness: 1 });
-const dirt = material({ color: 0x3d342c, roughness: 1, flatShading: true });
 const iron = material({
     color: 0x8a7a3a,
     metalness: 0.7,
@@ -73,28 +72,6 @@ const builders: Record<PieceType, () => Group> = {
 
 export function buildZombie(type: PieceType): Group {
     return builders[type]();
-}
-
-/** Every Zombie character crawls out of a mound of grave dirt. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 9), dirt, 0, 0.025));
-
-    // A little glowing crack and a stray bone in the soil.
-    group.add(
-        part(
-            new BoxGeometry(0.16, 0.01, 0.02),
-            ooze,
-            0.08,
-            0.051,
-            0.14,
-        ).rotateY(0.5),
-    );
-    group.add(
-        rod([-0.2, 0.055, 0.1], [-0.1, 0.055, 0.18], 0.01, bone, 0.01, 5),
-    );
-
-    return group;
 }
 
 function eyes(
@@ -157,7 +134,7 @@ function tatters(
 
 /** Shambler (pawn): a hunched zombie with arms reaching forward. */
 function shambler(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -240,7 +217,7 @@ function shambler(): Group {
 
 /** Bone Hound (knight): a skeletal dog with glowing eyes. */
 function boneHound(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.08, 0.13],
@@ -328,7 +305,7 @@ function boneHound(): Group {
 
 /** Necromancer (bishop): a hooded caster with a skull-topped staff. */
 function necromancer(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -400,7 +377,7 @@ function necromancer(): Group {
 
 /** Flesh Golem (rook): a huge stitched brute with mismatched arms. */
 function fleshGolem(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -499,7 +476,7 @@ function fleshGolem(): Group {
 
 /** The Plague Matron (queen): a tall veiled lady with a lantern of fog. */
 function plagueMatron(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -608,7 +585,7 @@ function plagueMatron(): Group {
 
 /** The Lich Lord (king): a skeletal king with a jagged crown and an orb. */
 function lichLord(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
