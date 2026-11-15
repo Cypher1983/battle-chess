@@ -6,8 +6,12 @@ withDefaults(
     defineProps<{
         /** The form field name of the radio buttons. */
         name?: string;
+        /** An army that can't be picked, e.g. the one the opponent leads. */
+        unavailable?: ArmyId | null;
+        /** Why the unavailable army can't be picked. */
+        unavailableNote?: string;
     }>(),
-    { name: 'army' },
+    { name: 'army', unavailable: null, unavailableNote: 'Unavailable' },
 );
 
 const chosen = defineModel<ArmyId>({ required: true });
@@ -19,14 +23,21 @@ const chosen = defineModel<ArmyId>({ required: true });
         <label
             v-for="id in ARMY_IDS"
             :key="id"
-            class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50 has-[:checked]:border-primary has-[:checked]:bg-muted has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring"
+            class="flex items-center gap-3 rounded-lg border p-3 transition-colors has-[:checked]:border-primary has-[:checked]:bg-muted has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring"
+            :class="
+                id === unavailable
+                    ? 'cursor-not-allowed opacity-50'
+                    : 'cursor-pointer hover:bg-muted/50'
+            "
             :data-test="`army-${id}`"
+            :data-unavailable="id === unavailable || undefined"
         >
             <input
                 v-model="chosen"
                 type="radio"
                 :name="name"
                 :value="id"
+                :disabled="id === unavailable"
                 class="sr-only"
             />
             <img
@@ -39,7 +50,11 @@ const chosen = defineModel<ArmyId>({ required: true });
                     {{ armies[id].name }}
                 </span>
                 <span class="block text-sm text-muted-foreground">
-                    {{ armies[id].tagline }}
+                    {{
+                        id === unavailable
+                            ? unavailableNote
+                            : armies[id].tagline
+                    }}
                 </span>
             </span>
         </label>
