@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Warlord</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#b89a6a" stroke="#2a1e14" stroke-width="3"/>
   <path d="M26 86 L32 46 H68 L74 86 Z" fill="#3e5a80" stroke="#2a1e14" stroke-width="3" stroke-linejoin="round"/>
   <path d="M34 86 L38 48 H62 L66 86 Z" fill="#7a5030" stroke="#2a1e14" stroke-width="3" stroke-linejoin="round"/>
   <rect x="42" y="50" width="16" height="14" rx="2" fill="#9a4a22" stroke="#2a1e14" stroke-width="2.5"/>
