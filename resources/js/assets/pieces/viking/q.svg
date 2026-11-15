@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Shield-Maiden</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#4e3420" stroke="#1b1612" stroke-width="3"/>
   <path d="M31 86 L35 48 H65 L69 86 Z" fill="#a8322a" stroke="#1b1612" stroke-width="3" stroke-linejoin="round"/>
   <path d="M33 86 L40 50 Q50 44 60 50 L67 86 Z" fill="#2c4f86" stroke="#1b1612" stroke-width="3" stroke-linejoin="round"/>
   <path d="M34 82 H66" stroke="#e8e0cc" stroke-width="3"/>

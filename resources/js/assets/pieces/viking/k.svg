@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>The Jarl</title>
-  <ellipse cx="50" cy="88" rx="26" ry="6" fill="#4e3420" stroke="#1b1612" stroke-width="3"/>
   <path d="M24 86 L30 46 H70 L76 86 Z" fill="#6b5440" stroke="#1b1612" stroke-width="3" stroke-linejoin="round"/>
   <path d="M34 86 L38 50 H62 L66 86 Z" fill="#a8322a" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
   <path d="M35 82 H65" stroke="#2c4f86" stroke-width="3"/>

@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Wolf Rider</title>
-  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#4e3420" stroke="#1b1612" stroke-width="3"/>
   <path d="M28 66 L25 85 M36 68 L37 85 M55 68 L53 85 M62 66 L65 85" stroke="#8e8a84" stroke-width="6" stroke-linecap="round"/>
   <path d="M22 86 h6 M34 86 h6 M50 86 h6 M62 86 h6" stroke="#6b5440" stroke-width="3.5" stroke-linecap="round"/>
   <path d="M22 58 Q6 52 7 68 Q14 62 22 65 Z" fill="#8e8a84" stroke="#1b1612" stroke-width="2.5" stroke-linejoin="round"/>
