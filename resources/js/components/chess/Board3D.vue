@@ -14,12 +14,15 @@ import { CLASSIC_ARMIES } from '@/lib/armies';
 import type { GameArmies, PieceColor } from '@/lib/armies';
 import type { BoardView } from '@/lib/board3d/BoardView';
 import type { QualityChoice } from '@/lib/board3d/quality';
+import type { BoardThemeId } from '@/lib/boardThemes';
 
 type Props = {
     fen: string;
     orientation: PieceColor;
     /** Which army plays each colour. */
     armies?: GameArmies;
+    /** The board to play on, read once: re-mount the board to change it. */
+    boardTheme?: BoardThemeId;
     lastMove?: { from: string; to: string } | null;
     selected?: string | null;
     targets?: string[];
@@ -31,6 +34,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
     armies: () => CLASSIC_ARMIES,
+    boardTheme: 'classic',
     lastMove: null,
     selected: null,
     targets: () => [],
@@ -71,6 +75,7 @@ onMounted(async () => {
             orientation: props.orientation,
             quality: props.quality,
             armies: props.armies,
+            boardTheme: props.boardTheme,
             onSquareClick: (square) => emit('squareClick', square),
         });
         view.setPosition(props.fen);

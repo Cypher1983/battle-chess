@@ -7,6 +7,8 @@ import { CLASSIC_ARMIES } from '@/lib/armies';
 import type { ArmyId, GameArmies, PieceColor, PieceType } from '@/lib/armies';
 import { playBattle } from '@/lib/board3d/battle';
 import { createBoard } from '@/lib/board3d/board';
+import { boardThemes } from '@/lib/boardThemes';
+import type { BoardTheme, BoardThemeId } from '@/lib/boardThemes';
 import { positionToSquare, squareToPosition } from '@/lib/board3d/coords';
 import { createHighlights } from '@/lib/board3d/highlights';
 import { animateIdle } from '@/lib/board3d/idle';
@@ -26,6 +28,8 @@ export type BoardViewOptions = {
     quality?: QualityChoice;
     /** Which army plays each colour (the classic pair if not given). */
     armies?: GameArmies;
+    /** The board to play on (the classic board if not given). */
+    boardTheme?: BoardThemeId;
     onSquareClick: (square: Square) => void;
 };
 
@@ -81,7 +85,7 @@ export class BoardView {
         this.orientation = options.orientation;
         this.stage = createStage(host, options.quality);
 
-        this.board = createBoard(this.orientation);
+        this.board = createBoard(this.orientation, this.theme());
         this.stage.scene.add(this.board);
         this.stage.scene.add(this.highlights.group);
         this.stage.scene.add(this.piecesLayer);
@@ -285,7 +289,7 @@ export class BoardView {
         this.orientation = orientation;
         this.stage.scene.remove(this.board);
         disposeObject(this.board);
-        this.board = createBoard(orientation);
+        this.board = createBoard(orientation, this.theme());
         this.stage.scene.add(this.board);
         this.placeCamera();
     }
@@ -554,6 +558,10 @@ export class BoardView {
             camera.position.lerpVectors(fromPosition, position, eased);
             this.controls.target.lerpVectors(fromTarget, target, eased);
         });
+    }
+
+    protected theme(): BoardTheme {
+        return boardThemes[this.options.boardTheme ?? 'classic'];
     }
 
     /** Behind the player's own army, looking down at the board. */

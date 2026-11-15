@@ -9,11 +9,7 @@ import {
 } from 'three';
 import type { PieceColor } from '@/lib/armies';
 import { FILES } from '@/lib/board3d/coords';
-
-const LIGHT = '#eadfc8';
-const DARK = '#9c7b54';
-const FRAME = '#5b4632';
-const TRIM = '#c9a46a';
+import type { BoardTheme } from '@/lib/boardThemes';
 
 /** Pixels per board unit in the board texture. */
 const UNIT = 128;
@@ -25,29 +21,34 @@ const BORDER = 0.5;
 const SIZE = 8 + BORDER * 2;
 
 /**
- * The chessboard: a wooden block whose top is painted with the squares and,
- * on the frame, the file and rank letters (turned to face `orientation`).
+ * The chessboard: a block in the colours of `theme` whose top is painted
+ * with the squares and, on the frame, the file and rank letters (turned to
+ * face `orientation`).
  */
-export function createBoard(orientation: PieceColor): Group {
+export function createBoard(orientation: PieceColor, theme: BoardTheme): Group {
     const board = new Group();
     board.name = 'board';
 
-    const texture = new CanvasTexture(paintBoard(orientation));
+    const texture = new CanvasTexture(paintBoard(orientation, theme));
     texture.colorSpace = SRGBColorSpace;
     texture.anisotropy = 8;
 
     const top = new Mesh(
         new PlaneGeometry(SIZE, SIZE),
-        new MeshStandardMaterial({ map: texture, roughness: 0.55 }),
+        new MeshStandardMaterial({ map: texture, ...theme.finish }),
     );
     top.rotation.x = -Math.PI / 2;
     top.position.y = 0.001;
     top.receiveShadow = true;
     board.add(top);
 
-    const wood = new MeshStandardMaterial({ color: FRAME, roughness: 0.7 });
+    const sides = new MeshStandardMaterial({
+        color: theme.frame,
+        roughness: Math.min(theme.finish.roughness + 0.15, 1),
+        metalness: theme.finish.metalness,
+    });
 
-    const block = new Mesh(new BoxGeometry(SIZE, 0.4, SIZE), wood);
+    const block = new Mesh(new BoxGeometry(SIZE, 0.4, SIZE), sides);
     block.position.y = -0.2;
     block.castShadow = true;
     block.receiveShadow = true;
@@ -55,7 +56,7 @@ export function createBoard(orientation: PieceColor): Group {
 
     const plinth = new Mesh(
         new BoxGeometry(SIZE + 0.4, 0.2, SIZE + 0.4),
-        new MeshStandardMaterial({ color: '#3d2e20', roughness: 0.8 }),
+        new MeshStandardMaterial({ color: theme.plinth, roughness: 0.8 }),
     );
     plinth.position.y = -0.5;
     plinth.castShadow = true;
@@ -65,16 +66,27 @@ export function createBoard(orientation: PieceColor): Group {
     return board;
 }
 
-function paintBoard(orientation: PieceColor): HTMLCanvasElement {
+function paintBoard(
+    orientation: PieceColor,
+    theme: BoardTheme,
+): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
     canvas.width = SIZE * UNIT;
     canvas.height = SIZE * UNIT;
     const ctx = canvas.getContext('2d')!;
 
-    // Frame with a little wood grain.
-    ctx.fillStyle = FRAME;
+    // Frame with a little grain.
+    ctx.fillStyle = theme.frame;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    grain(ctx, 0, 0, canvas.width, canvas.height, 'rgba(0,0,0,0.12)', 260);
+    grain(
+        ctx,
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+        theme.grain.frame,
+        theme.grain.lines,
+    );
 
     // Squares. Canvas row 0 is rank 8 (the far side for white).
     for (let file = 0; file < 8; file++) {
@@ -82,7 +94,7 @@ function paintBoard(orientation: PieceColor): HTMLCanvasElement {
             const x = (BORDER + file) * UNIT;
             const y = (BORDER + 7 - rank) * UNIT;
             const light = (file + rank) % 2 === 1;
-            ctx.fillStyle = light ? LIGHT : DARK;
+            ctx.fillStyle = light ? theme.light : theme.dark;
             ctx.fillRect(x, y, UNIT, UNIT);
             grain(
                 ctx,
@@ -90,14 +102,14 @@ function paintBoard(orientation: PieceColor): HTMLCanvasElement {
                 y,
                 UNIT,
                 UNIT,
-                light ? 'rgba(120,90,50,0.06)' : 'rgba(60,40,20,0.10)',
-                10,
+                light ? theme.grain.light : theme.grain.dark,
+                theme.grain.lines > 0 ? 10 : 0,
             );
         }
     }
 
     // Gold trim between the squares and the frame.
-    ctx.strokeStyle = TRIM;
+    ctx.strokeStyle = theme.trim;
     ctx.lineWidth = 6;
     const edge = BORDER * UNIT;
     ctx.strokeRect(edge - 3, edge - 3, 8 * UNIT + 6, 8 * UNIT + 6);
@@ -111,7 +123,7 @@ function paintBoard(orientation: PieceColor): HTMLCanvasElement {
     );
 
     // Coordinates on the frame, turned to read from the player's side.
-    ctx.fillStyle = LIGHT;
+    ctx.fillStyle = theme.label;
     ctx.font = `600 ${UNIT * 0.26}px Georgia, serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
