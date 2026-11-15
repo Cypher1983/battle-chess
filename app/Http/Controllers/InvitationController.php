@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Games\StartGame;
 use App\Actions\Invitations\SendInvitation;
 use App\Enums\InvitationStatus;
+use App\Http\Requests\AcceptInvitationRequest;
 use App\Http\Requests\StoreInvitationRequest;
 use App\Models\Invitation;
 use App\Models\User;
@@ -61,13 +62,15 @@ class InvitationController extends Controller
     }
 
     /**
-     * Accept a challenge.
+     * Accept a challenge, bringing the army picked for it.
      */
-    public function accept(Invitation $invitation, StartGame $startGame): RedirectResponse
+    public function accept(AcceptInvitationRequest $request, Invitation $invitation, StartGame $startGame): RedirectResponse
     {
         Gate::authorize('respond', $invitation);
 
-        $game = DB::transaction(function () use ($invitation, $startGame) {
+        $army = $request->army();
+
+        $game = DB::transaction(function () use ($invitation, $startGame, $army) {
             $invitation = Invitation::query()->lockForUpdate()->findOrFail($invitation->id);
 
             if (! $invitation->isOpen()) {
@@ -76,7 +79,7 @@ class InvitationController extends Controller
 
             $invitation->close(InvitationStatus::Accepted);
 
-            return $startGame($invitation);
+            return $startGame($invitation, $army);
         });
 
         if ($game === null) {

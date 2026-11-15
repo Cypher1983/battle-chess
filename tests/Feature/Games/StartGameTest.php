@@ -56,6 +56,44 @@ class StartGameTest extends TestCase
         $this->assertSame(Army::Greek, $inviterIsWhite ? $game->black_army : $game->white_army);
     }
 
+    public function test_the_challenged_player_brings_the_army_they_accept_with()
+    {
+        $invitation = Invitation::factory()->create(['inviter_army' => Army::Viking]);
+
+        $this->actingAs($invitation->invitee)
+            ->post(route('invitations.accept', $invitation), ['army' => 'zombie'])
+            ->assertSessionHasNoErrors();
+
+        $game = Game::sole();
+        $this->assertEqualsCanonicalizing(
+            [Army::Viking, Army::Zombie],
+            [$game->white_army, $game->black_army],
+        );
+    }
+
+    public function test_the_challenged_player_cannot_pick_the_challengers_army()
+    {
+        $invitation = Invitation::factory()->create(['inviter_army' => Army::Viking]);
+
+        $this->actingAs($invitation->invitee)
+            ->post(route('invitations.accept', $invitation), ['army' => 'viking'])
+            ->assertSessionHasErrors(['army' => 'Your opponent already leads this army. Choose another.']);
+
+        $this->assertDatabaseCount('games', 0);
+        $this->assertSame(InvitationStatus::Pending, $invitation->refresh()->status);
+    }
+
+    public function test_unknown_armies_are_rejected_when_accepting()
+    {
+        $invitation = Invitation::factory()->create();
+
+        $this->actingAs($invitation->invitee)
+            ->post(route('invitations.accept', $invitation), ['army' => 'pirates'])
+            ->assertSessionHasErrors('army');
+
+        $this->assertDatabaseCount('games', 0);
+    }
+
     public function test_choosing_another_army_does_not_change_a_game_under_way()
     {
         $invitation = Invitation::factory()->create();
