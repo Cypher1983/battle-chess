@@ -43,6 +43,19 @@ class StartGameTest extends TestCase
         $this->assertSame(Army::Wildwood, $game->black_army);
     }
 
+    public function test_the_challenger_brings_the_army_chosen_for_the_challenge()
+    {
+        $invitation = Invitation::factory()->create(['inviter_army' => Army::Viking]);
+        $invitation->invitee->update(['army' => Army::Greek]);
+
+        $this->actingAs($invitation->invitee)->post(route('invitations.accept', $invitation));
+
+        $game = Game::sole();
+        $inviterIsWhite = $game->white_id === $invitation->inviter_id;
+        $this->assertSame(Army::Viking, $inviterIsWhite ? $game->white_army : $game->black_army);
+        $this->assertSame(Army::Greek, $inviterIsWhite ? $game->black_army : $game->white_army);
+    }
+
     public function test_choosing_another_army_does_not_change_a_game_under_way()
     {
         $invitation = Invitation::factory()->create();
