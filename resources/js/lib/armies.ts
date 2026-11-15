@@ -9,7 +9,8 @@ export type ArmyId =
     | 'frost'
     | 'tide'
     | 'swarm'
-    | 'kingdom';
+    | 'kingdom'
+    | 'sky';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -125,6 +126,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Footman',
         },
         palette: [0xe0b040, 0xb9c0cb, 0x1f3f95, 0xa31f24],
+    },
+    sky: {
+        id: 'sky',
+        name: 'Sky Armada',
+        tagline: 'Aeronauts of brass and canvas who ride the thunder.',
+        pieces: {
+            k: 'The Cloud Admiral',
+            q: 'The Storm Captain',
+            r: 'Balloon Golem',
+            b: 'Storm Caller',
+            n: 'Storm Hawk',
+            p: 'Aeronaut Cadet',
+        },
+        palette: [0x4f9ad8, 0xf2ece0, 0xd2a23c, 0x8fe3ff],
     },
 };
 

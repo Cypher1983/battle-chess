@@ -15,6 +15,7 @@ enum Army: string
     case Tide = 'tide';
     case Swarm = 'swarm';
     case Kingdom = 'kingdom';
+    case Sky = 'sky';
 
     /**
      * The army's display name.
@@ -29,6 +30,7 @@ enum Army: string
             self::Tide => 'Sunken Fleet',
             self::Swarm => 'Void Swarm',
             self::Kingdom => 'Human Kingdom',
+            self::Sky => 'Sky Armada',
         };
     }
 }
