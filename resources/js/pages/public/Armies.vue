@@ -1,6 +1,18 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { armies, ARMY_IDS, pieceImage } from '@/lib/armies';
+import type { PieceType } from '@/lib/armies';
+
+const roster: PieceType[] = ['k', 'q', 'r', 'b', 'n', 'p'];
+
+const roles: Record<PieceType, string> = {
+    k: 'King',
+    q: 'Queen',
+    r: 'Rook',
+    b: 'Bishop',
+    n: 'Knight',
+    p: 'Pawn',
+};
 </script>
 
 <template>
@@ -44,6 +56,29 @@ import { armies, ARMY_IDS, pieceImage } from '@/lib/armies';
                         </p>
                     </div>
                 </div>
+
+                <ul class="grid grid-cols-3 gap-2 border-t pt-4">
+                    <li
+                        v-for="type in roster"
+                        :key="type"
+                        class="flex flex-col items-center gap-1 rounded-lg bg-muted/50 p-2 text-center"
+                    >
+                        <img
+                            :src="pieceImage(id, type)"
+                            alt=""
+                            class="size-10"
+                            loading="lazy"
+                        />
+                        <span class="text-xs leading-tight font-medium">
+                            {{ armies[id].pieces[type] }}
+                        </span>
+                        <span
+                            class="text-[0.65rem] tracking-wider text-muted-foreground uppercase"
+                        >
+                            {{ roles[type] }}
+                        </span>
+                    </li>
+                </ul>
             </article>
         </div>
     </div>
