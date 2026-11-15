@@ -10,7 +10,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { armies } from '@/lib/armies';
+import { armies, pieceImage } from '@/lib/armies';
 import type { ArmyId, PieceColor } from '@/lib/armies';
 import { invites, play } from '@/routes';
 import { show } from '@/routes/games';
@@ -90,9 +90,19 @@ const outcomeLabels: Record<FinishedGame['outcome'], string> = {
                     >
                         <Link
                             :href="show(game.id)"
-                            class="flex items-center justify-between gap-3 py-3 hover:opacity-80"
+                            class="-mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-3 transition-colors hover:bg-accent/60"
                         >
-                            <div class="min-w-0">
+                            <img
+                                :src="pieceImage(game.my_army, 'k')"
+                                :alt="armies[game.my_army].name"
+                                class="size-11 shrink-0 rounded-lg p-1 ring-2"
+                                :class="
+                                    game.my_color === 'w'
+                                        ? 'bg-stone-100 ring-stone-300'
+                                        : 'bg-stone-900 ring-stone-600'
+                                "
+                            />
+                            <div class="min-w-0 flex-1">
                                 <p class="truncate font-medium">
                                     vs {{ game.opponent.name }}
                                     <span class="text-muted-foreground">
@@ -132,9 +142,19 @@ const outcomeLabels: Record<FinishedGame['outcome'], string> = {
                     >
                         <Link
                             :href="show(game.id)"
-                            class="flex items-center justify-between gap-3 py-3 hover:opacity-80"
+                            class="-mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-3 transition-colors hover:bg-accent/60"
                         >
-                            <div class="min-w-0">
+                            <img
+                                :src="pieceImage(game.my_army, 'k')"
+                                :alt="armies[game.my_army].name"
+                                class="size-11 shrink-0 rounded-lg p-1 ring-2"
+                                :class="
+                                    game.my_color === 'w'
+                                        ? 'bg-stone-100 ring-stone-300'
+                                        : 'bg-stone-900 ring-stone-600'
+                                "
+                            />
+                            <div class="min-w-0 flex-1">
                                 <p class="truncate font-medium">
                                     vs {{ game.opponent.name }}
                                     <span class="text-muted-foreground">
