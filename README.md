@@ -101,8 +101,8 @@ gestures, effects and defeat animation.
 ## Armies
 
 Each player chooses an army under **Settings → Army**. Any army can play either
-colour; every piece wears an ivory (white) or onyx (black) rim on its base so
-mirror matches stay readable. The army is saved with each game when it starts,
+colour; a soft glow at each piece's feet, ivory for white and dark for black,
+keeps mirror matches readable. The army is saved with each game when it starts,
 so changing it later only affects new games.
 
 | Army                | Spell (bishops and queens) |
