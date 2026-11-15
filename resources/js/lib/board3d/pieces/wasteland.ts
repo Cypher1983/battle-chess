@@ -46,7 +46,6 @@ const skin = material({ color: 0xd9a27a, roughness: 0.85, flatShading: true });
 const fur = material({ color: 0x9a7048, roughness: 1, flatShading: true });
 const khaki = material({ color: 0xa89a6a, roughness: 0.95, flatShading: true });
 const cloth = material({ color: 0xe8e2d0, roughness: 0.9, flatShading: true });
-const sand = material({ color: 0xb89a6a, roughness: 1, flatShading: true });
 const dark = material({ color: 0x2a2420, roughness: 1 });
 const lens = glow(0x7fe0ff, 0.5);
 const spark = glow(0xffb02e, 0.7);
@@ -64,32 +63,6 @@ const builders: Record<PieceType, () => Group> = {
 
 export function buildWasteland(type: PieceType): Group {
     return builders[type]();
-}
-
-/** Every Wasteland character stands on a sandy slab littered with scrap. */
-function base(): Group {
-    const group = new Group();
-    group.add(part(new CylinderGeometry(0.28, 0.3, 0.05, 8), sand, 0, 0.025));
-    group.add(
-        part(
-            new BoxGeometry(0.06, 0.015, 0.04),
-            rust,
-            0.17,
-            0.055,
-            0.12,
-        ).rotateY(0.6),
-    );
-    group.add(
-        part(
-            new CylinderGeometry(0.018, 0.018, 0.012, 6),
-            steel,
-            -0.16,
-            0.056,
-            0.14,
-        ),
-    );
-
-    return group;
 }
 
 /** A pair of round goggles strapped to a head. */
@@ -135,7 +108,7 @@ function tyreRing(radius: number, tube: number): Group {
 
 /** Scavenger (pawn): scrap armour, goggles and a lead pipe. */
 function scavenger(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -220,7 +193,7 @@ function scavenger(): Group {
 
 /** War Hound (knight): a scruffy mutt in scrap armour. */
 function warHound(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.08, 0.12],
@@ -295,7 +268,7 @@ function warHound(): Group {
 
 /** Field Medic (bishop): a gas-masked healer with an IV-pole staff. */
 function fieldMedic(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -393,7 +366,7 @@ function fieldMedic(): Group {
 
 /** Barricade Bruiser (rook): a big survivor wearing a wall of tyres and signs. */
 function barricadeBruiser(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -497,7 +470,7 @@ function barricadeBruiser(): Group {
 
 /** The Mechanic (queen): welding goggles, a giant wrench and a tool belt. */
 function mechanic(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -619,7 +592,7 @@ function mechanic(): Group {
 
 /** The Warlord (king): a hubcap-and-tyre crown, spiked pads, chain sceptre. */
 function warlord(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
