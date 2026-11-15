@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Tick Soldier</title>
-  <ellipse cx="50" cy="88" rx="26" ry="7" fill="#7a5212" stroke="#3b2a10" stroke-width="3"/>
   <path d="M34 86 L38 58 H62 L66 86 Z" fill="#c9952b" stroke="#3b2a10" stroke-width="3" stroke-linejoin="round"/>
   <rect x="40" y="64" width="20" height="4" rx="2" fill="#f1d27a"/>
   <circle cx="50" cy="42" r="15" fill="#c9952b" stroke="#3b2a10" stroke-width="3"/>

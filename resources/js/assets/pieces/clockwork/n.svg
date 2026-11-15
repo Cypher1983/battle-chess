@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Cog Charger</title>
-  <ellipse cx="50" cy="88" rx="28" ry="7" fill="#7a5212" stroke="#3b2a10" stroke-width="3"/>
   <path d="M30 86 L34 66 Q28 52 36 38 L44 20 L50 28 Q70 28 74 48 L76 60 Q70 64 62 58 L56 56 Q60 70 68 86 Z" fill="#c9952b" stroke="#3b2a10" stroke-width="3" stroke-linejoin="round"/>
   <path d="M44 22 L40 34 M50 28 L54 22" stroke="#3b2a10" stroke-width="3" stroke-linecap="round"/>
   <g transform="translate(58 42)">

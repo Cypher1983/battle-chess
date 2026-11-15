@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <title>Gearwright</title>
-  <ellipse cx="50" cy="88" rx="26" ry="7" fill="#7a5212" stroke="#3b2a10" stroke-width="3"/>
   <g transform="translate(50 30)">
     <circle r="20" fill="none" stroke="#7a5212" stroke-width="5" stroke-dasharray="6 4"/>
     <circle r="16" fill="#f1d27a" stroke="#3b2a10" stroke-width="2.5"/>
