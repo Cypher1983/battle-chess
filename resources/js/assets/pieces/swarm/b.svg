@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Psionic Brood</title>
+  <ellipse cx="50" cy="88" rx="24" ry="6" fill="#1c1422" stroke="#140a1c" stroke-width="3"/>
+  <path d="M38 62 Q22 54 20 38 Q32 46 40 54 Z M62 62 Q78 54 80 38 Q68 46 60 54 Z" fill="#a8e6d0" fill-opacity="0.6" stroke="#140a1c" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M44 86 L46 74 M56 86 L54 74" stroke="#3b1d52" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="50" cy="70" rx="11" ry="7" fill="#3b1d52" stroke="#140a1c" stroke-width="2.5"/>
+  <ellipse cx="50" cy="56" rx="9" ry="12" fill="#7a45a0" stroke="#140a1c" stroke-width="3"/>
+  <circle cx="50" cy="56" r="3" fill="#4fd11f"/>
+  <ellipse cx="50" cy="26" rx="17" ry="15" fill="#7dff3a" stroke="#140a1c" stroke-width="3"/>
+  <path d="M40 22 Q45 16 50 22 Q55 16 60 22 M38 30 Q44 26 50 31 Q56 26 62 30" fill="none" stroke="#4fd11f" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="50" cy="42" rx="8" ry="6" fill="#3b1d52" stroke="#140a1c" stroke-width="2.5"/>
+  <circle cx="46" cy="42" r="2" fill="#c6ff4a"/>
+  <circle cx="54" cy="42" r="2" fill="#c6ff4a"/>
+  <path d="M77 86 V22" stroke="#cfc6a4" stroke-width="3" stroke-linecap="round"/>
+  <path d="M77 70 L83 66 M77 56 L71 52 M77 42 L83 38" stroke="#cfc6a4" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M71 22 L77 12 L83 22" fill="none" stroke="#cfc6a4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="77" cy="18" r="4" fill="#7dff3a" stroke="#140a1c" stroke-width="1.5"/>
+  <path d="M59 52 L74 48" stroke="#3b1d52" stroke-width="4" stroke-linecap="round"/>
+</svg>

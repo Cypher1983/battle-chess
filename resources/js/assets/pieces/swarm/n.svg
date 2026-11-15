@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Burrower</title>
+  <ellipse cx="50" cy="88" rx="28" ry="6" fill="#1c1422" stroke="#140a1c" stroke-width="3"/>
+  <path d="M28 70 L20 76 L24 86 M40 72 L36 86 M58 72 L60 86 M70 70 L78 76 L76 86" fill="none" stroke="#3b1d52" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M18 70 Q18 46 46 44 Q70 44 74 66 Q60 74 44 74 Q26 74 18 70 Z" fill="#3b1d52" stroke="#140a1c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M46 45 Q48 60 46 73" fill="none" stroke="#7dff3a" stroke-width="2"/>
+  <path d="M26 56 Q34 50 42 50 M52 50 Q62 50 68 58" fill="none" stroke="#7a45a0" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="34" cy="62" r="3" fill="#4fd11f"/>
+  <circle cx="58" cy="62" r="3" fill="#4fd11f"/>
+  <path d="M70 56 Q80 50 86 58 Q88 66 80 70 Q74 70 70 66 Z" fill="#3b1d52" stroke="#140a1c" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M78 52 Q82 38 76 28 Q90 36 86 54 Z" fill="#7a45a0" stroke="#140a1c" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="82" cy="59" r="2.6" fill="#7dff3a"/>
+  <path d="M84 66 L94 70 L86 72" fill="#cfc6a4" stroke="#140a1c" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
