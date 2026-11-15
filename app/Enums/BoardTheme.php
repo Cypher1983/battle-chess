@@ -13,6 +13,7 @@ enum BoardTheme: string
     case Tournament = 'tournament';
     case Lava = 'lava';
     case Ice = 'ice';
+    case Ocean = 'ocean';
 
     /**
      * The board's display name.
@@ -25,6 +26,7 @@ enum BoardTheme: string
             self::Tournament => 'Tournament green',
             self::Lava => 'Lava',
             self::Ice => 'Ice',
+            self::Ocean => 'Ocean',
         };
     }
 }
