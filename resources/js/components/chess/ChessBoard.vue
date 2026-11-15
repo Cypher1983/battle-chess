@@ -117,14 +117,14 @@ function isLastMove(square: string): boolean {
                 {{ cell.showFile }}
             </span>
 
-            <!-- Any army can play either side: the base disc shows which. -->
+            <!-- Any army can play either side: a soft glow at its feet shows which. -->
             <span
                 v-if="cell.piece"
-                class="pointer-events-none absolute bottom-[6%] h-[16%] w-[70%] rounded-[50%] border-2"
+                class="pointer-events-none absolute bottom-[2%] h-[26%] w-[80%] rounded-[50%]"
                 :class="
                     cell.piece.color === 'w'
-                        ? 'border-stone-700/50 bg-[#f6efdf]'
-                        : 'border-stone-200/40 bg-[#16161c]'
+                        ? 'bg-[radial-gradient(closest-side,rgb(255_246_224/0.95),rgb(255_246_224/0.6)_55%,transparent)]'
+                        : 'bg-[radial-gradient(closest-side,rgb(12_10_18/0.8),rgb(12_10_18/0.5)_55%,transparent)]'
                 "
                 :data-side="cell.piece.color"
             />
