@@ -7,6 +7,7 @@ import { buildTide } from '@/lib/board3d/pieces/tide';
 import { buildSwarm } from '@/lib/board3d/pieces/swarm';
 import { buildKingdom } from '@/lib/board3d/pieces/kingdom';
 import { buildSky } from '@/lib/board3d/pieces/sky';
+import { buildSun } from '@/lib/board3d/pieces/sun';
 import { buildWildwood } from '@/lib/board3d/pieces/wildwood';
 
 /** What a blow knocks loose: cogs and sparks, leaves and thorns, embers... */
@@ -156,5 +157,12 @@ export const armyStyles: Record<ArmyId, ArmyStyle> = {
         debris: 'feathers',
         debrisGlow: 0.1,
         spell: { kind: 'gust', colour: 0xe6f6ff },
+    },
+    sun: {
+        build: buildSun,
+        magic: 0xffc23a,
+        debris: 'sand',
+        debrisGlow: 0.2,
+        spell: { kind: 'beam', core: 0xfff6c8, glow: 0xffc23a },
     },
 };

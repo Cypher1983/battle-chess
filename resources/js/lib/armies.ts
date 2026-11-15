@@ -10,7 +10,8 @@ export type ArmyId =
     | 'tide'
     | 'swarm'
     | 'kingdom'
-    | 'sky';
+    | 'sky'
+    | 'sun';
 
 /** Which army plays each colour in a game. */
 export type GameArmies = Record<PieceColor, ArmyId>;
@@ -140,6 +141,20 @@ export const armies: Record<ArmyId, Army> = {
             p: 'Aeronaut Cadet',
         },
         palette: [0x4f9ad8, 0xf2ece0, 0xd2a23c, 0x8fe3ff],
+    },
+    sun: {
+        id: 'sun',
+        name: 'Sun Pharaohs',
+        tagline: 'Gold-masked rulers of the dunes, blessed by the burning sun.',
+        pieces: {
+            k: 'The Sun Pharaoh',
+            q: 'The Serpent Queen',
+            r: 'Obelisk Colossus',
+            b: 'Sun Priest',
+            n: 'Sphinx Hound',
+            p: 'Sandstone Guard',
+        },
+        palette: [0xd9b47a, 0xe6b43c, 0x2a4fa8, 0x34bfae],
     },
 };
 
