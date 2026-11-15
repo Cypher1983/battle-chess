@@ -43,10 +43,13 @@ export function createHighlights(): {
     const dot = new CircleGeometry(0.16, 24);
     const ring = new RingGeometry(0.36, 0.46, 32);
     const frame = new RingGeometry(0.44, 0.5, 4, 1, Math.PI / 4);
+    // Along the square's edge, outside the focus frame, so both can show.
+    const outline = new RingGeometry(0.62, 0.7, 4, 1, Math.PI / 4);
 
     const materials = {
         lastMove: overlay(0xfde047, 0.38),
-        selected: overlay(0xfde047, 0.62),
+        selected: overlay(0x22c55e, 0.62),
+        selectedOutline: overlay(0x15803d, 1),
         target: overlay(0x1c1917, 0.3),
         check: overlay(0xef4444, 0.7),
         focus: overlay(0x2563eb, 0.9),
@@ -80,7 +83,10 @@ export function createHighlights(): {
             }
 
             if (state.selected) {
+                // Green, unlike the yellow last move, with a bright outline
+                // that the piece standing in the middle can't hide.
                 mark(state.selected, tile, materials.selected, 0.006);
+                mark(state.selected, outline, materials.selectedOutline, 0.007);
             }
 
             for (const target of state.targets) {
