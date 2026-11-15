@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Check, Clock, Mail, Swords, X } from '@lucide/vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import InvitationController from '@/actions/App/Http/Controllers/InvitationController';
 import ArmyPickerDialog from '@/components/chess/ArmyPickerDialog.vue';
 import InputError from '@/components/InputError.vue';
@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { armies } from '@/lib/armies';
 import type { ArmyId } from '@/lib/armies';
 import { invites } from '@/routes';
 
@@ -78,6 +79,35 @@ function sendChallenge(army: ArmyId): void {
                 pickingChallengeArmy.value = false;
             }
         },
+    });
+}
+
+const acceptance = useForm({ army: props.my_army });
+const accepting = ref<ReceivedInvitation | null>(null);
+const pickingAcceptArmy = computed({
+    get: () => accepting.value !== null,
+    set: (open: boolean) => {
+        if (!open) {
+            accepting.value = null;
+        }
+    },
+});
+
+/** Ask which army to bring before accepting the challenge. */
+function chooseAcceptArmy(invitation: ReceivedInvitation): void {
+    acceptance.clearErrors();
+    accepting.value = invitation;
+}
+
+function acceptChallenge(army: ArmyId): void {
+    if (!accepting.value) {
+        return;
+    }
+
+    acceptance.army = army;
+    acceptance.post(InvitationController.accept.url(accepting.value.id), {
+        preserveScroll: true,
+        onSuccess: () => (accepting.value = null),
     });
 }
 </script>
@@ -173,22 +203,21 @@ function sendChallenge(army: ArmyId): void {
                                 Sent {{ invitation.sent_at }} · expires
                                 {{ invitation.expires_in }}
                             </p>
+                            <p
+                                class="text-xs text-muted-foreground"
+                                data-test="challenger-army"
+                            >
+                                Leads the {{ armies[invitation.army].name }}
+                            </p>
                         </div>
                         <div class="flex gap-2">
-                            <Button size="sm" as-child>
-                                <Link
-                                    :href="
-                                        InvitationController.accept(
-                                            invitation.id,
-                                        )
-                                    "
-                                    as="button"
-                                    preserve-scroll
-                                    data-test="accept-invitation-button"
-                                >
-                                    <Check />
-                                    Accept
-                                </Link>
+                            <Button
+                                size="sm"
+                                data-test="accept-invitation-button"
+                                @click="chooseAcceptArmy(invitation)"
+                            >
+                                <Check />
+                                Accept
                             </Button>
                             <Button size="sm" variant="outline" as-child>
                                 <Link
@@ -208,6 +237,22 @@ function sendChallenge(army: ArmyId): void {
                         </div>
                     </li>
                 </ul>
+
+                <ArmyPickerDialog
+                    v-model:open="pickingAcceptArmy"
+                    title="Choose your army"
+                    :description="
+                        accepting
+                            ? `${accepting.player.name} leads the ${armies[accepting.army].name}. Pick the army you bring against them.`
+                            : ''
+                    "
+                    :initial="my_army"
+                    :opponent="accepting?.army ?? null"
+                    confirm-label="Accept"
+                    :processing="acceptance.processing"
+                    :error="acceptance.errors.army"
+                    @confirm="acceptChallenge"
+                />
             </CardContent>
         </Card>
 
