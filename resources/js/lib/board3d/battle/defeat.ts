@@ -2,6 +2,7 @@ import { Box3, Mesh, Vector3 } from 'three';
 import type { Material, Object3D } from 'three';
 import { IMPACT_AT } from '@/lib/board3d/battle/core';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
+import { SIDE_GLOW } from '@/lib/board3d/pieces';
 import { clamp01, easeIn, easeOut, lerp } from '@/lib/board3d/tweens';
 
 type Chunk = {
@@ -31,6 +32,11 @@ export function defeat(battle: BattleScene): Beat {
 
         // A copy: attaching a part elsewhere removes it from `children`.
         for (const part of object.children.slice()) {
+            if (part.name === SIDE_GLOW) {
+                part.visible = false;
+                continue;
+            }
+
             props.attach(part);
 
             part.traverse((node) => {

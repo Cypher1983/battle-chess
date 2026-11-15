@@ -2,6 +2,7 @@ import { AdditiveBlending, Mesh, MeshBasicMaterial } from 'three';
 import type { Object3D } from 'three';
 import type { BattleScene, Beat } from '@/lib/board3d/battle/core';
 import { armyStyles } from '@/lib/board3d/styles';
+import { SIDE_GLOW } from '@/lib/board3d/pieces';
 
 const EVERY = 45;
 const FADE = 260;
@@ -33,6 +34,7 @@ export function afterimages(
             depthWrite: false,
         });
         const object = attacker.object.clone();
+        object.getObjectByName(SIDE_GLOW)?.removeFromParent();
         // Slightly smaller, so it hides inside the piece until it moves on.
         object.scale.multiplyScalar(0.96);
         object.traverse((node) => {
