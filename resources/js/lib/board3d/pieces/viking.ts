@@ -72,21 +72,6 @@ export function buildViking(type: PieceType): Group {
     return builders[type]();
 }
 
-/** Every Viking stands on a dark wooden round bound with iron. */
-function base(): Group {
-    const group = new Group();
-    group.add(
-        part(new CylinderGeometry(0.28, 0.3, 0.05, 20), darkWood, 0, 0.025),
-    );
-    group.add(
-        part(new TorusGeometry(0.29, 0.012, 6, 24), iron, 0, 0.035).rotateX(
-            Math.PI / 2,
-        ),
-    );
-
-    return group;
-}
-
 function eyes(
     group: Group,
     y: number,
@@ -235,7 +220,7 @@ function spear(group: Group, low: number, high: number): void {
 
 /** Raider (pawn): a young warrior with a hand axe and a painted shield. */
 function raider(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -303,7 +288,7 @@ function raider(): Group {
 
 /** Wolf Rider (knight): a warrior astride a huge grey wolf. */
 function wolfRider(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, x, z] of [
         [RIG.legFrontLeft, 0.07, 0.12],
@@ -403,7 +388,7 @@ function wolfRider(): Group {
 
 /** Skald (bishop): a fur-cloaked poet with a rune-staff and a small harp. */
 function skald(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -530,7 +515,7 @@ function skald(): Group {
  * swinging a war hammer.
  */
 function shieldwallBrute(): Group {
-    const piece = base();
+    const piece = new Group();
 
     for (const [name, side] of [
         [RIG.legLeft, 1],
@@ -624,7 +609,7 @@ function shieldwallBrute(): Group {
  * spear and painted shield.
  */
 function shieldMaiden(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
@@ -760,7 +745,7 @@ function shieldMaiden(): Group {
  * a great axe.
  */
 function jarl(): Group {
-    const piece = base();
+    const piece = new Group();
 
     const body = joint(RIG.body, 0, 0, 0);
     body.add(
