@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Clan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -84,6 +85,30 @@ class ScoreboardTest extends TestCase
                 ->missing('players.data.0.name')
                 ->missing('players.data.0.is_me')
             );
+    }
+
+    public function test_signed_in_players_see_each_players_clan()
+    {
+        $me = $this->player('me', 1200, wins: 1);
+        $clan = Clan::factory()->for($this->player('chief', 1300, wins: 2), 'leader')->create();
+
+        $this->actingAs($me)
+            ->get(route('scoreboard'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('players.data.0.username', 'chief')
+                ->where('players.data.0.clan', $clan->summary())
+                ->where('players.data.1.username', 'me')
+                ->where('players.data.1.clan', null)
+                ->where('me.clan', null)
+            );
+    }
+
+    public function test_guests_do_not_see_clans()
+    {
+        Clan::factory()->for($this->player('chief', 1300, wins: 2), 'leader')->create();
+
+        $this->get(route('scoreboard'))
+            ->assertInertia(fn (Assert $page) => $page->missing('players.data.0.clan'));
     }
 
     private function player(string $username, int $rating, int $wins = 0, int $losses = 0, int $draws = 0): User

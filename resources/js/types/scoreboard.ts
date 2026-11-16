@@ -1,8 +1,12 @@
+import type { ClanSummary } from './clan';
+
 /** A player's record as shown on the scoreboard. */
 export type Standing = {
     /** Left out for guests, who see usernames only. */
     name?: string;
     username: string;
+    /** Left out for guests; null for players not in a clan. */
+    clan?: ClanSummary | null;
     rating: number;
     wins: number;
     losses: number;

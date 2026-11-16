@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import RankBadge from '@/components/chess/RankBadge.vue';
+import ClanBadge from '@/components/ClanBadge.vue';
 import { Button } from '@/components/ui/button';
 import type { RankedPlayers } from '@/types/scoreboard';
 
@@ -55,6 +56,11 @@ withDefaults(
                         <span v-else class="font-medium">
                             @{{ player.username }}
                         </span>
+                        <ClanBadge
+                            v-if="player.clan"
+                            :clan="player.clan"
+                            class="ml-1"
+                        />
                         <span
                             v-if="player.is_me"
                             class="text-xs text-muted-foreground"

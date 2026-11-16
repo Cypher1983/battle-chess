@@ -26,7 +26,8 @@ class ScoreboardController extends Controller
         $user = $request->user();
 
         $players = User::query()->ranked()
-            ->paginate(self::PER_PAGE, ['id', 'name', 'username', 'rating', 'wins', 'losses', 'draws'])
+            ->when($user !== null, fn (Builder $query) => $query->with('clan'))
+            ->paginate(self::PER_PAGE, ['id', 'name', 'username', 'rating', 'wins', 'losses', 'draws', 'clan_id'])
             ->withQueryString();
 
         $offset = ($players->currentPage() - 1) * $players->perPage();
@@ -93,10 +94,7 @@ class ScoreboardController extends Controller
             'clans' => [
                 'data' => collect($clans->items())->values()->map(fn (Clan $clan, int $index) => [
                     'rank' => $offset + $index + 1,
-                    'id' => $clan->id,
-                    'name' => $clan->name,
-                    'tag' => $clan->tag,
-                    'emblem' => $clan->emblem(),
+                    ...$clan->summary(),
                     'members' => (int) $clan->getAttribute('members_count'),
                     'rating' => (int) round((float) $clan->getAttribute('average_rating')),
                     'wins' => (int) $clan->getAttribute('wins'),
@@ -138,14 +136,15 @@ class ScoreboardController extends Controller
     }
 
     /**
-     * Public scoreboard details for a player.
+     * Scoreboard details for a player, as signed-in players see them.
      *
-     * @return array{name: string, username: string, rating: int, wins: int, losses: int, draws: int, games: int}
+     * @return array{name: string, username: string, clan: array<string, mixed>|null, rating: int, wins: int, losses: int, draws: int, games: int}
      */
     private function present(User $player): array
     {
         return [
             'name' => $player->name,
+            'clan' => $player->clan?->summary(),
             'username' => $player->username,
             'rating' => $player->rating,
             'wins' => $player->wins,
