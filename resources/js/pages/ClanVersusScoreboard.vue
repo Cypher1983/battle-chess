@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { Swords } from '@lucide/vue';
+import ScoreboardTabs from '@/components/chess/ScoreboardTabs.vue';
 import ClanEmblem from '@/components/ClanEmblem.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -62,6 +63,8 @@ function points(wins: number, draws: number): string {
     <Head title="Clan vs clan" />
 
     <div class="mx-auto flex w-full max-w-4xl flex-col gap-6 p-4">
+        <ScoreboardTabs current="versus" />
+
         <Card>
             <CardHeader>
                 <CardTitle class="flex items-center gap-2">

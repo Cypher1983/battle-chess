@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { Flag, User } from '@lucide/vue';
+import { Flag, Swords, User } from '@lucide/vue';
 import { scoreboard } from '@/routes';
 import { clans } from '@/routes/scoreboard';
+import { versus } from '@/routes/scoreboard/clans';
 
 defineProps<{
-    current: 'players' | 'clans';
+    current: 'players' | 'clans' | 'versus';
 }>();
 
 const tabs = [
     { id: 'players', title: 'Players', href: scoreboard(), icon: User },
     { id: 'clans', title: 'Clans', href: clans(), icon: Flag },
+    { id: 'versus', title: 'Clan vs clan', href: versus(), icon: Swords },
 ] as const;
 </script>
 
