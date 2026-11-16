@@ -3,8 +3,8 @@
 A web-based chess game where every capture plays out as an animated battle.
 Pick one of fifteen original armies, from the brass automatons of the
 **Clockwork Legion** to the living forest of the **Wildwood Court**, and lead it
-on either side of the board. Challenge friends by username or email and climb
-the scoreboard.
+on either side of the board. Challenge friends by username or email, band
+together in clans and climb the scoreboard.
 
 ## Tech stack
 
@@ -155,6 +155,28 @@ To add a board: add a case to `App\Enums\BoardTheme` and an entry in
 `resources/js/lib/boardThemes.ts` (square, frame, trim and label colours,
 grain and surface finish).
 
+## Clans
+
+Players can found a clan from the **Clan** page in the sidebar and lead it.
+A clan has a unique name, a 2–4 character tag shown as `[TAG]`, an optional
+description and an emblem. The emblem is drawn in code from a shape, an icon
+and two colours (`resources/js/lib/emblems.ts`), so nothing is uploaded.
+
+- A player belongs to at most one clan.
+- Joining is by invitation only: the leader invites players by username. The
+  player gets an email and a live toast, and accepts or declines on the Clan
+  page. Invitations expire after 7 days.
+- The leader edits the clan, removes members, hands over leadership and can
+  disband the clan. Members can leave; the leader must hand over leadership
+  or disband first.
+- Signed-in players see a **Clans** tab on the scoreboard (`/scoreboard/clans`)
+  ranking clans by the average rating of members who have finished a battle,
+  and a clan badge next to names on the scoreboard, invites and game pages.
+  Guests see neither.
+
+To add an emblem shape or icon: add a case to `App\Enums\EmblemShape` or
+`App\Enums\EmblemIcon` and its path to `resources/js/lib/emblems.ts`.
+
 ## Artwork
 
 Piece art lives in `resources/js/assets/pieces/<army>/`, one SVG per piece
@@ -201,3 +223,4 @@ controls.
 7. ✅ Polish: synthesized sound effects, 72-hour move deadline with timeout claims, rematches
 8. ✅ 3D: three.js board with zoom and animated moves, 3D capture battles
 9. ✅ Armies: fifteen original armies to choose from, each with its own characters, art and spell
+10. ✅ Clans: invite-only teams with a custom emblem, clan rankings for signed-in players
