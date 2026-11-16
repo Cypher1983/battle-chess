@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClanController;
+use App\Http\Controllers\ClanInvitationController;
 use App\Http\Controllers\ClanMemberController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GameActionController;
@@ -36,6 +37,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('clans/{clan}/leave', [ClanMemberController::class, 'leave'])->name('clans.leave');
     Route::delete('clans/{clan}/members/{member}', [ClanMemberController::class, 'destroy'])->name('clans.members.destroy');
     Route::post('clans/{clan}/members/{member}/lead', [ClanMemberController::class, 'promote'])->name('clans.members.promote');
+    Route::post('clans/{clan}/invitations', [ClanInvitationController::class, 'store'])
+        ->middleware(['can:manageMembers,clan', 'throttle:20,1'])
+        ->name('clans.invitations.store');
 
     Route::get('games/{game}', [GameController::class, 'show'])->name('games.show');
     Route::post('games/{game}/moves', [GameMoveController::class, 'store'])
