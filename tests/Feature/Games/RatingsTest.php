@@ -4,6 +4,7 @@ namespace Tests\Feature\Games;
 
 use App\Enums\GameEndReason;
 use App\Enums\GameResult;
+use App\Models\Clan;
 use App\Models\Game;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -70,6 +71,22 @@ class RatingsTest extends TestCase
         $this->assertSame(1, $strong->draws);
         $this->assertSame(1, $weak->draws);
         $this->assertSame(GameEndReason::DrawAgreed, $game->refresh()->end_reason);
+    }
+
+    public function test_finished_games_remember_the_clans_the_players_were_in()
+    {
+        $clan = Clan::factory()->create();
+        $member = User::factory()->for($clan)->create();
+        $loner = User::factory()->create();
+        $game = Game::factory()->for($member, 'white')->for($loner, 'black')->create();
+
+        $this->actingAs($loner)->post(route('games.resign', $game));
+
+        $member->forceFill(['clan_id' => null])->save();
+
+        $game->refresh();
+        $this->assertSame($clan->id, $game->white_clan_id);
+        $this->assertNull($game->black_clan_id);
     }
 
     public function test_ratings_are_only_applied_once()

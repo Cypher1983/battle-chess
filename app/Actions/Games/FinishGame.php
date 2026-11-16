@@ -16,6 +16,8 @@ class FinishGame
     /**
      * End a game with the given result and update both players' ratings and records.
      *
+     * The players' clans are kept on the game so clan matchups survive members moving on.
+     *
      * Call inside a transaction that has locked the game row.
      */
     public function __invoke(Game $game, GameResult $result, GameEndReason $reason): void
@@ -47,6 +49,8 @@ class FinishGame
             'black_rating_before' => $black->rating,
             'white_rating_change' => $change,
             'black_rating_change' => -$change,
+            'white_clan_id' => $white->clan_id,
+            'black_clan_id' => $black->clan_id,
         ]);
 
         $this->record($white, $change, match ($result) {
