@@ -41,4 +41,20 @@ class ClanMemberController extends Controller
 
         return back();
     }
+
+    /**
+     * Make another member the clan's leader.
+     */
+    public function promote(Clan $clan, User $member): RedirectResponse
+    {
+        Gate::authorize('manageMembers', $clan);
+
+        abort_unless($member->clan_id === $clan->id, 404);
+
+        $clan->leader()->associate($member)->save();
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __(':player now leads the clan.', ['player' => $member->username])]);
+
+        return back();
+    }
 }
