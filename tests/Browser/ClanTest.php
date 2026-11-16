@@ -2,8 +2,10 @@
 
 use App\Enums\EmblemIcon;
 use App\Enums\EmblemShape;
+use App\Enums\GameResult;
 use App\Models\Clan;
 use App\Models\ClanInvitation;
+use App\Models\Game;
 use App\Models\User;
 
 it('founds a clan with a custom emblem', function () {
@@ -67,5 +69,23 @@ it('shows the clan rankings to signed-in players', function () {
         ->click('@scoreboard-tab-clans')
         ->assertSee('Clan rankings')
         ->assertSee('Iron Ring')
+        ->assertNoJavaScriptErrors();
+});
+
+it('shows clan vs clan scores to signed-in players', function () {
+    $mine = Clan::factory()->create(['name' => 'Iron Ring', 'tag' => 'IRON']);
+    $theirs = Clan::factory()->create(['name' => 'Night Owls', 'tag' => 'OWL']);
+
+    Game::factory()->finished(GameResult::WhiteWins)->create(['white_clan_id' => $mine->id, 'black_clan_id' => $theirs->id]);
+    Game::factory()->finished(GameResult::Draw)->create(['white_clan_id' => $theirs->id, 'black_clan_id' => $mine->id]);
+
+    $this->actingAs($mine->leader);
+
+    visit('/scoreboard')
+        ->click('@scoreboard-tab-versus')
+        ->assertSee('Clan vs clan')
+        ->assertSeeIn('@clan-versus-row', 'Iron Ring')
+        ->assertSeeIn('@clan-versus-row', 'Night Owls')
+        ->assertSeeIn('@clan-versus-score', '1½ – ½')
         ->assertNoJavaScriptErrors();
 });
