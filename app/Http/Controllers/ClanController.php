@@ -5,12 +5,31 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClanRequest;
 use App\Models\Clan;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ClanController extends Controller
 {
+    /**
+     * Show the player's clan, or the form to found one.
+     */
+    public function show(Request $request): Response
+    {
+        $user = $request->user();
+        $clan = $user->clan;
+
+        return Inertia::render('Clan', [
+            'clan' => $clan === null ? null : [
+                ...$this->present($clan),
+                'description' => $clan->description,
+                'is_leader' => $user->leads($clan),
+            ],
+        ]);
+    }
+
     /**
      * Found a clan, with the founder as its leader.
      */
@@ -57,5 +76,20 @@ class ClanController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Clan disbanded.')]);
 
         return back();
+    }
+
+    /**
+     * The details of a clan everyone signed in may see.
+     *
+     * @return array{id: int, name: string, tag: string, emblem: array{shape: string, icon: string, primary: string, secondary: string}}
+     */
+    private function present(Clan $clan): array
+    {
+        return [
+            'id' => $clan->id,
+            'name' => $clan->name,
+            'tag' => $clan->tag,
+            'emblem' => $clan->emblem(),
+        ];
     }
 }

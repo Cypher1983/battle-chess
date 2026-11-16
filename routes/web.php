@@ -29,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('invitations/{invitation}/decline', [InvitationController::class, 'decline'])->name('invitations.decline');
     Route::post('invitations/{invitation}/cancel', [InvitationController::class, 'cancel'])->name('invitations.cancel');
 
+    Route::get('clan', [ClanController::class, 'show'])->name('clan');
     Route::post('clans', [ClanController::class, 'store'])
         ->middleware('throttle:10,1')
         ->name('clans.store');
