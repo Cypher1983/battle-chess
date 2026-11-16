@@ -50,6 +50,7 @@ export function useMainNavItems(): ComputedRef<NavItem[]> {
             title: 'Clan',
             href: clan(),
             icon: Flag,
+            badge: page.props.pendingClanInvitations || undefined,
         },
         {
             title: 'Scoreboard',

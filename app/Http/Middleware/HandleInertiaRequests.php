@@ -42,6 +42,10 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'pendingInvitations' => fn () => $request->user()?->receivedInvitations()->open()->count() ?? 0,
+            // Invitations only matter to players who are free to join a clan.
+            'pendingClanInvitations' => fn () => $request->user()?->clan_id === null
+                ? $request->user()?->receivedClanInvitations()->open()->count() ?? 0
+                : 0,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

@@ -22,7 +22,7 @@ const reloads: Record<LiveNotification['kind'], string[]> = {
     'invitation.received': ['pendingInvitations', 'received'],
     'challenge.accepted': ['sent', 'active'],
     'challenge.declined': ['sent'],
-    'clan.invited': ['invitations'],
+    'clan.invited': ['pendingClanInvitations', 'invitations'],
 };
 
 if (page.props.auth.user) {
