@@ -24,7 +24,7 @@ class ScoreboardController extends Controller
     {
         $user = $request->user();
 
-        $players = $this->ranked()
+        $players = User::query()->ranked()
             ->paginate(self::PER_PAGE, ['id', 'name', 'username', 'rating', 'wins', 'losses', 'draws'])
             ->withQueryString();
 
@@ -60,20 +60,6 @@ class ScoreboardController extends Controller
                 ...$this->present($user),
             ],
         ]);
-    }
-
-    /**
-     * Players with at least one finished game, best first.
-     *
-     * @return Builder<User>
-     */
-    private function ranked(): Builder
-    {
-        return User::query()
-            ->whereRaw('wins + losses + draws > 0')
-            ->orderByDesc('rating')
-            ->orderByDesc('wins')
-            ->orderBy('id');
     }
 
     /**

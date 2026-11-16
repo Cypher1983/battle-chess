@@ -7,6 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -69,6 +71,20 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     public function receivedInvitations(): HasMany
     {
         return $this->hasMany(Invitation::class, 'invitee_id');
+    }
+
+    /**
+     * Players with at least one finished game, best first.
+     *
+     * @param  Builder<User>  $query
+     */
+    #[Scope]
+    protected function ranked(Builder $query): void
+    {
+        $query->whereRaw('wins + losses + draws > 0')
+            ->orderByDesc('rating')
+            ->orderByDesc('wins')
+            ->orderBy('id');
     }
 
     /**
