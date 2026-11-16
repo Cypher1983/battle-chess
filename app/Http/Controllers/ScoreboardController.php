@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GameStatus;
 use App\Models\Clan;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use stdClass;
 
 class ScoreboardController extends Controller
 {
@@ -106,6 +109,69 @@ class ScoreboardController extends Controller
                 'last_page' => $clans->lastPage(),
                 'prev_page_url' => $clans->previousPageUrl(),
                 'next_page_url' => $clans->nextPageUrl(),
+            ],
+        ]);
+    }
+
+    /**
+     * Head-to-head scores between clans, from finished games between members of different clans.
+     *
+     * Each pair is told from the lower clan id's side, or from the viewer's clan when it is one of the two.
+     */
+    public function versus(Request $request): Response
+    {
+        $first = 'case when white_clan_id < black_clan_id then white_clan_id else black_clan_id end';
+        $second = 'case when white_clan_id < black_clan_id then black_clan_id else white_clan_id end';
+        $firstWins = "(result = '1-0' and white_clan_id < black_clan_id) or (result = '0-1' and black_clan_id < white_clan_id)";
+        $secondWins = "(result = '1-0' and white_clan_id > black_clan_id) or (result = '0-1' and black_clan_id > white_clan_id)";
+
+        $matchups = Game::query()
+            ->toBase()
+            ->where('status', GameStatus::Finished)
+            ->whereNotNull('white_clan_id')
+            ->whereNotNull('black_clan_id')
+            ->whereColumn('white_clan_id', '!=', 'black_clan_id')
+            ->selectRaw("{$first} as first_clan_id, {$second} as second_clan_id")
+            ->selectRaw('count(*) as games')
+            ->selectRaw("sum(case when {$firstWins} then 1 else 0 end) as wins")
+            ->selectRaw("sum(case when {$secondWins} then 1 else 0 end) as losses")
+            ->selectRaw("sum(case when result = '1/2-1/2' then 1 else 0 end) as draws")
+            ->selectRaw('max(finished_at) as last_played_at')
+            ->groupByRaw("{$first}, {$second}")
+            ->orderByDesc('games')
+            ->orderByDesc('last_played_at')
+            ->orderBy('first_clan_id')
+            ->orderBy('second_clan_id')
+            ->paginate(self::PER_PAGE)
+            ->withQueryString();
+
+        $clans = Clan::query()
+            ->findMany(collect($matchups->items())->flatMap(fn (stdClass $row) => [$row->first_clan_id, $row->second_clan_id])->unique())
+            ->keyBy('id');
+
+        $myClanId = $request->user()->clan_id;
+
+        return Inertia::render('ClanVersusScoreboard', [
+            'matchups' => [
+                'data' => collect($matchups->items())->values()->map(function (stdClass $row) use ($clans, $myClanId) {
+                    $flip = (int) $row->second_clan_id === $myClanId;
+                    $wins = (int) $row->wins;
+                    $losses = (int) $row->losses;
+
+                    return [
+                        'clan' => $clans->get($flip ? $row->second_clan_id : $row->first_clan_id)->summary(),
+                        'opponent' => $clans->get($flip ? $row->first_clan_id : $row->second_clan_id)->summary(),
+                        'games' => (int) $row->games,
+                        'wins' => $flip ? $losses : $wins,
+                        'losses' => $flip ? $wins : $losses,
+                        'draws' => (int) $row->draws,
+                        'is_mine' => $myClanId !== null && in_array($myClanId, [(int) $row->first_clan_id, (int) $row->second_clan_id], true),
+                    ];
+                }),
+                'current_page' => $matchups->currentPage(),
+                'last_page' => $matchups->lastPage(),
+                'prev_page_url' => $matchups->previousPageUrl(),
+                'next_page_url' => $matchups->nextPageUrl(),
             ],
         ]);
     }

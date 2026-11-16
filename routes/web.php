@@ -21,6 +21,7 @@ Route::get('scoreboard', [ScoreboardController::class, 'index'])->name('scoreboa
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::get('scoreboard/clans', [ScoreboardController::class, 'clans'])->name('scoreboard.clans');
+    Route::get('scoreboard/clans/versus', [ScoreboardController::class, 'versus'])->name('scoreboard.clans.versus');
     Route::get('play', [GameController::class, 'index'])->name('play');
     Route::get('invites', [InvitationController::class, 'index'])->name('invites');
     Route::post('invitations', [InvitationController::class, 'store'])
