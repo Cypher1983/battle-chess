@@ -69,6 +69,20 @@ they are written to `storage/logs/laravel.log` instead of being delivered.
 Open the URL it prints (or your Herd/XAMPP site URL), register an account and
 log in with your email or username.
 
+## Public pages
+
+These pages are open to everyone, logged in or not. They share the public site
+header and footer.
+
+| Path          | Shows                                                                 |
+| ------------- | --------------------------------------------------------------------- |
+| `/`           | Landing page: features, a preview of every army and the top 5 players |
+| `/armies`     | All fifteen armies with their pieces and tagline                      |
+| `/rules`      | How each piece moves, special moves, how battles end, and Elo ratings |
+| `/scoreboard` | Full ranking. Guests see usernames only; players also see real names  |
+
+Logged-in players get the same Armies and Rules pages from the sidebar.
+
 ## 3D board
 
 The game page shows a 3D board by default (scroll or pinch to
