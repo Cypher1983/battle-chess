@@ -30,4 +30,18 @@ class ClanController extends Controller
 
         return back();
     }
+
+    /**
+     * Change the clan's name, tag, description or emblem.
+     */
+    public function update(ClanRequest $request, Clan $clan): RedirectResponse
+    {
+        Gate::authorize('update', $clan);
+
+        $clan->update($request->validated());
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Clan updated.')]);
+
+        return back();
+    }
 }

@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('clans', [ClanController::class, 'store'])
         ->middleware('throttle:10,1')
         ->name('clans.store');
+    Route::patch('clans/{clan}', [ClanController::class, 'update'])->name('clans.update');
 
     Route::get('games/{game}', [GameController::class, 'show'])->name('games.show');
     Route::post('games/{game}/moves', [GameMoveController::class, 'store'])
