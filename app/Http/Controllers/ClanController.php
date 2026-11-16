@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClanRequest;
 use App\Models\Clan;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,22 @@ class ClanController extends Controller
                 ...$this->present($clan),
                 'description' => $clan->description,
                 'is_leader' => $user->leads($clan),
+                'members' => $clan->members()
+                    ->orderByRaw('id = ? desc', [$clan->leader_id])
+                    ->orderByDesc('rating')
+                    ->orderBy('username')
+                    ->get(['id', 'name', 'username', 'rating', 'wins', 'losses', 'draws'])
+                    ->map(fn (User $member) => [
+                        'id' => $member->id,
+                        'name' => $member->name,
+                        'username' => $member->username,
+                        'rating' => $member->rating,
+                        'wins' => $member->wins,
+                        'losses' => $member->losses,
+                        'draws' => $member->draws,
+                        'is_leader' => $member->leads($clan),
+                        'is_me' => $member->is($user),
+                    ]),
             ],
         ]);
     }
