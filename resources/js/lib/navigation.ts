@@ -1,8 +1,15 @@
 import { usePage } from '@inertiajs/vue3';
-import { LayoutGrid, Mail, Swords, Trophy } from '@lucide/vue';
+import {
+    BookOpen,
+    LayoutGrid,
+    Mail,
+    Shield,
+    Swords,
+    Trophy,
+} from '@lucide/vue';
 import { computed } from 'vue';
 import type { ComputedRef } from 'vue';
-import { dashboard, invites, play, scoreboard } from '@/routes';
+import { armies, dashboard, invites, play, rules, scoreboard } from '@/routes';
 import type { NavItem } from '@/types';
 
 /**
@@ -34,6 +41,16 @@ export function useMainNavItems(): ComputedRef<NavItem[]> {
             title: 'Scoreboard',
             href: scoreboard(),
             icon: Trophy,
+        },
+        {
+            title: 'Armies',
+            href: armies(),
+            icon: Shield,
+        },
+        {
+            title: 'Rules',
+            href: rules(),
+            icon: BookOpen,
         },
     ]);
 }
