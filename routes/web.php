@@ -40,6 +40,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('clans/{clan}/invitations', [ClanInvitationController::class, 'store'])
         ->middleware(['can:manageMembers,clan', 'throttle:20,1'])
         ->name('clans.invitations.store');
+    Route::post('clan-invitations/{invitation}/accept', [ClanInvitationController::class, 'accept'])->name('clan-invitations.accept');
+    Route::post('clan-invitations/{invitation}/decline', [ClanInvitationController::class, 'decline'])->name('clan-invitations.decline');
+    Route::post('clan-invitations/{invitation}/cancel', [ClanInvitationController::class, 'cancel'])->name('clan-invitations.cancel');
 
     Route::get('games/{game}', [GameController::class, 'show'])->name('games.show');
     Route::post('games/{game}/moves', [GameMoveController::class, 'store'])
