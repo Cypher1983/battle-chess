@@ -6,7 +6,9 @@ use App\Enums\InvitationStatus;
 use App\Models\Clan;
 use App\Models\ClanInvitation;
 use App\Models\User;
+use App\Notifications\ClanInvitationReceived;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class InviteToClanTest extends TestCase
@@ -29,6 +31,29 @@ class InviteToClanTest extends TestCase
         $this->assertTrue($invitation->invitee->is($player));
         $this->assertSame(InvitationStatus::Pending, $invitation->status);
         $this->assertTrue($invitation->isOpen());
+    }
+
+    public function test_the_invited_player_is_notified()
+    {
+        Notification::fake();
+        $clan = Clan::factory()->create(['name' => 'Iron Ring']);
+        $player = User::factory()->create();
+
+        $this->actingAs($clan->leader)
+            ->post(route('clans.invitations.store', $clan), ['username' => $player->username]);
+
+        Notification::assertSentTo($player, ClanInvitationReceived::class, function (ClanInvitationReceived $notification) use ($player) {
+            $this->assertSame(['mail', 'broadcast'], $notification->via($player));
+
+            $data = $notification->toBroadcast($player)->data;
+            $this->assertSame('clan.invited', $data['kind']);
+            $this->assertSame(route('clan'), $data['url']);
+            $this->assertStringContainsString('Iron Ring', $data['message']);
+
+            $this->assertStringContainsString('Iron Ring', $notification->toMail($player)->subject);
+
+            return true;
+        });
     }
 
     public function test_members_and_outsiders_cannot_invite()

@@ -6,6 +6,7 @@ use App\Enums\InvitationStatus;
 use App\Http\Requests\StoreClanInvitationRequest;
 use App\Models\Clan;
 use App\Models\ClanInvitation;
+use App\Notifications\ClanInvitationReceived;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,12 +21,16 @@ class ClanInvitationController extends Controller
      */
     public function store(StoreClanInvitationRequest $request, Clan $clan): RedirectResponse
     {
-        $clan->invitations()->create([
+        $invitee = $request->invitee();
+
+        $invitation = $clan->invitations()->create([
             'inviter_id' => $request->user()->id,
-            'invitee_id' => $request->invitee()->id,
+            'invitee_id' => $invitee->id,
             'status' => InvitationStatus::Pending,
             'expires_at' => now()->addDays(ClanInvitation::EXPIRES_AFTER_DAYS),
         ]);
+
+        $invitee->notify(new ClanInvitationReceived($invitation));
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Invitation sent.')]);
 

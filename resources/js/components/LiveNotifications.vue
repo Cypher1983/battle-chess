@@ -4,7 +4,11 @@ import { toast } from 'vue-sonner';
 import { useUserNotifications } from '@/composables/useRealtime';
 
 type LiveNotification = {
-    kind: 'invitation.received' | 'challenge.accepted' | 'challenge.declined';
+    kind:
+        | 'invitation.received'
+        | 'challenge.accepted'
+        | 'challenge.declined'
+        | 'clan.invited';
     message: string;
     url: string | null;
 };
@@ -18,6 +22,7 @@ const reloads: Record<LiveNotification['kind'], string[]> = {
     'invitation.received': ['pendingInvitations', 'received'],
     'challenge.accepted': ['sent', 'active'],
     'challenge.declined': ['sent'],
+    'clan.invited': ['invitations'],
 };
 
 if (page.props.auth.user) {
