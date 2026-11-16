@@ -25,11 +25,15 @@ class GamePagesTest extends TestCase
     }
 
     /**
+     * Pages that need a login. The scoreboard is public (see ScoreboardTest).
+     *
      * @return array<string, array{0: string}>
      */
     public static function routes(): array
     {
-        return array_map(fn (array $page) => [$page[0]], self::pages());
+        $private = array_diff_key(self::pages(), ['scoreboard' => true]);
+
+        return array_map(fn (array $page) => [$page[0]], $private);
     }
 
     #[DataProvider('routes')]
