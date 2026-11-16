@@ -4,6 +4,7 @@ namespace Tests\Feature\Invitations;
 
 use App\Enums\Army;
 use App\Enums\InvitationStatus;
+use App\Models\Clan;
 use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,13 +32,30 @@ class ListInvitationsTest extends TestCase
                 ->component('Invites')
                 ->has('received', 1)
                 ->where('received.0.id', $received->id)
-                ->where('received.0.player', ['name' => 'Alice', 'username' => 'alice'])
+                ->where('received.0.player', ['name' => 'Alice', 'username' => 'alice', 'clan' => null])
                 ->has('sent', 2)
                 ->where('sent.0.id', $emailed->id)
                 ->where('sent.0.player', null)
                 ->where('sent.0.email', 'friend@example.com')
                 ->where('sent.1.id', $sent->id)
-                ->where('sent.1.player', ['name' => 'Bob', 'username' => 'bob'])
+                ->where('sent.1.player', ['name' => 'Bob', 'username' => 'bob', 'clan' => null])
+            );
+    }
+
+    public function test_players_are_shown_with_their_clan()
+    {
+        $me = User::factory()->create();
+        $clan = Clan::factory()->create();
+        $rival = Clan::factory()->create();
+
+        Invitation::factory()->for($clan->leader, 'inviter')->for($me, 'invitee')->create();
+        Invitation::factory()->for($me, 'inviter')->for($rival->leader, 'invitee')->create();
+
+        $this->actingAs($me)
+            ->get(route('invites'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('received.0.player.clan', $clan->summary())
+                ->where('sent.0.player.clan', $rival->summary())
             );
     }
 

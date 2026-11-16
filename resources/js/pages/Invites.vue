@@ -5,6 +5,7 @@ import { computed, ref } from 'vue';
 import InvitationController from '@/actions/App/Http/Controllers/InvitationController';
 import ArmyPickerDialog from '@/components/chess/ArmyPickerDialog.vue';
 import BoardThemeChoices from '@/components/chess/BoardThemeChoices.vue';
+import ClanBadge from '@/components/ClanBadge.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,10 +22,12 @@ import type { ArmyId } from '@/lib/armies';
 import { boardThemes } from '@/lib/boardThemes';
 import type { BoardThemeId } from '@/lib/boardThemes';
 import { invites } from '@/routes';
+import type { ClanSummary } from '@/types';
 
 type Player = {
     name: string;
     username: string;
+    clan: ClanSummary | null;
 };
 
 type ReceivedInvitation = {
@@ -221,6 +224,11 @@ function acceptChallenge(army: ArmyId): void {
                                 <span class="text-muted-foreground">
                                     @{{ invitation.player.username }}
                                 </span>
+                                <ClanBadge
+                                    v-if="invitation.player.clan"
+                                    :clan="invitation.player.clan"
+                                    class="ml-1"
+                                />
                             </p>
                             <p
                                 class="flex items-center gap-1 text-xs text-muted-foreground"
@@ -312,6 +320,11 @@ function acceptChallenge(army: ArmyId): void {
                                 <span class="text-muted-foreground">
                                     @{{ invitation.player.username }}
                                 </span>
+                                <ClanBadge
+                                    v-if="invitation.player.clan"
+                                    :clan="invitation.player.clan"
+                                    class="ml-1"
+                                />
                             </p>
                             <p
                                 v-else

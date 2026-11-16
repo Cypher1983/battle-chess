@@ -30,7 +30,7 @@ class InvitationController extends Controller
             'my_army' => $user->army->value,
             'received' => $user->receivedInvitations()
                 ->open()
-                ->with('inviter')
+                ->with('inviter.clan')
                 ->latest('id')
                 ->get()
                 ->map(fn (Invitation $invitation) => [
@@ -39,7 +39,7 @@ class InvitationController extends Controller
                 ]),
             'sent' => $user->sentInvitations()
                 ->open()
-                ->with(['inviter', 'invitee'])
+                ->with(['inviter', 'invitee.clan'])
                 ->latest('id')
                 ->get()
                 ->map(fn (Invitation $invitation) => [
@@ -162,13 +162,14 @@ class InvitationController extends Controller
     /**
      * The public details of a player.
      *
-     * @return array{name: string, username: string}
+     * @return array{name: string, username: string, clan: array<string, mixed>|null}
      */
     private function presentPlayer(User $user): array
     {
         return [
             'name' => $user->name,
             'username' => $user->username,
+            'clan' => $user->clan?->summary(),
         ];
     }
 }
