@@ -7,9 +7,10 @@ use App\Http\Controllers\GameMoveController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\RematchController;
 use App\Http\Controllers\ScoreboardController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'Welcome')->name('home');
+Route::get('/', WelcomeController::class)->name('home');
 Route::inertia('armies', 'public/Armies')->name('armies');
 Route::inertia('rules', 'public/Rules')->name('rules');
 Route::get('scoreboard', [ScoreboardController::class, 'index'])->name('scoreboard');
