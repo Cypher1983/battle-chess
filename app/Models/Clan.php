@@ -93,6 +93,21 @@ class Clan extends Model
     }
 
     /**
+     * The clan as shown beside its members' names.
+     *
+     * @return array{id: int, name: string, tag: string, emblem: array{shape: string, icon: string, primary: string, secondary: string}}
+     */
+    public function summary(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'tag' => $this->tag,
+            'emblem' => $this->emblem(),
+        ];
+    }
+
+    /**
      * The clan's emblem, as the front end draws it.
      *
      * @return array{shape: string, icon: string, primary: string, secondary: string}

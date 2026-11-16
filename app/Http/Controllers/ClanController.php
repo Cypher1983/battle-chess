@@ -25,7 +25,7 @@ class ClanController extends Controller
 
         return Inertia::render('Clan', [
             'clan' => $clan === null ? null : [
-                ...$this->present($clan),
+                ...$clan->summary(),
                 'description' => $clan->description,
                 'is_leader' => $user->leads($clan),
                 'members' => $clan->members()
@@ -59,7 +59,7 @@ class ClanController extends Controller
             'invitations' => $user->receivedClanInvitations()->open()->with(['clan', 'inviter'])->latest('id')->get()
                 ->map(fn (ClanInvitation $invitation) => [
                     'id' => $invitation->id,
-                    'clan' => $this->present($invitation->clan),
+                    'clan' => $invitation->clan->summary(),
                     'inviter' => [
                         'name' => $invitation->inviter->name,
                         'username' => $invitation->inviter->username,
@@ -115,20 +115,5 @@ class ClanController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Clan disbanded.')]);
 
         return back();
-    }
-
-    /**
-     * The details of a clan everyone signed in may see.
-     *
-     * @return array{id: int, name: string, tag: string, emblem: array{shape: string, icon: string, primary: string, secondary: string}}
-     */
-    private function present(Clan $clan): array
-    {
-        return [
-            'id' => $clan->id,
-            'name' => $clan->name,
-            'tag' => $clan->tag,
-            'emblem' => $clan->emblem(),
-        ];
     }
 }
