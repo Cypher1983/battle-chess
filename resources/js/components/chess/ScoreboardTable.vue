@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { Crown } from '@lucide/vue';
+import RankBadge from '@/components/chess/RankBadge.vue';
 import { Button } from '@/components/ui/button';
 import type { RankedPlayers } from '@/types/scoreboard';
 
@@ -12,22 +12,6 @@ withDefaults(
     }>(),
     { showNames: true },
 );
-
-/** Gold, silver and bronze badges for the top three places. */
-const medals: Record<number, { label: string; class: string }> = {
-    1: {
-        label: 'First place',
-        class: 'bg-amber-400/20 text-amber-600 ring-amber-400/60 dark:text-amber-300',
-    },
-    2: {
-        label: 'Second place',
-        class: 'bg-slate-300/25 text-slate-600 ring-slate-400/60 dark:text-slate-200',
-    },
-    3: {
-        label: 'Third place',
-        class: 'bg-orange-700/15 text-orange-800 ring-orange-700/50 dark:text-orange-300',
-    },
-};
 </script>
 
 <template>
@@ -59,17 +43,7 @@ const medals: Record<number, { label: string; class: string }> = {
                     data-test="scoreboard-row"
                 >
                     <td class="py-2 pr-2 tabular-nums">
-                        <span
-                            v-if="medals[player.rank]"
-                            class="inline-flex size-7 items-center justify-center rounded-full text-xs font-bold ring-1"
-                            :class="medals[player.rank].class"
-                            :aria-label="medals[player.rank].label"
-                            data-test="medal"
-                        >
-                            <Crown v-if="player.rank === 1" class="size-4" />
-                            <template v-else>{{ player.rank }}</template>
-                        </span>
-                        <span v-else class="pl-2">{{ player.rank }}</span>
+                        <RankBadge :rank="player.rank" />
                     </td>
                     <td class="max-w-0 truncate py-2 pr-2">
                         <template v-if="showNames">
