@@ -2,6 +2,7 @@
 import { Head } from '@inertiajs/vue3';
 import { Trophy } from '@lucide/vue';
 import ScoreboardTable from '@/components/chess/ScoreboardTable.vue';
+import ScoreboardTabs from '@/components/chess/ScoreboardTabs.vue';
 import {
     Card,
     CardContent,
@@ -28,6 +29,8 @@ defineOptions({
     <Head title="Scoreboard" />
 
     <div class="mx-auto flex w-full max-w-4xl flex-col gap-6 p-4">
+        <ScoreboardTabs current="players" />
+
         <Card>
             <CardHeader>
                 <CardTitle>Your standing</CardTitle>

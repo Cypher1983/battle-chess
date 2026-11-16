@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clan;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -58,6 +59,55 @@ class ScoreboardController extends Controller
             'me' => [
                 'rank' => $this->rankOf($user),
                 ...$this->present($user),
+            ],
+        ]);
+    }
+
+    /**
+     * Rank clans by the average rating of members who have finished a game.
+     *
+     * Only signed-in players see how clans compare.
+     */
+    public function clans(Request $request): Response
+    {
+        $played = 'users.wins + users.losses + users.draws > 0';
+
+        $clans = Clan::query()
+            ->join('users', 'users.clan_id', '=', 'clans.id')
+            ->select(['clans.id', 'clans.name', 'clans.tag', 'clans.emblem_shape', 'clans.emblem_icon', 'clans.emblem_primary', 'clans.emblem_secondary'])
+            ->selectRaw('count(*) as members_count')
+            ->selectRaw("avg(case when {$played} then users.rating end) as average_rating")
+            ->selectRaw('sum(users.wins) as wins, sum(users.losses) as losses, sum(users.draws) as draws')
+            ->groupBy(['clans.id', 'clans.name', 'clans.tag', 'clans.emblem_shape', 'clans.emblem_icon', 'clans.emblem_primary', 'clans.emblem_secondary'])
+            ->havingRaw("sum(case when {$played} then 1 else 0 end) > 0")
+            ->orderByDesc('average_rating')
+            ->orderByDesc('wins')
+            ->orderBy('clans.id')
+            ->paginate(self::PER_PAGE)
+            ->withQueryString();
+
+        $offset = ($clans->currentPage() - 1) * $clans->perPage();
+        $myClanId = $request->user()->clan_id;
+
+        return Inertia::render('ClanScoreboard', [
+            'clans' => [
+                'data' => collect($clans->items())->values()->map(fn (Clan $clan, int $index) => [
+                    'rank' => $offset + $index + 1,
+                    'id' => $clan->id,
+                    'name' => $clan->name,
+                    'tag' => $clan->tag,
+                    'emblem' => $clan->emblem(),
+                    'members' => (int) $clan->getAttribute('members_count'),
+                    'rating' => (int) round((float) $clan->getAttribute('average_rating')),
+                    'wins' => (int) $clan->getAttribute('wins'),
+                    'losses' => (int) $clan->getAttribute('losses'),
+                    'draws' => (int) $clan->getAttribute('draws'),
+                    'is_mine' => $clan->id === $myClanId,
+                ]),
+                'current_page' => $clans->currentPage(),
+                'last_page' => $clans->lastPage(),
+                'prev_page_url' => $clans->previousPageUrl(),
+                'next_page_url' => $clans->nextPageUrl(),
             ],
         ]);
     }
