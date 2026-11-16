@@ -4,6 +4,7 @@ namespace Tests\Feature\Models;
 
 use App\Enums\GameStatus;
 use App\Enums\PieceColor;
+use App\Models\Clan;
 use App\Models\Game;
 use App\Models\Move;
 use App\Models\User;
@@ -82,5 +83,23 @@ class GameTest extends TestCase
         Move::factory()->for($game)->create(['ply' => 1, 'san' => 'e4']);
 
         $this->assertSame(['e4', 'e5'], $game->moves->pluck('san')->all());
+    }
+
+    public function test_games_remember_the_players_clans_until_a_clan_is_disbanded()
+    {
+        $white = Clan::factory()->create();
+        $black = Clan::factory()->create();
+        $game = Game::factory()->finished()->create([
+            'white_clan_id' => $white->id,
+            'black_clan_id' => $black->id,
+        ]);
+
+        $this->assertTrue($game->whiteClan->is($white));
+        $this->assertTrue($game->blackClan->is($black));
+
+        $white->delete();
+
+        $this->assertNull($game->fresh()->white_clan_id);
+        $this->assertSame($black->id, $game->fresh()->black_clan_id);
     }
 }

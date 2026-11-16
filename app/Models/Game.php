@@ -36,6 +36,8 @@ use Illuminate\Support\Carbon;
  * @property int|null $black_rating_before
  * @property int|null $white_rating_change
  * @property int|null $black_rating_change
+ * @property int|null $white_clan_id
+ * @property int|null $black_clan_id
  * @property int|null $draw_offered_by_id
  * @property Carbon|null $last_move_at
  * @property Carbon|null $finished_at
@@ -43,6 +45,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read User $white
  * @property-read User $black
+ * @property-read Clan|null $whiteClan
+ * @property-read Clan|null $blackClan
  * @property-read Invitation|null $invitation
  * @property-read Collection<int, Move> $moves
  */
@@ -50,6 +54,7 @@ use Illuminate\Support\Carbon;
     'white_id', 'black_id', 'white_army', 'black_army', 'board_theme', 'invitation_id', 'fen', 'status', 'result',
     'end_reason', 'draw_offered_by_id', 'last_move_at', 'finished_at',
     'white_rating_before', 'black_rating_before', 'white_rating_change', 'black_rating_change',
+    'white_clan_id', 'black_clan_id',
 ])]
 class Game extends Model
 {
@@ -114,6 +119,26 @@ class Game extends Model
     public function black(): BelongsTo
     {
         return $this->belongsTo(User::class, 'black_id');
+    }
+
+    /**
+     * The clan the white player was in when the game finished.
+     *
+     * @return BelongsTo<Clan, $this>
+     */
+    public function whiteClan(): BelongsTo
+    {
+        return $this->belongsTo(Clan::class, 'white_clan_id');
+    }
+
+    /**
+     * The clan the black player was in when the game finished.
+     *
+     * @return BelongsTo<Clan, $this>
+     */
+    public function blackClan(): BelongsTo
+    {
+        return $this->belongsTo(Clan::class, 'black_clan_id');
     }
 
     /**
