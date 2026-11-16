@@ -155,6 +155,7 @@ const features = [
             <Link
                 :href="armiesPage()"
                 class="text-sm text-primary underline-offset-4 hover:underline"
+                data-test="all-armies-link"
             >
                 Meet all {{ ARMY_IDS.length }} armies →
             </Link>
