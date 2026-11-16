@@ -14,6 +14,7 @@ import GameControls from '@/components/chess/GameControls.vue';
 import PromotionPicker from '@/components/chess/PromotionPicker.vue';
 import BattleOverlay from '@/components/chess/BattleOverlay.vue';
 import RatingTag from '@/components/chess/RatingTag.vue';
+import ClanBadge from '@/components/ClanBadge.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBattleScenes } from '@/composables/useBattleScenes';
@@ -32,10 +33,12 @@ import { armies, pieceImage } from '@/lib/armies';
 import type { ArmyId, GameArmies, PieceColor, PieceType } from '@/lib/armies';
 import type { BoardThemeId } from '@/lib/boardThemes';
 import { play } from '@/routes';
+import type { ClanSummary } from '@/types';
 
 type Player = {
     name: string;
     username: string;
+    clan: ClanSummary | null;
     rating: number;
     rating_change: number | null;
 };
@@ -404,6 +407,11 @@ function askForRematch(army: ArmyId): void {
                     <span class="text-muted-foreground">
                         @{{ player(opponentColor).username }}
                     </span>
+                    <ClanBadge
+                        v-if="player(opponentColor).clan"
+                        :clan="player(opponentColor).clan!"
+                        class="ml-1"
+                    />
                     <RatingTag
                         :rating="player(opponentColor).rating"
                         :change="player(opponentColor).rating_change"
@@ -478,6 +486,11 @@ function askForRematch(army: ArmyId): void {
                     <span class="text-muted-foreground">
                         @{{ player(orientation).username }}
                     </span>
+                    <ClanBadge
+                        v-if="player(orientation).clan"
+                        :clan="player(orientation).clan!"
+                        class="ml-1"
+                    />
                     <RatingTag
                         :rating="player(orientation).rating"
                         :change="player(orientation).rating_change"

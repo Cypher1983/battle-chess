@@ -63,7 +63,7 @@ class GameController extends Controller
     {
         Gate::authorize('view', $game);
 
-        $game->load(['white', 'black', 'moves']);
+        $game->load(['white.clan', 'black.clan', 'moves']);
         $lastMove = $game->moves->last();
 
         return Inertia::render('games/Show', [
@@ -106,12 +106,13 @@ class GameController extends Controller
      * A player in a game with their rating: the result of this game once
      * it is finished, otherwise their current rating.
      *
-     * @return array{name: string, username: string, rating: int, rating_change: int|null}
+     * @return array{name: string, username: string, clan: array<string, mixed>|null, rating: int, rating_change: int|null}
      */
     private function presentContender(User $user, ?int $ratingBefore, ?int $ratingChange): array
     {
         return [
             ...$this->presentPlayer($user),
+            'clan' => $user->clan?->summary(),
             'rating' => $ratingBefore !== null && $ratingChange !== null
                 ? $ratingBefore + $ratingChange
                 : $user->rating,

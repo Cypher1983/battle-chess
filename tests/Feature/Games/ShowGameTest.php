@@ -4,6 +4,7 @@ namespace Tests\Feature\Games;
 
 use App\Enums\GameEndReason;
 use App\Enums\GameResult;
+use App\Models\Clan;
 use App\Models\Game;
 use App\Models\Invitation;
 use App\Models\Move;
@@ -34,7 +35,7 @@ class ShowGameTest extends TestCase
                 ->where('game.board_theme', 'classic')
                 ->where('game.status', 'active')
                 ->where('game.move_deadline', $game->moveDeadline()->toIso8601String())
-                ->where('game.white', ['name' => 'Wendy', 'username' => 'wendy', 'rating' => 1200, 'rating_change' => null])
+                ->where('game.white', ['name' => 'Wendy', 'username' => 'wendy', 'clan' => null, 'rating' => 1200, 'rating_change' => null])
                 ->where('game.last_move', null)
                 ->has('game.moves', 0)
             );
@@ -42,6 +43,19 @@ class ShowGameTest extends TestCase
         $this->actingAs($game->black)
             ->get(route('games.show', $game))
             ->assertInertia(fn (Assert $page) => $page->where('myColor', 'b'));
+    }
+
+    public function test_players_are_shown_with_their_clan()
+    {
+        $clan = Clan::factory()->create();
+        $game = Game::factory()->for($clan->leader, 'black')->create();
+
+        $this->actingAs($game->white)
+            ->get(route('games.show', $game))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('game.white.clan', null)
+                ->where('game.black.clan', $clan->summary())
+            );
     }
 
     public function test_moves_and_last_move_are_included()
