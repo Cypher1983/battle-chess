@@ -6,9 +6,11 @@ use App\Enums\EmblemIcon;
 use App\Enums\EmblemShape;
 use Database\Factories\ClanFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -26,6 +28,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read User $leader
+ * @property-read Collection<int, User> $members
  */
 #[Fillable(['name', 'tag', 'description', 'emblem_shape', 'emblem_icon', 'emblem_primary', 'emblem_secondary', 'leader_id'])]
 class Clan extends Model
@@ -66,6 +69,16 @@ class Clan extends Model
     public function leader(): BelongsTo
     {
         return $this->belongsTo(User::class, 'leader_id');
+    }
+
+    /**
+     * Everyone in the clan, the leader included.
+     *
+     * @return HasMany<User, $this>
+     */
+    public function members(): HasMany
+    {
+        return $this->hasMany(User::class);
     }
 
     /**

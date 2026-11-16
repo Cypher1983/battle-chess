@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,6 +28,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property int $losses
  * @property int $draws
  * @property Army $army
+ * @property int|null $clan_id
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
@@ -36,6 +38,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Clan|null $clan
  */
 #[Fillable(['name', 'username', 'email', 'password', 'army'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
@@ -52,6 +55,24 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     protected $attributes = [
         'army' => 'clockwork',
     ];
+
+    /**
+     * The clan this player belongs to, if any.
+     *
+     * @return BelongsTo<Clan, $this>
+     */
+    public function clan(): BelongsTo
+    {
+        return $this->belongsTo(Clan::class);
+    }
+
+    /**
+     * Whether this player runs the given clan.
+     */
+    public function leads(Clan $clan): bool
+    {
+        return $clan->leader_id === $this->id;
+    }
 
     /**
      * Invitations this player has sent.

@@ -32,4 +32,14 @@ class ClanFactory extends Factory
             'leader_id' => User::factory(),
         ];
     }
+
+    /**
+     * Configure the model factory: the leader is always a member.
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Clan $clan) {
+            $clan->leader->clan()->associate($clan)->save();
+        });
+    }
 }
