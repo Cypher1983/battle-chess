@@ -75,6 +75,16 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
     }
 
     /**
+     * Invitations this player has had to join a clan.
+     *
+     * @return HasMany<ClanInvitation, $this>
+     */
+    public function receivedClanInvitations(): HasMany
+    {
+        return $this->hasMany(ClanInvitation::class, 'invitee_id');
+    }
+
+    /**
      * Invitations this player has sent.
      *
      * @return HasMany<Invitation, $this>

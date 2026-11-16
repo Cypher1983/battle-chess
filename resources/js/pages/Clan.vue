@@ -1,11 +1,24 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import { Crown, Flag, LogOut, Trash2, UserMinus, Users } from '@lucide/vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import {
+    Check,
+    Clock,
+    Crown,
+    Flag,
+    LogOut,
+    Trash2,
+    UserMinus,
+    UserPlus,
+    Users,
+    X,
+} from '@lucide/vue';
 import ClanController from '@/actions/App/Http/Controllers/ClanController';
+import ClanInvitationController from '@/actions/App/Http/Controllers/ClanInvitationController';
 import ClanMemberController from '@/actions/App/Http/Controllers/ClanMemberController';
 import ClanEmblem from '@/components/ClanEmblem.vue';
 import ClanForm from '@/components/ClanForm.vue';
 import ConfirmAction from '@/components/ConfirmAction.vue';
+import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -14,6 +27,8 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { clan as clanPage } from '@/routes';
 import type { ClanSummary } from '@/types';
 
@@ -29,15 +44,45 @@ type Member = {
     is_me: boolean;
 };
 
+type Player = {
+    name: string;
+    username: string;
+};
+
+type SentInvitation = {
+    id: number;
+    player: Player;
+    expires_in: string;
+};
+
+type ReceivedInvitation = {
+    id: number;
+    clan: ClanSummary;
+    inviter: Player;
+    expires_in: string;
+};
+
 type MyClan = ClanSummary & {
     description: string | null;
     is_leader: boolean;
     members: Member[];
+    /** Open invitations the clan sent; only its leader sees them. */
+    invitations: SentInvitation[];
 };
 
 defineProps<{
     clan: MyClan | null;
+    invitations: ReceivedInvitation[];
 }>();
+
+const invite = useForm({ username: '' });
+
+function sendInvitation(clanId: number): void {
+    invite.post(ClanInvitationController.store.url(clanId), {
+        preserveScroll: true,
+        onSuccess: () => invite.reset(),
+    });
+}
 
 defineOptions({
     layout: {
@@ -179,6 +224,86 @@ defineOptions({
 
             <Card v-if="clan.is_leader">
                 <CardHeader>
+                    <CardTitle class="flex items-center gap-2">
+                        <UserPlus class="size-5" />
+                        Invite a player
+                    </CardTitle>
+                    <CardDescription>
+                        Players who are not in a clan can join by accepting your
+                        invitation. Invitations expire after 7 days.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent class="space-y-4">
+                    <form
+                        class="flex flex-col gap-2 sm:flex-row sm:items-start"
+                        @submit.prevent="sendInvitation(clan.id)"
+                    >
+                        <div class="grid flex-1 gap-2">
+                            <Label for="invite-username" class="sr-only">
+                                Username
+                            </Label>
+                            <Input
+                                id="invite-username"
+                                v-model="invite.username"
+                                name="username"
+                                required
+                                autocomplete="off"
+                                placeholder="Username"
+                            />
+                            <InputError :message="invite.errors.username" />
+                        </div>
+                        <Button
+                            type="submit"
+                            :disabled="invite.processing"
+                            data-test="send-clan-invitation-button"
+                        >
+                            Send invitation
+                        </Button>
+                    </form>
+
+                    <ul v-if="clan.invitations.length > 0" class="divide-y">
+                        <li
+                            v-for="invitation in clan.invitations"
+                            :key="invitation.id"
+                            class="flex flex-wrap items-center justify-between gap-3 py-3"
+                            data-test="sent-clan-invitation"
+                        >
+                            <div class="min-w-0">
+                                <p class="truncate font-medium">
+                                    {{ invitation.player.name }}
+                                    <span class="text-muted-foreground">
+                                        @{{ invitation.player.username }}
+                                    </span>
+                                </p>
+                                <p
+                                    class="flex items-center gap-1 text-xs text-muted-foreground"
+                                >
+                                    <Clock class="size-3" />
+                                    Expires {{ invitation.expires_in }}
+                                </p>
+                            </div>
+                            <Button size="sm" variant="ghost" as-child>
+                                <Link
+                                    :href="
+                                        ClanInvitationController.cancel(
+                                            invitation.id,
+                                        )
+                                    "
+                                    as="button"
+                                    preserve-scroll
+                                    data-test="cancel-clan-invitation-button"
+                                >
+                                    <X />
+                                    Cancel
+                                </Link>
+                            </Button>
+                        </li>
+                    </ul>
+                </CardContent>
+            </Card>
+
+            <Card v-if="clan.is_leader">
+                <CardHeader>
                     <CardTitle>Clan settings</CardTitle>
                     <CardDescription>
                         Change the name, tag, description or emblem.
@@ -220,7 +345,83 @@ defineOptions({
             </div>
         </template>
 
-        <Card v-else>
+        <Card
+            v-if="!clan && invitations.length > 0"
+            class="border-primary/50 shadow-[0_0_24px_-12px_var(--primary)]"
+        >
+            <CardHeader>
+                <CardTitle>Clan invitations</CardTitle>
+                <CardDescription>
+                    Clans that want you in their ranks.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ul class="divide-y">
+                    <li
+                        v-for="invitation in invitations"
+                        :key="invitation.id"
+                        class="flex flex-wrap items-center justify-between gap-3 py-3"
+                        data-test="received-clan-invitation"
+                    >
+                        <div class="flex min-w-0 items-center gap-3">
+                            <ClanEmblem
+                                class="size-10"
+                                :emblem="invitation.clan.emblem"
+                            />
+                            <div class="min-w-0">
+                                <p class="truncate font-medium">
+                                    {{ invitation.clan.name }}
+                                    <span class="text-muted-foreground">
+                                        [{{ invitation.clan.tag }}]
+                                    </span>
+                                </p>
+                                <p
+                                    class="flex items-center gap-1 text-xs text-muted-foreground"
+                                >
+                                    <Clock class="size-3" />
+                                    From @{{ invitation.inviter.username }} ·
+                                    expires {{ invitation.expires_in }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <Button size="sm" as-child>
+                                <Link
+                                    :href="
+                                        ClanInvitationController.accept(
+                                            invitation.id,
+                                        )
+                                    "
+                                    as="button"
+                                    preserve-scroll
+                                    data-test="accept-clan-invitation-button"
+                                >
+                                    <Check />
+                                    Join
+                                </Link>
+                            </Button>
+                            <Button size="sm" variant="outline" as-child>
+                                <Link
+                                    :href="
+                                        ClanInvitationController.decline(
+                                            invitation.id,
+                                        )
+                                    "
+                                    as="button"
+                                    preserve-scroll
+                                    data-test="decline-clan-invitation-button"
+                                >
+                                    <X />
+                                    Decline
+                                </Link>
+                            </Button>
+                        </div>
+                    </li>
+                </ul>
+            </CardContent>
+        </Card>
+
+        <Card v-if="!clan">
             <CardHeader>
                 <CardTitle class="flex items-center gap-2">
                     <Flag class="size-5" />

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClanRequest;
 use App\Models\Clan;
+use App\Models\ClanInvitation;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -43,7 +44,28 @@ class ClanController extends Controller
                         'is_leader' => $member->leads($clan),
                         'is_me' => $member->is($user),
                     ]),
+                'invitations' => $user->leads($clan)
+                    ? $clan->invitations()->open()->with('invitee')->latest('id')->get()
+                        ->map(fn (ClanInvitation $invitation) => [
+                            'id' => $invitation->id,
+                            'player' => [
+                                'name' => $invitation->invitee->name,
+                                'username' => $invitation->invitee->username,
+                            ],
+                            'expires_in' => $invitation->expires_at->diffForHumans(),
+                        ])
+                    : [],
             ],
+            'invitations' => $user->receivedClanInvitations()->open()->with(['clan', 'inviter'])->latest('id')->get()
+                ->map(fn (ClanInvitation $invitation) => [
+                    'id' => $invitation->id,
+                    'clan' => $this->present($invitation->clan),
+                    'inviter' => [
+                        'name' => $invitation->inviter->name,
+                        'username' => $invitation->inviter->username,
+                    ],
+                    'expires_in' => $invitation->expires_at->diffForHumans(),
+                ]),
         ]);
     }
 

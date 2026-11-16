@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Clans;
 
+use App\Enums\InvitationStatus;
 use App\Models\Clan;
+use App\Models\ClanInvitation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -91,6 +93,48 @@ class ClanPageTest extends TestCase
                 ])
                 ->where('clan.members.2.username', 'weak')
                 ->where('clan.members.2.is_me', true)
+            );
+    }
+
+    public function test_only_the_leader_sees_the_clans_open_invitations()
+    {
+        $clan = Clan::factory()->create();
+        $member = User::factory()->for($clan)->create();
+        $invitee = User::factory()->create(['name' => 'Ina', 'username' => 'ina']);
+        $open = ClanInvitation::factory()->for($clan)->for($invitee, 'invitee')->create();
+        ClanInvitation::factory()->for($clan)->expired()->create();
+        ClanInvitation::factory()->for($clan)->responded(InvitationStatus::Declined)->create();
+
+        $this->actingAs($clan->leader)
+            ->get(route('clan'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('clan.invitations', 1)
+                ->where('clan.invitations.0.id', $open->id)
+                ->where('clan.invitations.0.player', ['name' => 'Ina', 'username' => 'ina'])
+            );
+
+        $this->actingAs($member)
+            ->get(route('clan'))
+            ->assertInertia(fn (Assert $page) => $page->has('clan.invitations', 0));
+    }
+
+    public function test_players_see_their_open_clan_invitations()
+    {
+        $player = User::factory()->create();
+        $clan = Clan::factory()->create(['name' => 'Iron Ring', 'tag' => 'IRON']);
+        $open = ClanInvitation::factory()->for($clan)->for($player, 'invitee')->create();
+        ClanInvitation::factory()->for($player, 'invitee')->expired()->create();
+        ClanInvitation::factory()->for($player, 'invitee')->responded(InvitationStatus::Cancelled)->create();
+
+        $this->actingAs($player)
+            ->get(route('clan'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('invitations', 1)
+                ->where('invitations.0.id', $open->id)
+                ->where('invitations.0.clan.name', 'Iron Ring')
+                ->where('invitations.0.clan.tag', 'IRON')
+                ->has('invitations.0.clan.emblem')
+                ->where('invitations.0.inviter.username', $clan->leader->username)
             );
     }
 }
