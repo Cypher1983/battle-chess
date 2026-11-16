@@ -73,7 +73,7 @@ defineOptions({
                 </p>
 
                 <div v-else class="overflow-x-auto">
-                    <table class="w-full text-sm">
+                    <table class="w-full text-sm whitespace-nowrap">
                         <thead>
                             <tr
                                 class="border-b text-left text-xs text-muted-foreground"
@@ -106,7 +106,7 @@ defineOptions({
                                 <td class="py-2 pr-2 tabular-nums">
                                     <RankBadge :rank="clan.rank" />
                                 </td>
-                                <td class="max-w-0 py-2 pr-2">
+                                <td class="w-full max-w-0 py-2 pr-2">
                                     <span class="flex items-center gap-2">
                                         <ClanEmblem
                                             class="size-6"
