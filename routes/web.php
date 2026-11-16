@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('clans/{clan}', [ClanController::class, 'update'])->name('clans.update');
     Route::delete('clans/{clan}', [ClanController::class, 'destroy'])->name('clans.destroy');
     Route::post('clans/{clan}/leave', [ClanMemberController::class, 'leave'])->name('clans.leave');
+    Route::delete('clans/{clan}/members/{member}', [ClanMemberController::class, 'destroy'])->name('clans.members.destroy');
 
     Route::get('games/{game}', [GameController::class, 'show'])->name('games.show');
     Route::post('games/{game}/moves', [GameMoveController::class, 'store'])

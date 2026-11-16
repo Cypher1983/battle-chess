@@ -46,4 +46,53 @@ class ClanMembersTest extends TestCase
 
         $this->assertSame($other->id, $outsider->fresh()->clan_id);
     }
+
+    public function test_the_leader_can_remove_a_member()
+    {
+        $clan = Clan::factory()->create();
+        $member = User::factory()->for($clan)->create();
+
+        $this->actingAs($clan->leader)
+            ->delete(route('clans.members.destroy', [$clan, $member]))
+            ->assertRedirect();
+
+        $this->assertNull($member->fresh()->clan_id);
+    }
+
+    public function test_members_cannot_remove_each_other()
+    {
+        $clan = Clan::factory()->create();
+        $member = User::factory()->for($clan)->create();
+        $other = User::factory()->for($clan)->create();
+
+        $this->actingAs($member)
+            ->delete(route('clans.members.destroy', [$clan, $other]))
+            ->assertForbidden();
+
+        $this->assertSame($clan->id, $other->fresh()->clan_id);
+    }
+
+    public function test_the_leader_cannot_remove_themselves()
+    {
+        $clan = Clan::factory()->create();
+
+        $this->actingAs($clan->leader)
+            ->delete(route('clans.members.destroy', [$clan, $clan->leader]))
+            ->assertForbidden();
+
+        $this->assertSame($clan->id, $clan->leader->fresh()->clan_id);
+    }
+
+    public function test_the_leader_cannot_remove_players_from_other_clans()
+    {
+        $clan = Clan::factory()->create();
+        $other = Clan::factory()->create();
+        $stranger = User::factory()->for($other)->create();
+
+        $this->actingAs($clan->leader)
+            ->delete(route('clans.members.destroy', [$clan, $stranger]))
+            ->assertNotFound();
+
+        $this->assertSame($other->id, $stranger->fresh()->clan_id);
+    }
 }
