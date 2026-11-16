@@ -44,4 +44,18 @@ class ClanController extends Controller
 
         return back();
     }
+
+    /**
+     * Disband the clan. Its members are released and its invitations dropped.
+     */
+    public function destroy(Clan $clan): RedirectResponse
+    {
+        Gate::authorize('delete', $clan);
+
+        $clan->delete();
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Clan disbanded.')]);
+
+        return back();
+    }
 }
