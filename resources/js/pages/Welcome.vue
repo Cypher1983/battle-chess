@@ -1,9 +1,22 @@
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { Mail, Shield, Swords, Trophy } from '@lucide/vue';
+import RankBadge from '@/components/chess/RankBadge.vue';
 import { Button } from '@/components/ui/button';
 import { armies, ARMY_IDS, pieceImage } from '@/lib/armies';
-import { armies as armiesPage, login, play, register } from '@/routes';
+import {
+    armies as armiesPage,
+    login,
+    play,
+    register,
+    scoreboard,
+} from '@/routes';
+import type { RankedPlayer } from '@/types/scoreboard';
+
+defineProps<{
+    /** Current top players, usernames only. */
+    leaders: RankedPlayer[];
+}>();
 
 const page = usePage();
 
@@ -169,5 +182,53 @@ const features = [
                 </Link>
             </li>
         </ul>
+    </section>
+
+    <section class="mx-auto w-full max-w-6xl space-y-6 px-4 pb-20">
+        <div class="flex items-end justify-between gap-4">
+            <h2 class="text-2xl font-semibold">Top commanders</h2>
+            <Link
+                :href="scoreboard()"
+                class="text-sm text-primary underline-offset-4 hover:underline"
+            >
+                Full scoreboard →
+            </Link>
+        </div>
+        <div
+            class="rounded-xl border bg-card/80 p-2 shadow-[inset_0_1px_0_0_var(--card-edge)]"
+        >
+            <p
+                v-if="leaders.length === 0"
+                class="p-4 text-center text-sm text-muted-foreground"
+            >
+                No battles decided yet. The first win takes the crown.
+            </p>
+            <ol v-else>
+                <li
+                    v-for="leader in leaders"
+                    :key="leader.username"
+                    class="flex items-center gap-3 border-b px-3 py-2 last:border-0"
+                    data-test="leader"
+                >
+                    <span class="w-8 shrink-0 tabular-nums">
+                        <RankBadge :rank="leader.rank" />
+                    </span>
+                    <span class="min-w-0 flex-1 truncate font-medium">
+                        {{ leader.username }}
+                    </span>
+                    <span
+                        class="hidden text-sm text-muted-foreground tabular-nums sm:inline"
+                    >
+                        {{ leader.wins }} / {{ leader.losses }} /
+                        {{ leader.draws }}
+                    </span>
+                    <span
+                        class="w-14 text-right font-semibold text-primary tabular-nums"
+                    >
+                        {{ leader.rating }}
+                    </span>
+                </li>
+            </ol>
+        </div>
     </section>
 </template>
