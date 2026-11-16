@@ -1,6 +1,7 @@
 import { usePage } from '@inertiajs/vue3';
 import {
     BookOpen,
+    Flag,
     LayoutGrid,
     Mail,
     Shield,
@@ -9,7 +10,15 @@ import {
 } from '@lucide/vue';
 import { computed } from 'vue';
 import type { ComputedRef } from 'vue';
-import { armies, dashboard, invites, play, rules, scoreboard } from '@/routes';
+import {
+    armies,
+    clan,
+    dashboard,
+    invites,
+    play,
+    rules,
+    scoreboard,
+} from '@/routes';
 import type { NavItem } from '@/types';
 
 /**
@@ -36,6 +45,11 @@ export function useMainNavItems(): ComputedRef<NavItem[]> {
             href: invites(),
             icon: Mail,
             badge: page.props.pendingInvitations || undefined,
+        },
+        {
+            title: 'Clan',
+            href: clan(),
+            icon: Flag,
         },
         {
             title: 'Scoreboard',
