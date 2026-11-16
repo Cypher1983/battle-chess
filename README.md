@@ -173,6 +173,11 @@ and two colours (`resources/js/lib/emblems.ts`), so nothing is uploaded.
   ranking clans by the average rating of members who have finished a battle,
   and a clan badge next to names on the scoreboard, invites and game pages.
   Guests see neither.
+- A **Clan vs clan** tab (`/scoreboard/clans/versus`) shows head-to-head
+  scores (win 1, draw ½) for every pair of clans whose members have met.
+  Each game stores both players' clans when it finishes, so a matchup keeps
+  its history when members leave or switch clans; games finished before
+  this was added, and games within one clan, are not counted.
 
 To add an emblem shape or icon: add a case to `App\Enums\EmblemShape` or
 `App\Enums\EmblemIcon` and its path to `resources/js/lib/emblems.ts`.
