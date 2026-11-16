@@ -29,6 +29,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read User $leader
  * @property-read Collection<int, User> $members
+ * @property-read Collection<int, ClanInvitation> $invitations
  */
 #[Fillable(['name', 'tag', 'description', 'emblem_shape', 'emblem_icon', 'emblem_primary', 'emblem_secondary', 'leader_id'])]
 class Clan extends Model
@@ -79,6 +80,16 @@ class Clan extends Model
     public function members(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * Invitations the clan has sent.
+     *
+     * @return HasMany<ClanInvitation, $this>
+     */
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(ClanInvitation::class);
     }
 
     /**
